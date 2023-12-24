@@ -2,16 +2,23 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\AnimalResource\Pages;
-use App\Filament\Resources\AnimalResource\RelationManagers;
-use App\Models\Animal;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use App\Models\Animal;
+use Filament\Forms\Form;
+use App\Enums\AnimalSize;
+use App\Enums\AnimalType;
 use Filament\Tables\Table;
+use App\Enums\AnimalGender;
+use App\Enums\AnimalStatus;
+use App\Enums\AnimalLocation;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\AnimalResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\AnimalResource\RelationManagers;
 
 class AnimalResource extends Resource
 {
@@ -26,6 +33,25 @@ class AnimalResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('email')
+                            ->label('Email address')
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('phone')
+                            ->label('Phone number')
+                            ->tel()
+                            ->required(),
+                    ])
+                    ->required(),
                 Forms\Components\Toggle::make('featured')
                     ->required(),
                 Forms\Components\TextInput::make('slug')
@@ -42,28 +68,47 @@ class AnimalResource extends Resource
                     ->required()
                     ->numeric()
                     ->default(10000),
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
                 Forms\Components\TextInput::make('animal_type')
-                    ->required()
-                    ->maxLength(255),
+                    ->options(AnimalType::class)
+                    ->required(),
                 Forms\Components\TextInput::make('location')
                     ->required()
-                    ->maxLength(255),
+                    ->native(false)
+                    ->label('Current location of the animal')
+                    ->options(AnimalLocation::class),
                 Forms\Components\TextInput::make('age')
-                    ->required()
-                    ->maxLength(255),
+                    ->options([
+                        '0-1 years' => '0-1 years',
+                        '1-2 years' => '1-2 years',
+                        '2-3 years' => '2-3 years',
+                        '3-4 years' => '3-4 years',
+                        '4-5 years' => '4-5 years',
+                        '5-6 years' => '5-6 years',
+                        '6-7 years' => '6-7 years',
+                        '7-8 years' => '7-8 years',
+                        '8-9 years' => '8-9 years',
+                        '9-10 years' => '9-10 years',
+                        'older than 10 years' => 'older than 10 years',
+                        'older than 15 years' => 'older than 15 years',
+                    ])
+                    ->columns(3)
+                    ->gridDirection('row')
+                    ->required(),
                 Forms\Components\TextInput::make('gender')
                     ->required()
-                    ->maxLength(255),
+                    ->native(false)
+                    ->options(AnimalGender::class),
                 Forms\Components\TextInput::make('status')
                     ->required()
-                    ->maxLength(255),
+                    ->label('Adoption Status')
+                    ->native(false)
+                    ->options(AnimalStatus::class),
                 Forms\Components\TextInput::make('size')
                     ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
+                    ->native(false)
+                    ->label('Animal Size')
+                    ->options(AnimalSize::class),
+                Forms\Components\MarkdownEditor::make('description')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
@@ -95,7 +140,7 @@ class AnimalResource extends Resource
                     ->required(),
                 Forms\Components\Toggle::make('dogs_friendly')
                     ->required(),
-                Forms\Components\Textarea::make('environment')
+                Forms\Components\MarkdownEditor::make('environment')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
@@ -107,17 +152,34 @@ class AnimalResource extends Resource
                     ->required(),
                 Forms\Components\Toggle::make('affectionate')
                     ->required(),
-                Forms\Components\TextInput::make('photo_featured')
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('photos_additional')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('videos')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('youtube_links')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
+                FileUpload::make('photo_featured')
+                    ->acceptedFileTypes($types = ['jpg', 'jpeg', 'png'])
+                    ->image()
+                    ->maxSize(15000) // Set the maximum size of files that can be uploaded, in kilobytes.
+                    ->label('Main Photo (max 1 photo | only jpg, jpeg, png extensions)')
+                    ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
+                    ->imageEditor()
+                    ->columnSpan('full'),
+                FileUpload::make('photos_additional')
+                    ->label('Additional Photos (max 20 photos | only jpg, jpeg, png extensions)')
+                    ->multiple()
+                    ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
+                    ->reorderable()
+                    ->appendFiles()
+                    ->maxFiles(20)
+                    ->columnSpan('full'),
+                FileUpload::make('videos')
+                    ->multiple()
+                    ->maxSize(50000)
+                    ->maxFiles(4)
+                    ->acceptedFileTypes($types = ['video/mp4'])
+                    ->label('Media (max 4 videos | max 50MB |  mp4 only)')
+                    ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
+                    ->previewable(true)
+                    ->columnSpan('full'),
+                KeyValue::make('youtube_links')
+                    ->label('Youtube URL (example: Key: video1 & Value: https://www.youtube.com/watch?v=1234567890)')
+
             ]);
     }
 
