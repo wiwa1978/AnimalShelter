@@ -12,10 +12,19 @@ use Filament\Tables\Table;
 use App\Enums\AnimalGender;
 use App\Enums\AnimalStatus;
 use App\Enums\AnimalLocation;
+use App\Enums\AnimalPublishState;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\KeyValue;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\Resources\AnimalResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AnimalResource\RelationManagers;
@@ -30,13 +39,14 @@ class AnimalResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('user_id')
+                Select::make('user_id')
                     ->relationship('user', 'name')
                     ->searchable()
                     ->preload()
+                    ->native(false)
                     ->createOptionForm([
                         Forms\Components\TextInput::make('name')
                             ->required()
@@ -52,31 +62,34 @@ class AnimalResource extends Resource
                             ->required(),
                     ])
                     ->required(),
-                Forms\Components\Toggle::make('featured')
+                Toggle::make('featured')
                     ->required(),
-                Forms\Components\TextInput::make('slug')
+                TextInput::make('slug')
                     ->maxLength(255),
-                Forms\Components\TextInput::make('published_state')
-                    ->required()
-                    ->maxLength(255)
-                    ->default('draft'),
-                Forms\Components\TextInput::make('published_at')
-                    ->required()
-                    ->maxLength(255)
-                    ->default('draft'),
-                Forms\Components\TextInput::make('published_price')
+
+                Select::make('published_state')
+                    ->options(AnimalPublishState::class)
+                    ->native(false)
+                    ->preload()
+                    ->required(),
+                DateTimePicker::make('published_at')
+                    ->native(false),
+                TextInput::make('published_price')
                     ->required()
                     ->numeric()
                     ->default(10000),
-                Forms\Components\TextInput::make('animal_type')
+                Select::make('animal_type')
                     ->options(AnimalType::class)
+                    ->native(false)
+                    ->preload()
                     ->required(),
-                Forms\Components\TextInput::make('location')
+                Select::make('location')
                     ->required()
                     ->native(false)
+                    ->preload()
                     ->label('Current location of the animal')
                     ->options(AnimalLocation::class),
-                Forms\Components\TextInput::make('age')
+                Radio::make('age')
                     ->options([
                         '0-1 years' => '0-1 years',
                         '1-2 years' => '1-2 years',
@@ -94,63 +107,65 @@ class AnimalResource extends Resource
                     ->columns(3)
                     ->gridDirection('row')
                     ->required(),
-                Forms\Components\TextInput::make('gender')
+                Select::make('gender')
                     ->required()
+                    ->preload()
                     ->native(false)
                     ->options(AnimalGender::class),
-                Forms\Components\TextInput::make('status')
+                Select::make('status')
                     ->required()
                     ->label('Adoption Status')
                     ->native(false)
+                    ->preload()
                     ->options(AnimalStatus::class),
-                Forms\Components\TextInput::make('size')
+                Select::make('size')
                     ->required()
                     ->native(false)
                     ->label('Animal Size')
                     ->options(AnimalSize::class),
-                Forms\Components\MarkdownEditor::make('description')
+                MarkdownEditor::make('description')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('breed')
+                TextInput::make('breed')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('reason_adoption')
+                TextInput::make('reason_adoption')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Toggle::make('sterilized')
+                Toggle::make('sterilized')
                     ->required(),
-                Forms\Components\Toggle::make('chipped')
+                Toggle::make('chipped')
                     ->required(),
-                Forms\Components\Toggle::make('passport')
+                Toggle::make('passport')
                     ->required(),
-                Forms\Components\Toggle::make('vaccinated')
+                Toggle::make('vaccinated')
                     ->required(),
-                Forms\Components\Toggle::make('rabies')
+                Toggle::make('rabies')
                     ->required(),
-                Forms\Components\Toggle::make('medicins')
+                Toggle::make('medicins')
                     ->required(),
-                Forms\Components\Toggle::make('special_food')
+                Toggle::make('special_food')
                     ->required(),
-                Forms\Components\Toggle::make('behavioural_problem')
+                Toggle::make('behavioural_problem')
                     ->required(),
-                Forms\Components\Toggle::make('kids_friendly')
+                Toggle::make('kids_friendly')
                     ->required(),
-                Forms\Components\Toggle::make('cats_friendly')
+                Toggle::make('cats_friendly')
                     ->required(),
-                Forms\Components\Toggle::make('dogs_friendly')
+                Toggle::make('dogs_friendly')
                     ->required(),
-                Forms\Components\MarkdownEditor::make('environment')
+                MarkdownEditor::make('environment')
                     ->required()
                     ->maxLength(65535)
                     ->columnSpanFull(),
-                Forms\Components\Toggle::make('well_behaved')
+                Toggle::make('well_behaved')
                     ->required(),
-                Forms\Components\Toggle::make('playful')
+                Toggle::make('playful')
                     ->required(),
-                Forms\Components\Toggle::make('everybody_friendly')
+                Toggle::make('everybody_friendly')
                     ->required(),
-                Forms\Components\Toggle::make('affectionate')
+                Toggle::make('affectionate')
                     ->required(),
                 FileUpload::make('photo_featured')
                     ->acceptedFileTypes($types = ['jpg', 'jpeg', 'png'])
@@ -179,6 +194,7 @@ class AnimalResource extends Resource
                     ->columnSpan('full'),
                 KeyValue::make('youtube_links')
                     ->label('Youtube URL (example: Key: video1 & Value: https://www.youtube.com/watch?v=1234567890)')
+                    ->columnSpanFull()
 
             ]);
     }

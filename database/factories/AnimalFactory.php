@@ -17,7 +17,7 @@ class AnimalFactory extends Factory
 
     public function definition(): array
     {
-        $published_state = fake()->randomElement(['draft', 'published']);
+        $published_state = fake()->randomElement(['Draft', 'Published']);
 
         return [
             'name'  => fake()->words(3, asText: true),
