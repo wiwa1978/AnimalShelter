@@ -36,4 +36,4 @@ php artisan migrate:fresh --seed
 php artisan up
 
 echo "Deployment finished!"
-#change123
+#change1232
