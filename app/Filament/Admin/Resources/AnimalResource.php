@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Admin\Resources;
 
 use Filament\Forms;
 use Filament\Tables;
@@ -25,7 +25,7 @@ use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
-use App\Filament\Resources\AnimalResource\Pages;
+use App\Filament\Admin\Resources\AnimalResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\AnimalResource\RelationManagers;
 
@@ -281,6 +281,27 @@ class AnimalResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('Publish')
+                    ->icon('heroicon-m-pencil-square')
+                    ->form([
+                        Forms\Components\Select::make('published_state')
+                            ->label('Current Publish State')
+                            ->options(AnimalPublishState::class)
+                            ->default(function (Animal $record) {
+                                return $record->published_state;
+                            })
+                            ->preload()
+                            ->native(false),
+                    ])
+                    ->action(function (Animal $animal, array $data): void {
+                        $animal->published_state = $data['published_state'];
+                        $animal->save();
+                    }),
+
+
+
+
+
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

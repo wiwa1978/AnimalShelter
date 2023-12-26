@@ -43,8 +43,13 @@ return [
     /*
      * Icons to use for navigation
      */
+    // 'icons' => [
+    //     'role_navigation' => 'heroicon-o-lock-closed',
+    //     'permission_navigation' => 'heroicon-o-lock-closed',
+    // ],
+
     'icons' => [
-        'role_navigation' => 'heroicon-o-lock-closed',
+        //'role_navigation' => 'heroicon-o-lock-closed',
         'permission_navigation' => 'heroicon-o-lock-closed',
     ],
 

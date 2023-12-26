@@ -64,16 +64,26 @@ class Animal extends Model
 
     public function scopeDogs($query)
     {
-        return $query->where('animal_type', 'Dog');
+        return $query->where('animal_type', AnimalType::Dog);
     }
 
     public function scopeCats($query)
     {
-        return $query->where('animal_type', 'Cat');
+        return $query->where('animal_type', AnimalType::Cat);
     }
 
     public function scopeOthers($query)
     {
-        return $query->where('animal_type', 'Other');
+        return $query->where('animal_type', AnimalType::Other);
+    }
+
+    public function scopeDraft($query)
+    {
+        return $query->where('published_state', AnimalPublishState::Draft);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('published_state', AnimalPublishState::Published);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\Admin\Resources;
 
 use Filament\Forms;
 use App\Models\User;
@@ -9,16 +9,22 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\EditAction;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Admin\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Admin\Resources\UserResource\RelationManagers;
+use App\Filament\Admin\Resources\UserResource\RelationManagers\AnimalsRelationManager;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    // protected static ?string $navigationGroup = 'User Management';
 
     protected static ?string $navigationGroup = 'User Management';
 
@@ -52,7 +58,8 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable(),
-
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->searchable(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -67,9 +74,28 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Action::make('activities')->url(fn ($record) => UserResource::getUrl('activities', ['record' => $record]))
+                EditAction::make()->color('info'),
+                Action::make('activities')->url(fn ($record) => UserResource::getUrl('activities', ['record' => $record])),
+                DeleteAction::make()
+                    ->action(function ($data, $record) {
+                        if ($record->animals()->count() > 0) {
+                            Notification::make()
+                                ->danger()
+                                ->title('User is in use')
+                                ->body('User is in use by animals.')
+                                ->send();
 
+                            return;
+                        }
+
+                        Notification::make()
+                            ->success()
+                            ->title('User deleted')
+                            ->body('User has been deleted.')
+                            ->send();
+
+                        $record->delete();
+                    })
 
             ])
             ->bulkActions([
@@ -82,7 +108,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AnimalsRelationManager::class,
         ];
     }
 

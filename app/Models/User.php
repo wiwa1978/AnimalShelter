@@ -54,6 +54,24 @@ class User extends Authenticatable implements FilamentUser
         return true;
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole('Super Admin');
+    }
+
+    public function scopeSuperAdmins($query)
+    {
+        return $query->whereHas('roles', function ($roleQuery) {
+            $roleQuery->where('name', 'Super Admin');
+        });
+    }
+
+    public function scopeRegularUsers($query)
+    {
+        return $query->whereDoesntHave('roles', function ($roleQuery) {
+            $roleQuery->where('name', 'Super Admin');
+        });
+    }
 
     public function getActivitylogOptions(): LogOptions
     {

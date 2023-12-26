@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Filament\Resources\AnimalResource\Pages;
+namespace App\Filament\Admin\Resources\AnimalResource\Pages;
 
-use App\Filament\Resources\AnimalResource;
+use App\Filament\Admin\Resources\AnimalResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
