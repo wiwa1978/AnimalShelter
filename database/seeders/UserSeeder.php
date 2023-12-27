@@ -14,26 +14,50 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Wim',
+        $user1 = User::create([
+            'name' => 'Wim-org1',
             'email' => 'wim@user.com',
             'email_verified_at' => now(),
             'password' => Hash::make('Wauters1978'),
+            'company' => false,
         ]);
 
-        User::create([
-            'name' => 'Iris',
-            'email' => 'iris@user.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('Wauters1978'),
-        ]);
-
-        User::create([
-            'name' => 'Lore',
+        $user2 = User::create([
+            'name' => 'Lore-org1',
             'email' => 'lore@user.com',
             'email_verified_at' => now(),
             'password' => Hash::make('Wauters1978'),
+            'company' => false,
         ]);
+
+
+        $user3 = User::create([
+            'name' => 'Lise-org1',
+            'email' => 'lise@user.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('Wauters1978'),
+            'company' => true,
+        ]);
+
+
+        $user4 = User::create([
+            'name' => 'Iris-org2',
+            'email' => 'iris@user.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('Wauters1978'),
+            'company' => true,
+        ]);
+
+
+        $user5 = User::create([
+            'name' => 'Charlotte-org3',
+            'email' => 'charlotte@user.com',
+            'email_verified_at' => now(),
+            'password' => Hash::make('Wauters1978'),
+            'company' => false,
+        ]);
+
+
 
         User::factory()
             ->count(20)

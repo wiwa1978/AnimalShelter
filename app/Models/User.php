@@ -6,10 +6,12 @@ namespace App\Models;
 use Filament\Panel;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -26,6 +28,9 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'company',
+        'company_name',
+        'website'
     ];
 
     /**
@@ -50,13 +55,31 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
+        if ($panel->getId() === 'admin') {
+
+            return $this->isSuperAdmin();
+        }
+
+        if ($panel->getId() === 'app') {
+            return !$this->isCompany() || !$this->isSuperAdmin();
+        }
+
+        if ($panel->getId() === 'app-org') {
+            return $this->isCompany();
+        }
+
         //return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
-        return true;
+        //return true;
     }
 
     public function isSuperAdmin(): bool
     {
         return $this->hasRole('Super Admin');
+    }
+
+    public function isCompany(): bool
+    {
+        return $this->company == true;
     }
 
     public function scopeSuperAdmins($query)
@@ -77,5 +100,10 @@ class User extends Authenticatable implements FilamentUser
     {
         return LogOptions::defaults()
             ->logFillable();
+    }
+
+    public function organization(): BelongsTo
+    {
+        return $this->belongsTo(Organization::class);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->timestamp('published_at')->nullable();
             $table->bigInteger('published_price')->default(10000);
             $table->foreignIdFor(User::class)->cascadeOnDelete();
+            //$table->foreignIdFor(Organization::class)->cascadeOnDelete()->default(0);
             $table->string('animal_type');
             $table->string('location');
             $table->string('age');

@@ -9,6 +9,7 @@ use App\Enums\AnimalGender;
 use App\Enums\AnimalStatus;
 use Illuminate\Support\Str;
 use App\Enums\AnimalLocation;
+use App\Models\Organization;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -27,6 +28,7 @@ class AnimalFactory extends Factory
             'published_state' => $published_state,
             'published_at' => $published_state == 'published' ? fake()->dateTimeBetween('-1 Week', '-1 Day') :  fake()->dateTimeBetween('+1 Day', '+1 Week'),
             'user_id' => User::query()->inRandomOrder()->first()?->id ?? User::factory(),
+            //'organization_id' => Organization::query()->inRandomOrder()->first()?->id ?? Organization::factory(),
             'animal_type' => fake()->randomElement(AnimalType::cases()),
             'location' => fake()->randomElement(AnimalLocation::cases()),
             'age' => '1-2 years',

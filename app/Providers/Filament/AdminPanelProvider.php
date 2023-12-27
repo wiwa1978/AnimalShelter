@@ -31,6 +31,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->brandName('Admin Interface')
             ->login()
             ->navigationGroups([
                 NavigationGroup::make()
@@ -71,7 +72,7 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                VerifyIsSuperAdmin::class,
+                //VerifyIsSuperAdmin::class,
             ])
             ->plugins(
                 [

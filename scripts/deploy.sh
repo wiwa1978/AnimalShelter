@@ -29,8 +29,8 @@ php artisan optimize
 npm run build
 
 # Run database migrations
-php artisan migrate --force
-#php artisan migrate:fresh --seed
+#php artisan migrate --force
+php artisan migrate:fresh --seed
 
 # Exit maintenance mode
 php artisan up

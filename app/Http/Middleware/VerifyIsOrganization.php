@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class VerifyIsSuperAdmin
+class VerifyIsOrganization
 {
     /**
      * Handle an incoming request.
@@ -16,12 +16,11 @@ class VerifyIsSuperAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        //dd(Auth::user() && Auth::user()->isSuperAdmin());
-        if (Auth::user() && Auth::user()->isSuperAdmin()) {
+        //dd(Auth::user() && Auth::user()->isCompany());
+        if (Auth::user() && Auth::user()->isCompany()) {
             return $next($request);
         }
 
-        //abort(403, 'Unauthorized action.');
-        return redirect('/app');
+        return $next($request);
     }
 }
