@@ -24,6 +24,8 @@ php artisan cache:clear
 # Recreate cache
 php artisan optimize
 
+# Install NPM
+npm install
 
 # Compile npm assets
 npm run build
