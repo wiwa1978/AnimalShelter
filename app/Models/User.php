@@ -11,6 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\FilamentUser;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -55,29 +56,29 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        if ($panel->getId() === 'admin') {
+        // if ($panel->getId() === 'admin') {
 
-            return $this->isSuperAdmin();
-        }
+        //     return $this->isSuperAdmin();
+        // }
 
-        if ($panel->getId() === 'app') {
-            return !$this->isCompany() || !$this->isSuperAdmin();
-        }
+        // if ($panel->getId() === 'app') {
+        //     return !$this->isOrganization();
+        // }
 
-        if ($panel->getId() === 'app-org') {
-            return $this->isCompany();
-        }
+        // if ($panel->getId() === 'app-org') {
+        //     return $this->isOrganization();
+        // }
 
         //return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
-        //return true;
+        return true;
     }
 
     public function isSuperAdmin(): bool
     {
-        return $this->hasRole('Super Admin');
+        return $this->hasRole('super_admin');
     }
 
-    public function isCompany(): bool
+    public function isOrganization(): bool
     {
         return $this->company == true;
     }
@@ -85,14 +86,14 @@ class User extends Authenticatable implements FilamentUser
     public function scopeSuperAdmins($query)
     {
         return $query->whereHas('roles', function ($roleQuery) {
-            $roleQuery->where('name', 'Super Admin');
+            $roleQuery->where('name', 'super_admin');
         });
     }
 
     public function scopeRegularUsers($query)
     {
         return $query->whereDoesntHave('roles', function ($roleQuery) {
-            $roleQuery->where('name', 'Super Admin');
+            $roleQuery->where('name', 'super_admin');
         });
     }
 
@@ -102,8 +103,8 @@ class User extends Authenticatable implements FilamentUser
             ->logFillable();
     }
 
-    public function organization(): BelongsTo
+    public function animals(): HasMany
     {
-        return $this->belongsTo(Organization::class);
+        return $this->hasMany(Animal::class);
     }
 }

@@ -24,11 +24,11 @@ class ListUsers extends ListRecords
         $tabs = [];
 
         $superAdmins = User::with('roles')->get()->filter(
-            fn ($user) => $user->roles->where('name', 'Super Admin')->toArray()
+            fn ($user) => $user->roles->where('name', 'super_admin')->toArray()
         );
 
         $regularUsers = User::with('roles')->get()->filter(
-            fn ($user) => $user->roles->where('name', '<>', 'Super Admin')->toArray()
+            fn ($user) => $user->roles->where('name', '<>', 'super_admin')->toArray()
         );
 
         $tabs['all'] = Tab::make('All Users')

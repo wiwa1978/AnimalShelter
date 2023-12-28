@@ -19,7 +19,7 @@ trait Multitenantable
                 $model->user_id = auth()->id();
             });
 
-            if (!$user->hasRole('Super Admin')) {
+            if (!$user->hasRole('super_admin')) {
                 static::addGlobalScope('created_by_user_id', function (Builder $builder) {
                     $builder->where('user_id', auth()->id());
                 });

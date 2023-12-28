@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'wim@user.com',
             'email_verified_at' => now(),
             'password' => Hash::make('Wauters1978'),
-            'company' => false,
+            'organization' => false,
         ]);
 
         $user2 = User::create([
@@ -27,7 +27,7 @@ class UserSeeder extends Seeder
             'email' => 'lore@user.com',
             'email_verified_at' => now(),
             'password' => Hash::make('Wauters1978'),
-            'company' => false,
+            'organization' => false,
         ]);
 
 
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
             'email' => 'lise@user.com',
             'email_verified_at' => now(),
             'password' => Hash::make('Wauters1978'),
-            'company' => true,
+            'organization' => true,
         ]);
 
 
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
             'email' => 'iris@user.com',
             'email_verified_at' => now(),
             'password' => Hash::make('Wauters1978'),
-            'company' => true,
+            'organization' => true,
         ]);
 
 
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
             'email' => 'charlotte@user.com',
             'email_verified_at' => now(),
             'password' => Hash::make('Wauters1978'),
-            'company' => false,
+            'organization' => false,
         ]);
 
 

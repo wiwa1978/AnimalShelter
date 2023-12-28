@@ -16,11 +16,20 @@ class VerifyIsIndividual
      */
     public function handle(Request $request, Closure $next): Response
     {
-        dd(Auth::user()->isCompany());
-        if (Auth::user() && !Auth::user()->isCompany()) {
+
+
+        if (Auth::user()) {
+            // /dd('step 1');
+            if (!Auth::user()->isOrganization()) {
+                //dd('step 2');
+                return $next($request);
+            } else {
+                //dd('step 3');
+                return redirect('/app-org');
+            }
+        } else {
+            //dd('step 4');
             return $next($request);
         }
-
-        return redirect('/app');
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
 use App\Livewire\Home;
+use App\Livewire\ShowAnimals;
+use App\Livewire\ShowAnimalDetail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,3 +21,5 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', Home::class)->name('home');
+Route::get('/animals', ShowAnimals::class)->name('show-animals');
+Route::get('/animal/detail/{id}', ShowAnimalDetail::class)->name('show-animal-detail');

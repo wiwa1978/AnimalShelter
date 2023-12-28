@@ -14,9 +14,9 @@ class UserObserver implements ShouldHandleEventsAfterCommit
     {
         //dd($user->name);
         if ($user->name == 'admin') {
-            $user->assignRole('Super Admin');
+            $user->assignRole('super_admin');
         } else {
-            $user->assignRole('User');
+            $user->assignRole('user');
         }
     }
 

@@ -72,11 +72,12 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                //VerifyIsSuperAdmin::class,
+                VerifyIsSuperAdmin::class,
             ])
             ->plugins(
                 [
-                    FilamentSpatieRolesPermissionsPlugin::make(),
+                    \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
+
                     BreezyCore::make()
                         ->myProfile(
                             shouldRegisterUserMenu: true, // Sets the 'account' link in the panel User Menu (default = true)

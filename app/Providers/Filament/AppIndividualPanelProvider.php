@@ -9,7 +9,6 @@ use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
-use Illuminate\Support\Facades\Auth;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use Illuminate\Session\Middleware\StartSession;
@@ -22,7 +21,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 
-class AppPanelProvider extends PanelProvider
+class AppIndividualPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
@@ -41,7 +40,6 @@ class AppPanelProvider extends PanelProvider
             ->registration()
             ->passwordReset()
             ->emailVerification()
-            //->profile()
             ->userMenuItems([
                 // MenuItem::make()
                 //     ->label('Admin Panel')
@@ -53,12 +51,12 @@ class AppPanelProvider extends PanelProvider
                     ->icon('heroicon-o-cog-6-tooth')
                     ->url('/app/my-profile')
             ])
-            ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
-            ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
+            ->discoverResources(in: app_path('Filament/AppIndividual/Resources'), for: 'App\\Filament\\AppIndividual\\Resources')
+            ->discoverPages(in: app_path('Filament/AppIndividual/Pages'), for: 'App\\Filament\\AppIndividual\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/AppIndividual/Widgets'), for: 'App\\Filament\\AppIndividual\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
@@ -73,7 +71,7 @@ class AppPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                //VerifyIsIndividual::class,
+                VerifyIsIndividual::class,
             ])
             ->plugins(
                 [

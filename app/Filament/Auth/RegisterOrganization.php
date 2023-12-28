@@ -39,22 +39,22 @@ class RegisterOrganization extends BaseAuth
 
     protected function getCompanyFormComponent(): Component
     {
-        return Toggle::make('company')
-            ->label('Individual or Company')
+        return Toggle::make('organization')
+            ->label('Individual or Organization')
             ->required();
     }
 
     protected function getCompanyNameComponent(): Component
     {
-        return TextInput::make('company_name')
-            ->label('Company Name')
+        return TextInput::make('organization_name')
+            ->label('Organization Name')
             ->required();
     }
 
     protected function getCompanyWebsiteComponent(): Component
     {
         return TextInput::make('website')
-            ->label('Company Website')
+            ->label('Organization Website')
             ->required();
     }
 }

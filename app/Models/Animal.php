@@ -86,4 +86,14 @@ class Animal extends Model
     {
         return $query->where('published_state', AnimalPublishState::Published);
     }
+
+    public function scopeIsFeatured($query)
+    {
+        return $query->where('featured', true);
+    }
+
+    public function scopeIsNotFeatured($query)
+    {
+        return $query->where('featured', false);
+    }
 }

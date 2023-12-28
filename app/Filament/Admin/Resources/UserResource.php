@@ -43,7 +43,14 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->hidden(),
+                Forms\Components\Select::make('roles')
+                    ->preload()
+                    ->multiple()
+                    ->native(false)
+                    ->relationship('roles', 'name')
+                    ->columnSpan('full'),
             ]);
     }
 
@@ -59,7 +66,7 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('roles.name')
-                    ->searchable(),
+                    ->badge(),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
