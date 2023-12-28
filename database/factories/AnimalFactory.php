@@ -24,7 +24,7 @@ class AnimalFactory extends Factory
             'name'  => fake()->words(3, asText: true),
             'slug'  => fake()->slug(3),
             'featured' => fake()->boolean(10),
-            'published_price' => rand(999, 9999),
+            'published_price' => 10000,
             'published_state' => $published_state,
             'published_at' => $published_state == 'published' ? fake()->dateTimeBetween('-1 Week', '-1 Day') :  fake()->dateTimeBetween('+1 Day', '+1 Week'),
             'user_id' => User::query()->inRandomOrder()->first()?->id ?? User::factory(),

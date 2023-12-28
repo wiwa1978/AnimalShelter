@@ -29,8 +29,8 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
-        'company',
-        'company_name',
+        'organization',
+        'organization_name',
         'website'
     ];
 
@@ -56,21 +56,20 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        // if ($panel->getId() === 'admin') {
+        if ($panel->getId() === 'admin') {
+            return $this->isSuperAdmin();
+        }
 
-        //     return $this->isSuperAdmin();
-        // }
+        if ($panel->getId() === 'app') {
+            return true;
+        }
 
-        // if ($panel->getId() === 'app') {
-        //     return !$this->isOrganization();
-        // }
-
-        // if ($panel->getId() === 'app-org') {
-        //     return $this->isOrganization();
-        // }
+        if ($panel->getId() === 'app-org') {
+            return $this->isRegularUser() && $this->isOrganization();
+        }
 
         //return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
-        return true;
+        //return true;
     }
 
     public function isSuperAdmin(): bool
@@ -78,9 +77,14 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasRole('super_admin');
     }
 
+    public function isRegularUser(): bool
+    {
+        return $this->hasRole('user');
+    }
+
     public function isOrganization(): bool
     {
-        return $this->company == true;
+        return $this->organization == true;
     }
 
     public function scopeSuperAdmins($query)

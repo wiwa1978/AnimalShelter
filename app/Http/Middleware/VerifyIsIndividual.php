@@ -17,9 +17,9 @@ class VerifyIsIndividual
     public function handle(Request $request, Closure $next): Response
     {
 
-
+        //dd('step 0');
         if (Auth::user()) {
-            // /dd('step 1');
+            //dd('step 1');
             if (!Auth::user()->isOrganization()) {
                 //dd('step 2');
                 return $next($request);

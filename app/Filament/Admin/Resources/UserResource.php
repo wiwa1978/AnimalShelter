@@ -22,7 +22,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    //protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     // protected static ?string $navigationGroup = 'User Management';
 
@@ -127,5 +127,11 @@ class UserResource extends Resource
             'edit' => Pages\EditUser::route('/{record}/edit'),
             'activities' => Pages\ListUserActivities::route('/{record}/activities'),
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return User::count();
+        //return Animal::whereDate('created_at', today())->count() ? 'NEW' : '';
     }
 }

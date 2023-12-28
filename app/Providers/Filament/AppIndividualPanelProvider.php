@@ -2,15 +2,16 @@
 
 namespace App\Providers\Filament;
 
-use App\Http\Middleware\VerifyIsIndividual;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\Auth;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use App\Http\Middleware\VerifyIsIndividual;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -41,11 +42,11 @@ class AppIndividualPanelProvider extends PanelProvider
             ->passwordReset()
             ->emailVerification()
             ->userMenuItems([
-                // MenuItem::make()
-                //     ->label('Admin Panel')
-                //     ->icon('heroicon-o-cog-6-tooth')
-                //     ->url('/admin')
-                //     ->visible(fn () => Auth::user()->isSuperAdmin()),
+                MenuItem::make()
+                    ->label('Admin Panel')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->url('/admin')
+                    ->visible(fn () => Auth::user()->isSuperAdmin()),
                 MenuItem::make()
                     ->label('My Profile')
                     ->icon('heroicon-o-cog-6-tooth')

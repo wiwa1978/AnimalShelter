@@ -24,6 +24,7 @@ class ListAnimals extends ListRecords
     }
 
 
+
     public function getTabs(): array
     {
         $animal_sizes = AnimalSize::cases();

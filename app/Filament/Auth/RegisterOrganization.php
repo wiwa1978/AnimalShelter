@@ -3,6 +3,7 @@
 namespace App\Filament\Auth;
 
 use Filament\Forms\Form;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Component;
 use Filament\Forms\Components\TextInput;
@@ -12,17 +13,17 @@ class RegisterOrganization extends BaseAuth
 {
     public function form(Form $form): Form
     {
-        $data['company'] = true;
+        //dd($form);
 
         return $form
             ->schema([
                 $this->getNameFormComponent(),
-                $this->getCompanyFormComponent(),
+                $this->setOrganizationComponent(),
                 $this->getEmailFormComponent(),
                 $this->getPasswordFormComponent(),
                 $this->getPasswordConfirmationFormComponent(),
-                $this->getCompanyNameComponent(),
-                $this->getCompanyWebsiteComponent(),
+                $this->getOrganizationNameComponent(),
+                $this->getOrganizationWebsiteComponent(),
             ])
             ->statePath('data');
     }
@@ -36,22 +37,19 @@ class RegisterOrganization extends BaseAuth
             ->autofocus();
     }
 
-
-    protected function getCompanyFormComponent(): Component
+    protected function setOrganizationComponent(): Component
     {
-        return Toggle::make('organization')
-            ->label('Individual or Organization')
-            ->required();
+        return Hidden::make('organization')->default(true);
     }
 
-    protected function getCompanyNameComponent(): Component
+    protected function getOrganizationNameComponent(): Component
     {
         return TextInput::make('organization_name')
             ->label('Organization Name')
             ->required();
     }
 
-    protected function getCompanyWebsiteComponent(): Component
+    protected function getOrganizationWebsiteComponent(): Component
     {
         return TextInput::make('website')
             ->label('Organization Website')

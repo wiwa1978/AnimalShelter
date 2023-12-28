@@ -29,16 +29,18 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->default()
+            ->maxContentWidth('full')
             ->id('admin')
             ->path('admin')
             ->brandName('Admin Interface')
+            //->font('Comic Neue')
             ->login()
-            ->navigationGroups([
-                NavigationGroup::make()
-                    ->label('User Management')
-                    ->icon('heroicon-o-cog-6-tooth')
-                    ->collapsed(),
-            ])
+            // ->navigationGroups([
+            //     NavigationGroup::make()
+            //         ->label('User Management')
+            //         ->icon('heroicon-o-cog-6-tooth')
+            //         ->collapsed(),
+            // ])
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Application Dashboard')

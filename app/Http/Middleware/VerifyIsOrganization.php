@@ -17,12 +17,23 @@ class VerifyIsOrganization
     public function handle(Request $request, Closure $next): Response
     {
         //dd(Auth::user() && Auth::user()->isOrganization());
-        if (Auth::user() && Auth::user()->isOrganization()) {
-            return $next($request);
+        if (Auth::user()) {
+            //dd('stap 1');
+            if (Auth::user()->isOrganization()) {
+                //dd('stap 2');
+                return $next($request);
+            } else {
+                //dd('stap 3');
+                return
+                    redirect('/app');
+            }
+        } else {
+            //dd('stap 4');
+            return
+                $next($request);
         }
 
-        return
-            redirect('/app');
+
         //abort(403, 'Unauthorized action.');
     }
 }

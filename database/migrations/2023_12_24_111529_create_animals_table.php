@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('slug')->unique()->nullable();
             $table->string('published_state')->default('Draft');
             $table->timestamp('published_at')->nullable();
-            $table->bigInteger('published_price')->default(10000);
+            $table->bigInteger('published_price')->default(1000);
             $table->foreignIdFor(User::class)->cascadeOnDelete();
             //$table->foreignIdFor(Organization::class)->cascadeOnDelete()->default(0);
             $table->string('animal_type');
