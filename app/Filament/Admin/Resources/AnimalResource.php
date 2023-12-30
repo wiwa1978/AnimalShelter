@@ -282,7 +282,7 @@ class AnimalResource extends Resource
                     ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('published_at')
-                    ->dateTime('d-m-Y (H:i)')
+                    ->dateTime('d-m-Y H:i')
                     //->since()
                     ->sortable()
                     ->searchable(),
@@ -321,8 +321,6 @@ class AnimalResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('breed')
                     ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('reason_adoption')
                     ->searchable(),
                 Tables\Columns\IconColumn::make('sterilized')
                     ->toggleable(isToggledHiddenByDefault: true)

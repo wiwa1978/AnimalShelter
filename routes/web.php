@@ -22,4 +22,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', Home::class)->name('home');
 Route::get('/animals', ShowAnimals::class)->name('show-animals');
+Route::get('/animals/{type}', ShowAnimals::class)->name('show-animal-type');
 Route::get('/animal/detail/{id}', ShowAnimalDetail::class)->name('show-animal-detail');

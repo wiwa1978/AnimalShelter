@@ -20,6 +20,12 @@ class AnimalFactory extends Factory
     {
         $published_state = fake()->randomElement(['Draft', 'Published']);
 
+        $faker = \Faker\Factory::create();
+        $faker->addProvider(new \Smknstd\FakerPicsumImages\FakerPicsumImagesProvider($faker));
+
+        // return a string that contains a url like 'https://picsum.photos/800/600/'
+
+
         return [
             'name'  => fake()->words(3, asText: true),
             'slug'  => fake()->slug(3),
@@ -54,8 +60,10 @@ class AnimalFactory extends Factory
             'playful' => fake()->boolean(),
             'everybody_friendly' => fake()->boolean(),
             'affectionate' => fake()->randomElement([true, false]),
-            'photo_featured' => fake()->imageUrl(640, 480, 'animals', true),
-            'photos_additional' => fake()->imageUrl(640, 480, 'animals', true),
+            'photo_featured' => $faker->imageUrl(width: 800, height: 600),
+            'photos_additional' => [
+                $faker->imageUrl(width: 800, height: 600), $faker->imageUrl(width: 800, height: 600), $faker->imageUrl(width: 800, height: 600), $faker->imageUrl(width: 800, height: 600), $faker->imageUrl(width: 800, height: 600)
+            ],
         ];
     }
 }

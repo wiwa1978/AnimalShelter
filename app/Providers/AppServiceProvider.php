@@ -14,8 +14,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        if ($this->app->isLocal()) {
+        if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
+
+        if (!$this->app->environment('production')) {
+            $this->app->register('App\Providers\FakerServiceProvider');
         }
 
         $this->app->singleton(

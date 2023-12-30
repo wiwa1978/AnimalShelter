@@ -5,14 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{{ $title ?? 'Animal Shelter' }}</title>
-@vite('resources/css/app.css')
+    <title>{{ $title ?? config('app.name', 'Laravel') }}</title>
+    @vite('resources/css/app.css')
     @livewireStyles
 </head>
 
-<body class="h-full bg-white">
-    @include('components/navigation')
-
+<body class="bg-white">
+    @include('layouts.navigation')
     {{ $slot }}
 
     @livewireScripts
