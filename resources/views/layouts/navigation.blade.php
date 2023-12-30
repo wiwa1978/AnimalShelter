@@ -8,8 +8,9 @@
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a href="#" class="rounded-md bg-gray-900 px-3 py-2 text-xl font-medium text-white">Dogs</a>
-            <a href="#" class="rounded-md px-3 py-2 text-xl font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Cats</a>
+            <a href={{ route('home') }} class="rounded-md bg-gray-900 px-3 py-2 text-xl font-medium text-white">Home</a>
+            <a href={{ route('show-dogs') }} class="rounded-md px-3 py-2 text-xl font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dogs</a>
+            <a href={{ route('show-cats') }} class="rounded-md px-3 py-2 text-xl font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Cats</a>
             <a href="#" class="rounded-md px-3 py-2 text-xl font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Other Animals</a>
             <a href="#" class="rounded-md px-3 py-2 text-xl font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Calendar</a>
           </div>
