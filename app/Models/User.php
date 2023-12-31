@@ -72,6 +72,12 @@ class User extends Authenticatable implements FilamentUser
         //return true;
     }
 
+    public function animals(): HasMany
+    {
+        return $this->hasMany(Animal::class);
+    }
+
+
     public function isSuperAdmin(): bool
     {
         return $this->hasRole('super_admin');
@@ -105,10 +111,5 @@ class User extends Authenticatable implements FilamentUser
     {
         return LogOptions::defaults()
             ->logFillable();
-    }
-
-    public function animals(): HasMany
-    {
-        return $this->hasMany(Animal::class);
     }
 }

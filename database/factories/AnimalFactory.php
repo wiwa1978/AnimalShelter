@@ -62,7 +62,7 @@ class AnimalFactory extends Factory
             'affectionate' => fake()->randomElement([true, false]),
             'photo_featured' => $faker->imageUrl(width: 800, height: 600),
             'photos_additional' => [
-                $faker->imageUrl(width: 800, height: 600), $faker->imageUrl(width: 800, height: 600), $faker->imageUrl(width: 800, height: 600), $faker->imageUrl(width: 800, height: 600), $faker->imageUrl(width: 800, height: 600)
+                $faker->imageUrl(width: 800, height: 600), $faker->imageUrl(width: 800, height: 600), $faker->imageUrl(width: 800, height: 600)
             ],
         ];
     }

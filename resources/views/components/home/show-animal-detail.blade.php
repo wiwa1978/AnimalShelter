@@ -1,6 +1,6 @@
 
   <div class="mx-auto w-full px-4 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-32">
+    <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-16">
       <h2 class="text-2xl font-bold text-gray-900">Collections</h2>
 
       <div class="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
@@ -20,8 +20,9 @@
         <!-- First Section-->
         <section aria-labelledby="applicant-information-title">
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
-            <div class="px-4 py-5 sm:px-6">
+            <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
               <h2 class="text-xl font-medium leading-6 text-gray-900">{{ $animal->name}}</h2>
+              <h2 class="text-xl font-medium leading-6 text-gray-900">{{ $user->organization == 1 ? "Organization" : "Individual" }}</h2>
             </div>
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
@@ -59,6 +60,7 @@
           </div>
         </section>
         <!-- Environment Section-->
+        @empty(!$animal->environment)
         <section aria-labelledby="applicant-information-title">
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
@@ -71,8 +73,11 @@
             </div>
           </div>
         </section>
+        @endempty
+
 
         <!-- Additional videos -->
+        @empty(!$animal->youtube_links)
         <section aria-labelledby="applicant-information-title">
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
@@ -92,9 +97,48 @@
             </div>
           </div>
         </section>
+        @endempty
       </div>
 
       <div class="space-y-6 ">
+        <section  class="lg:col-span-1 lg:col-start-3">
+            <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
+            <h2  class="text-lg font-medium text-gray-900">Current Location</h2>
+
+            <!-- Activity Feed -->
+            <div class="mt-6 flow-root">
+                <ul role="list" class="-mb-8">
+                    <li>
+                    <div class="relative flex pb-1 space-x-3">
+                        <div>
+                            <p class="text-sm text-gray-500">Organization Name<a href="#" class="font-medium text-gray-900"> {{ $user->organization_name }}</a></p>
+                        </div>
+                    </div>
+
+                    </li>
+                    <li>
+                    <div class="relative flex pb-1 space-x-3">
+                        <div>
+                            <p class="text-sm text-gray-500">Organization Website<a href="#" class="font-medium text-gray-900"> {{ $user->website }}</a></p>
+                        </div>
+                    </div>
+
+                    </li>
+                     <li>
+                    <div class="relative flex pb-8 space-x-3">
+                        <div>
+                            <p class="text-sm text-gray-500">Address<a href="#" class="font-medium text-gray-900"> Hier komt address</a></p>
+                        </div>
+                    </div>
+
+                    </li>
+                </ul>
+            </div>
+
+            </div>
+        </section>
+
+        <!-- Medical Information -->
         <section aria-labelledby="timeline-title" class="lg:col-span-1 lg:col-start-3">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
             <h2 id="timeline-title" class="text-lg font-medium text-gray-900">Medical Information</h2>
@@ -103,7 +147,7 @@
             <div class="mt-6 flow-root">
                 <ul role="list" class="-mb-8">
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -123,7 +167,7 @@
                 </li>
 
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -143,7 +187,7 @@
                 </li>
 
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -163,7 +207,7 @@
                 </li>
 
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -183,7 +227,7 @@
                 </li>
 
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -203,8 +247,8 @@
                 </li>
 
                 <li>
-                    <div class="relative pb-8">
-                    <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                    <div class="relative pb-6">
+
                     <div class="relative flex space-x-3">
                         <div>
                         <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
@@ -227,7 +271,8 @@
             </div>
         </section>
 
-        <section aria-labelledby="timeline-title" class="lg:col-span-1 lg:col-start-3">
+         <!-- Social Information -->
+        <section aria-labelledby="timeline-title" class="lg:col-span-1 lg:col-start-3 pb-16">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
             <h2 id="timeline-title" class="text-lg font-medium text-gray-900">Social Information</h2>
 
@@ -236,7 +281,7 @@
                 <ul role="list" class="-mb-8">
 
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -257,7 +302,7 @@
                 </li>
 
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -277,7 +322,7 @@
                 </li>
 
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -297,7 +342,7 @@
                 </li>
 
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -317,7 +362,7 @@
                 </li>
 
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -337,7 +382,7 @@
                 </li>
 
                 <li>
-                    <div class="relative pb-8">
+                    <div class="relative pb-2">
                     <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
                     <div class="relative flex space-x-3">
                         <div>
@@ -358,8 +403,8 @@
 
 
                 <li>
-                    <div class="relative pb-8">
-                    <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                    <div class="relative pb-6">
+
                     <div class="relative flex space-x-3">
                         <div>
                         <span class="h-8 w-8 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white">
@@ -378,9 +423,7 @@
                 </li>
                 </ul>
             </div>
-            <div class="mt-6 flex flex-col justify-stretch">
-                <button type="button" class="inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">Advance to offer</button>
-            </div>
+
             </div>
         </section>
       </div>
