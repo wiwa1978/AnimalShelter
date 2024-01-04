@@ -31,7 +31,8 @@ class AnimalPolicy
      */
     public function view(User $user, Animal $animal): bool
     {
-        return $user->can('view_animal');
+        return true;
+        //return $user->can('view_animal');
     }
 
     /**
@@ -55,7 +56,8 @@ class AnimalPolicy
      */
     public function update(User $user, Animal $animal): bool
     {
-        return $user->can('update_animal');
+        return true;
+        //return $user->can('update_animal');
     }
 
     /**
@@ -67,7 +69,8 @@ class AnimalPolicy
      */
     public function delete(User $user, Animal $animal): bool
     {
-        return $user->can('delete_animal');
+        return true;
+        //return $user->can('delete_animal');
     }
 
     /**
@@ -78,7 +81,8 @@ class AnimalPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_animal');
+        return true;
+        //return $user->can('delete_any_animal');
     }
 
     /**
@@ -90,7 +94,8 @@ class AnimalPolicy
      */
     public function forceDelete(User $user, Animal $animal): bool
     {
-        return $user->can('force_delete_animal');
+        return true;
+        //return $user->can('force_delete_animal');
     }
 
     /**
@@ -101,7 +106,8 @@ class AnimalPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_animal');
+        return true;
+        //return $user->can('force_delete_any_animal');
     }
 
     /**
@@ -113,7 +119,8 @@ class AnimalPolicy
      */
     public function restore(User $user, Animal $animal): bool
     {
-        return $user->can('restore_animal');
+        return true;
+        //return $user->can('restore_animal');
     }
 
     /**
@@ -124,7 +131,8 @@ class AnimalPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_animal');
+        return true;
+        //return $user->can('restore_any_animal');
     }
 
     /**
@@ -136,7 +144,8 @@ class AnimalPolicy
      */
     public function replicate(User $user, Animal $animal): bool
     {
-        return $user->can('replicate_animal');
+        return true;
+        //return $user->can('replicate_animal');
     }
 
     /**
@@ -147,6 +156,7 @@ class AnimalPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_animal');
+        return true;
+        //return $user->can('reorder_animal');
     }
 }

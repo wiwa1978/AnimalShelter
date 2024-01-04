@@ -30,8 +30,8 @@ class UserPolicy
      */
     public function view(User $user): bool
     {
-
-        return $user->can('view_user');
+        return true;
+        //return $user->can('view_user');
     }
 
     /**
@@ -42,7 +42,8 @@ class UserPolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('create_user');
+        return true;
+        //return $user->can('create_user');
     }
 
     /**
@@ -53,7 +54,8 @@ class UserPolicy
      */
     public function update(User $user): bool
     {
-        return $user->can('update_user');
+        return true;
+        //return $user->can('update_user');
     }
 
     /**
@@ -64,7 +66,8 @@ class UserPolicy
      */
     public function delete(User $user): bool
     {
-        return $user->can('delete_user');
+        return true;
+        //return $user->can('delete_user');
     }
 
     /**
@@ -75,7 +78,8 @@ class UserPolicy
      */
     public function deleteAny(User $user): bool
     {
-        return $user->can('delete_any_user');
+        return true;
+        //return $user->can('delete_any_user');
     }
 
     /**
@@ -86,7 +90,8 @@ class UserPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return $user->can('force_delete_user');
+        return true;
+        //return $user->can('force_delete_user');
     }
 
     /**
@@ -97,7 +102,8 @@ class UserPolicy
      */
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('force_delete_any_user');
+        return true;
+        //return $user->can('force_delete_any_user');
     }
 
     /**
@@ -108,7 +114,8 @@ class UserPolicy
      */
     public function restore(User $user): bool
     {
-        return $user->can('restore_user');
+        return true;
+        //return $user->can('restore_user');
     }
 
     /**
@@ -119,7 +126,8 @@ class UserPolicy
      */
     public function restoreAny(User $user): bool
     {
-        return $user->can('restore_any_user');
+        return true;
+        //return $user->can('restore_any_user');
     }
 
     /**
@@ -130,7 +138,8 @@ class UserPolicy
      */
     public function replicate(User $user): bool
     {
-        return $user->can('replicate_user');
+        return true;
+        //return $user->can('replicate_user');
     }
 
     /**
@@ -141,6 +150,7 @@ class UserPolicy
      */
     public function reorder(User $user): bool
     {
-        return $user->can('reorder_user');
+        return true;
+        //return $user->can('reorder_user');
     }
 }

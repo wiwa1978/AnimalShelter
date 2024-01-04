@@ -13,6 +13,7 @@ class EditAnimal extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
+            Actions\ViewAction::make(),
             Actions\DeleteAction::make(),
         ];
     }
@@ -24,14 +25,14 @@ class EditAnimal extends EditRecord
 
     protected function mutateFormDataBeforeFill(array $data): array
     {
-        $data['published_price'] = $data['published_price'] / 100;
+        $data['publish_price'] = $data['publish_price'] / 100;
 
         return $data;
     }
 
     protected function mutateFormDataBeforeSave(array $data): array
     {
-        $data['published_price'] = $data['published_price'] * 100;
+        $data['publish_price'] = $data['publish_price'] * 100;
 
         return $data;
     }

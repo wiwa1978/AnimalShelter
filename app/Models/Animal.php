@@ -20,7 +20,7 @@ class Animal extends Model
     use HasFactory, Multitenantable, LogsActivity;
 
     protected $fillable = [
-        'name', 'user_id', 'slug', 'featured', 'published_state', 'published_at', 'published_price', 'animal_type', 'location', 'age', 'gender', 'status', 'size', 'description', 'breed', 'reason_adoption', 'sterilized', 'chipped', 'passport', 'vaccinated', 'rabies', 'medicins', 'special_food', 'behavioural_problem', 'kids_friendly', 'cats_friendly', 'dogs_friendly', 'environment',
+        'name', 'user_id', 'slug', 'featured', 'published_state', 'published_at', 'publish_price', 'feature_price', 'animal_type', 'location', 'age', 'gender', 'status', 'size', 'description', 'breed', 'reason_adoption', 'sterilized', 'chipped', 'passport', 'vaccinated', 'rabies', 'medicins', 'special_food', 'behavioural_problem', 'kids_friendly', 'cats_friendly', 'dogs_friendly', 'environment',
         'affectionate', 'well_behaved', 'playful', 'everybody_friendly', 'environment', 'photo_main', 'photos_additional', 'videos', 'youtube_links'
 
     ];
@@ -55,6 +55,11 @@ class Animal extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function vouchers(): HasMany
+    {
+        return $this->hasMany(Voucher::class);
     }
 
     // public function purchases(): HasMany
@@ -95,5 +100,12 @@ class Animal extends Model
     public function scopeNotFeatured($query)
     {
         return $query->where('featured', false);
+    }
+
+    public function scopeActiveVouchers($query)
+    {
+        return $query->whereHas('vouchers', function ($query) {
+            $query->where('status', 'active')->where('expires_at', '>', now());
+        });
     }
 }

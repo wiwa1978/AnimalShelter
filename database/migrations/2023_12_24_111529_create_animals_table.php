@@ -2,6 +2,7 @@
 
 use App\Models\Organization;
 use App\Models\User;
+use App\Models\Voucher;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -20,9 +21,10 @@ return new class extends Migration
             $table->string('slug')->unique()->nullable();
             $table->string('published_state')->default('Draft');
             $table->timestamp('published_at')->nullable();
-            $table->bigInteger('published_price')->default(1000);
+            $table->integer('publish_price')->unsigned()->default(1000);
+            $table->integer('feature_price')->unsigned()->default(1000);
             $table->foreignIdFor(User::class)->cascadeOnDelete();
-            //$table->foreignIdFor(Organization::class)->cascadeOnDelete()->default(0);
+            //$table->foreignIdFor(Voucher::class)->nullable();
             $table->string('animal_type');
             $table->string('location');
             $table->string('age');

@@ -2,12 +2,12 @@
 
 namespace App\Filament\Admin\Resources\AnimalResource\Pages;
 
-use App\Enums\AnimalPublishState;
 use Filament\Actions;
 use App\Models\Animal;
 use App\Enums\AnimalSize;
 use App\Enums\AnimalType;
 use Illuminate\Support\Str;
+use App\Enums\AnimalPublishState;
 use Filament\Resources\Components\Tab;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
@@ -23,8 +23,6 @@ class ListAnimals extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
-
-
 
     public function getTabs(): array
     {

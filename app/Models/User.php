@@ -77,6 +77,11 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Animal::class);
     }
 
+    public function vouchers(): HasMany
+    {
+        return $this->hasMany(Voucher::class);
+    }
+
 
     public function isSuperAdmin(): bool
     {

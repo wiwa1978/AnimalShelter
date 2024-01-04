@@ -12,6 +12,7 @@ class Home extends Component
     public $animals_featured;
     public $animals_not_featured;
 
+
     public function mount()
     {
         $this->animals_featured = Animal::featured()->get();

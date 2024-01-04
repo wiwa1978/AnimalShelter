@@ -17,7 +17,7 @@ class CreateAnimal extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        $data['published_price'] = $data['published_price'] * 100;
+        $data['publish_price'] = $data['publish_price'] * 100;
 
         return $data;
     }

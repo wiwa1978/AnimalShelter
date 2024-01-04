@@ -3,7 +3,6 @@
 namespace App\Filament\Admin\Resources;
 
 use Filament\Forms;
-use App\Models\User;
 use Filament\Tables;
 use App\Models\Animal;
 use Filament\Forms\Form;
@@ -15,25 +14,29 @@ use App\Enums\AnimalStatus;
 use Filament\Support\RawJs;
 use Illuminate\Support\Str;
 use App\Enums\AnimalLocation;
+use Illuminate\Support\Carbon;
 use Filament\Resources\Resource;
 use App\Enums\AnimalPublishState;
 use Filament\Forms\Components\Radio;
-use Filament\Support\Enums\MaxWidth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\KeyValue;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Notifications\Notification;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Admin\Resources\AnimalResource\Pages;
-use App\Filament\Resources\AnimalResource\RelationManagers;
+use App\Filament\Admin\Resources\AnimalResource\RelationManagers;
 
 class AnimalResource extends Resource
 {
@@ -41,15 +44,24 @@ class AnimalResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-
-
-
     public static function form(Form $form): Form
     {
         return $form
-
-
             ->schema([
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 Section::make('General Information')
                     ->schema([
@@ -230,30 +242,13 @@ class AnimalResource extends Resource
 
                             ->displayFormat('d/m/Y')
                             ->native(false),
-                        TextInput::make('published_price')
+                        TextInput::make('publish_price')
                             ->required()
                             ->prefix('EUR')
                             ->mask(RawJs::make('$money($input)'))
                             ->numeric()
 
                     ])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             ]);
     }
@@ -286,7 +281,7 @@ class AnimalResource extends Resource
                     //->since()
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('published_price')
+                Tables\Columns\TextColumn::make('publish_price')
                     ->alignCenter()
                     ->money('EUR', divideBy: 100),
                 //->summarize(Tables\Columns\Summarizers\Sum::make()),
@@ -375,8 +370,8 @@ class AnimalResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->defaultSort('created_at', 'desc')
+
+            ])->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\Filter::make('featured')
                     ->query(fn (Builder $query): Builder => $query->where('featured', true)),
@@ -419,38 +414,99 @@ class AnimalResource extends Resource
                             );
                     })
             ])
-            //, layout: Tables\Enums\FiltersLayout::AboveContent)->filtersFormColumns(4)
-
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('Publish')
                     ->icon('heroicon-m-pencil-square')
+                    ->color('info')
                     ->form([
-                        Forms\Components\Select::make('published_state')
-                            ->label('Current Publish State')
-                            ->options(AnimalPublishState::class)
+                        Forms\Components\TextInput::make('publish_price')
+                            ->label('Price')
+                            ->prefix('EUR')
                             ->default(function (Animal $record) {
-                                return $record->published_state;
+                                return $record->publish_price / 100;
+                            }),
+
+                        Forms\Components\TextInput::make('vouchers.code')
+                            ->label('Voucher')
+                            ->visible(function (Animal $record) {
+                                return $record->activeVouchers()->first() ? true : false;
                             })
-                            ->preload()
-                            ->native(false),
                     ])
                     ->action(function (Animal $animal, array $data): void {
-                        $animal->published_state = $data['published_state'];
-                        $animal->save();
+                        dd($animal->activeVouchers()->first());
+
+                        if (!$animal->activeVouchers()->first() == null) {
+                            // there is an active voucher for this animal, continue to process
+                            // if the provided code is the same as the code for the active voucher, continue to process
+                            // if the active voucher is not redeemed yet, continue to process
+                            // if the animal is not published yet, continue to process
+
+
+                            if ($data['vouchers']['code'] == $animal->vouchers->first()->code && $animal->vouchers->first()->redeemed_at == null && $animal->published_state != 'Published') {
+                                if ($animal->vouchers->first()->discount == '10 percent discount') {
+                                    $new_price = $animal->publish_price * 0.90;
+                                }
+                                if ($animal->vouchers->first()->discount == '50 percent discount') {
+                                    $new_price = $animal->publish_price * 0.50;
+                                }
+                                if ($animal->vouchers->first()->discount == '2 euro discount') {
+                                    $new_price = $animal->publish_price - 2;
+                                }
+                                if ($animal->vouchers->first()->discount == '10 euro discount') {
+                                    $new_price = $animal->publish_price - 10;
+                                }
+                                $animal->published_state = AnimalPublishState::Published;
+                                $animal->publish_price = $new_price;
+
+                                $animal->vouchers->first()->redeemed_at = Carbon::now()->format('Y-m-d H:i:s');
+                                $animal->vouchers->first()->status = 'inactive';
+                                $animal->vouchers->first()->save();
+                                $animal->save();
+                                Notification::make()
+                                    ->title('Success')
+                                    ->success('')
+                                    ->body('Voucher applied successfully and animal published successfully')
+                                    ->send();
+                            } else {
+                                Notification::make()
+                                    ->title('Error')
+                                    ->danger()
+                                    ->body('One of three errors occurred <br> 
+                                            1) Voucher was already redeemed <br> 
+                                            2) you have used an invalid voucher <br> 
+                                            3) Animal was published already  <br> 
+                                            => Therefor, animal was not published')
+                                    ->send();
+                            }
+                        } else {
+                            $animal->published_state = AnimalPublishState::Published;
+                            $animal->save();
+                            Notification::make()
+                                ->title('Success')
+                                ->success('')
+                                ->body('Animal published successfully')
+                                ->send();
+                        }
+                    })
+                    ->visible(function (Animal $record) {
+                        return $record->published_state == 'Draft' ? true : false;
                     }),
 
-
-
-
-
             ])
+
+
+
+
+
+
+
+
+
             ->headerActions([
-                Tables\Actions\Action::make('New Order')
-                    ->url(fn (): string => AnimalResource::getUrl('create'))
-
-
+                // Tables\Actions\Action::make('New Animal')
+                //     ->url(fn (): string => AnimalResource::getUrl('create'))
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -471,8 +527,8 @@ class AnimalResource extends Resource
         return [
             'index' => Pages\ListAnimals::route('/'),
             'create' => Pages\CreateAnimal::route('/create'),
-            'edit' => Pages\EditAnimal::route('/{record}/edit'),
             'view' => Pages\ViewAnimal::route('/{record}'),
+            'edit' => Pages\EditAnimal::route('/{record}/edit'),
         ];
     }
 

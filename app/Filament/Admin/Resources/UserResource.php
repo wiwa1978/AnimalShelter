@@ -5,16 +5,18 @@ namespace App\Filament\Admin\Resources;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
+use App\Models\Animal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
+use BeyondCode\Vouchers\Models\Voucher;
 use Filament\Tables\Actions\EditAction;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\DeleteAction;
 use Illuminate\Database\Eloquent\Builder;
-use App\Filament\Admin\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Admin\Resources\UserResource\Pages;
 use App\Filament\Admin\Resources\UserResource\RelationManagers;
 use App\Filament\Admin\Resources\UserResource\RelationManagers\AnimalsRelationManager;
 
@@ -85,6 +87,13 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
+
+
+
+
+
+
+
                 EditAction::make()->color('info'),
                 Action::make('activities')->url(fn ($record) => UserResource::getUrl('activities', ['record' => $record])),
                 DeleteAction::make()
