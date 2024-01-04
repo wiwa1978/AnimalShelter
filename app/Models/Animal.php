@@ -21,7 +21,7 @@ class Animal extends Model
 
     protected $fillable = [
         'name', 'user_id', 'slug', 'featured', 'published_state', 'published_at', 'publish_price', 'feature_price', 'animal_type', 'location', 'age', 'gender', 'status', 'size', 'description', 'breed', 'reason_adoption', 'sterilized', 'chipped', 'passport', 'vaccinated', 'rabies', 'medicins', 'special_food', 'behavioural_problem', 'kids_friendly', 'cats_friendly', 'dogs_friendly', 'environment',
-        'affectionate', 'well_behaved', 'playful', 'everybody_friendly', 'environment', 'photo_main', 'photos_additional', 'videos', 'youtube_links'
+        'affectionate', 'well_behaved', 'playful', 'everybody_friendly', 'environment', 'photo_main', 'photos_additional', 'videos', 'youtube_links', 'unpublish_reason', 'unpublish_at'
 
     ];
 

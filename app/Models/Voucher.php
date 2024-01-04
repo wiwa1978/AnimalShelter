@@ -17,7 +17,7 @@ class Voucher extends Model
         'expires_at',
         'user_id',
         'animal_id',
-        'redeemed_at'
+        'redeemed_at',
 
     ];
 

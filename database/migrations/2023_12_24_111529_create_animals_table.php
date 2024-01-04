@@ -17,12 +17,7 @@ return new class extends Migration
         Schema::create('animals', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('featured')->default(false);
             $table->string('slug')->unique()->nullable();
-            $table->string('published_state')->default('Draft');
-            $table->timestamp('published_at')->nullable();
-            $table->integer('publish_price')->unsigned()->default(1000);
-            $table->integer('feature_price')->unsigned()->default(1000);
             $table->foreignIdFor(User::class)->cascadeOnDelete();
             //$table->foreignIdFor(Voucher::class)->nullable();
             $table->string('animal_type');
@@ -54,6 +49,13 @@ return new class extends Migration
             $table->text('photos_additional')->nullable();
             $table->text('videos')->nullable();
             $table->text('youtube_links')->nullable();
+            $table->string('published_state')->default('Draft');
+            $table->timestamp('published_at')->nullable();
+            $table->integer('publish_price')->unsigned()->default(1000);
+            $table->timestamp('unpublished_at')->nullable();
+            $table->string('unpublish_reason', 255)->nullable();
+            $table->integer('feature_price')->unsigned()->default(1000);
+            $table->boolean('featured')->default(false);
             $table->timestamps();
         });
     }
