@@ -439,20 +439,20 @@ class AnimalResource extends Resource
                 Tables\Actions\Action::make('Publish')
                     ->icon('heroicon-m-pencil-square')
                     ->color('info')
-                    ->form([
-                        Forms\Components\TextInput::make('publish_price')
-                            ->label('Price')
-                            ->prefix('EUR')
-                            ->default(function (Animal $record) {
-                                return $record->publish_price / 100;
-                            }),
+                    // ->form([
+                    //     Forms\Components\TextInput::make('publish_price')
+                    //         ->label('Price')
+                    //         ->prefix('EUR')
+                    //         ->default(function (Animal $record) {
+                    //             return $record->publish_price / 100;
+                    //         }),
 
-                        Forms\Components\TextInput::make('vouchers.code')
-                            ->label('Voucher')
-                            ->visible(function (Animal $record) {
-                                return $record->activeVouchers()->first() ? true : false;
-                            })
-                    ])
+                    //     Forms\Components\TextInput::make('vouchers.code')
+                    //         ->label('Voucher')
+                    //         ->visible(function (Animal $record) {
+                    //             return $record->activeVouchers()->first() ? true : false;
+                    //         })
+                    // ])
                     //->url(fn ($record): string => self::getUrl('checkout', [$record]))
                     ->action(function (Animal $animal, array $data): void {
                         //redirect to checkout filament resource

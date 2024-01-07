@@ -27,6 +27,7 @@ class Checkout extends Page
     {
         $formatter = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);
 
+
         $this->record     = $this->resolveRecord($record);
         $this->heading    = 'Checkout: ' . $this->record->name;
         $this->subheading = $formatter->formatCurrency($this->record->publish_price / 100, 'eur');
