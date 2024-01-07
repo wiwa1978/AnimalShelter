@@ -31,7 +31,7 @@ class AnimalFactory extends Factory
             'slug'  => fake()->slug(3),
             'featured' => fake()->boolean(10),
             'published_state' => $published_state,
-            'published_at' => $published_state == 'published' ? fake()->dateTimeBetween('-1 Week', '-1 Day') :  fake()->dateTimeBetween('+1 Day', '+1 Week'),
+            'published_at' => $published_state == 'Published' ? fake()->dateTimeBetween('-1 Week', '-1 Day') :  null,
             'user_id' => User::query()->inRandomOrder()->first()?->id ?? User::factory(),
             'animal_type' => fake()->randomElement(AnimalType::cases()),
             'location' => fake()->randomElement(AnimalLocation::cases()),

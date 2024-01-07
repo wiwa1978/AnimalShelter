@@ -26,6 +26,7 @@ class User extends Authenticatable implements FilamentUser
      * @var array<int, string>
      */
     protected $fillable = [
+        'stripe_customer_id',
         'name',
         'email',
         'password',
@@ -82,6 +83,10 @@ class User extends Authenticatable implements FilamentUser
         return $this->hasMany(Voucher::class);
     }
 
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(Purchase::class);
+    }
 
     public function isSuperAdmin(): bool
     {

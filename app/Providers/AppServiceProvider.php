@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Models\User;
 use App\Observers\UserObserver;
+use Filament\Support\Assets\Js;
 use Illuminate\Support\ServiceProvider;
+use Filament\Support\Facades\FilamentAsset;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,5 +36,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         User::observe(UserObserver::class);
+
+        FilamentAsset::register([
+            Js::make('stripe-js', 'https://js.stripe.com/v3/'),
+        ]);
     }
 }

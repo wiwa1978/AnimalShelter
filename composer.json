@@ -19,7 +19,8 @@
         "livewire/livewire": "^3.3",
         "pxlrbt/filament-activity-log": "^1.0",
         "spatie/laravel-activitylog": "^4.7",
-        "spatie/laravel-permission": "^6.3"
+        "spatie/laravel-permission": "^6.3",
+        "stripe/stripe-php": "^13.8"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",

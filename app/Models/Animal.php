@@ -62,10 +62,10 @@ class Animal extends Model
         return $this->hasMany(Voucher::class);
     }
 
-    // public function purchases(): HasMany
-    // {
-    //     return $this->hasMany(Purchase::class);
-    // }
+    public function purchases(): HasMany
+    {
+        return $this->hasMany(Purchase::class);
+    }
 
     public function scopeDogs($query)
     {

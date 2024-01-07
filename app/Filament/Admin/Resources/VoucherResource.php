@@ -11,8 +11,11 @@ use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use App\Enums\VoucherDiscounts;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Admin\Resources\VoucherResource\Pages;
@@ -28,39 +31,41 @@ class VoucherResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('General Information')
-                    ->schema([]),
-                Section::make('Product Information')
-                    ->schema([])
+                Section::make('Voucher Information')
+                    ->schema([
 
-            ])->columns(2);
+                        Forms\Components\TextInput::make('code')
+                            ->required()
+                            ->maxLength(32)
+                            ->extraInputAttributes(['readonly' => true])
+                            ->default(function () {
+                                return 'CODE-' . strtoupper(Str::random(15));
+                            }),
+
+                        Select::make('discount')
+                            ->label('Discount scheme')
+                            ->options(VoucherDiscounts::class)
+                            ->native(false)
+                            ->preload()
+                            ->required(),
+                        Forms\Components\DateTimePicker::make('expires_at')
+                            ->label('Voucher valid until')
+                            ->native(false)
+                            ->required(),
+                        Forms\Components\Select::make('user_id')
+                            ->label('Select the user to whom the voucher will be assigned')
+                            ->relationship('user', 'name')
+                            ->required(),
+                        Forms\Components\Select::make('animal_id')
+                            ->label('Select the animal for which the voucher will be created')
+                            ->relationship('animal', 'name')
+                            ->required(),
+                    ])
+            ]);
     }
 
 
-    //  Section::make('Voucher Information')
-    //                 ->schema([
 
-    //                     Forms\Components\TextInput::make('code')
-    //                         ->required()
-    //                         ->maxLength(32)
-    //                         ->extraInputAttributes(['readonly' => true])
-    //                         ->default(function () {
-    //                             return 'CODE-' . strtoupper(Str::random(15));
-    //                         }),
-
-    //                     Select::make('discount')
-    //                         ->options(VoucherDiscounts::class)
-    //                         ->native(false)
-    //                         ->preload()
-    //                         ->required(),
-    //                     Forms\Components\DateTimePicker::make('expires_at'),
-    //                     Forms\Components\Select::make('user_id')
-    //                         ->relationship('user', 'name')
-    //                         ->required(),
-    //                     Forms\Components\Select::make('animal_id')
-    //                         ->relationship('animal', 'name')
-    //                         ->required(),
-    //                 ])
 
 
     public static function table(Table $table): Table
