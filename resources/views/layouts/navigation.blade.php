@@ -8,7 +8,7 @@
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a href={{ route('home') }} class="rounded-md bg-gray-900 px-3 py-2 text-xl font-medium text-white">Home</a>
+            <a href={{ route('home') }} class="rounded-md bg-gray-900 px-3 py-2 text-xl font-medium text-white">Home1</a>
             <a href={{ route('show-dogs') }} class="rounded-md px-3 py-2 text-xl font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dogs</a>
             <a href={{ route('show-cats') }} class="rounded-md px-3 py-2 text-xl font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Cats</a>
             <a href="#" class="rounded-md px-3 py-2 text-xl font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Other Animals</a>
@@ -58,7 +58,7 @@
   <div class="sm:hidden" id="mobile-menu" x-show="open">
     <div class="space-y-1 px-2 pb-3 pt-2">
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-      <a href={{ route('home') }} class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Home</a>
+      <a href={{ route('home') }} class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Home2</a>
       <a href={{ route('show-dogs') }} class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Dogs</a>
       <a href={{ route('show-cats') }} class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Cats</a>
       <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Other animals</a>

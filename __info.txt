@@ -31,6 +31,8 @@ Documentation
 -------------
 - To ensure an Activity Log is created, use the following tutorial: https://laraveldaily.com/post/filament-activity-logs-three-packages-comparison-review
 
+
+
 Issues:
 - uncomment AuditsRelationManager::class, in the Admin UserResource and check on error documented in https://github.com/TappNetwork/filament-auditing/issues
 - Horizon geinstalleerd maar die ext-pcntl werkt niet op Windows
