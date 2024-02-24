@@ -4,6 +4,8 @@ use App\Livewire\Home;
 use App\Livewire\ShowDogs;
 use App\Livewire\ShowAnimals;
 use App\Livewire\ShowAnimalDetail;
+use App\Livewire\ShowCats;
+use App\Livewire\ShowOthers;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,5 +26,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', Home::class)->name('home');
 Route::get('/animals', Home::class)->name('show-animals');
 Route::get('/animals/dogs', ShowDogs::class)->name('show-dogs');
-Route::get('/animals/cats', ShowDogs::class)->name('show-cats');
+Route::get('/animals/cats', ShowCats::class)->name('show-cats');
+Route::get('/animals/others', ShowOthers::class)->name('show-others');
 Route::get('/animal/detail/{id}', ShowAnimalDetail::class)->name('show-animal-detail');

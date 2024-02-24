@@ -27,19 +27,19 @@
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">Country</dt>
+                  <dt class="text-sm font-medium text-gray-500">Country:</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->location}}</dd>
                 </div>
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">Age</dt>
+                  <dt class="text-sm font-medium text-gray-500">Age:</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->age}}</dd>
                 </div>
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">Gender</dt>
+                  <dt class="text-sm font-medium text-gray-500">Gender:</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->gender}}</dd>
                 </div>
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">Breed</dt>
+                  <dt class="text-sm font-medium text-gray-500">Breed:</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->breed}}</dd>
                 </div>
               </dl>
@@ -67,7 +67,7 @@
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                 <div class="sm:col-span-4">
                   <dt class="text-sm font-medium text-gray-500">Environment</dt>
-                  <dd class="mt-1 text-sm text-gray-900">{{ $animal->environment }}</dd>
+                  <dd class="mt-1 text-sm texte-gray-900">{{ $animal->environment }}</dd>
                 </div>
               </dl>
             </div>
@@ -88,7 +88,7 @@
                     @foreach ($youtube_links as $link)
                         <div class="mt-6 group relative ">
                             <div class="media-body rounded">
-                                <iframe class="rounded-lg" width="560" height="315" src="{{ $link }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe class="rounded-lg" width="300" height="200" src="{{ $link }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
                     @endforeach
@@ -111,7 +111,7 @@
                     <li>
                     <div class="relative flex pb-1 space-x-3">
                         <div>
-                            <p class="text-sm text-gray-500">Organization Name<a href="#" class="font-medium text-gray-900"> {{ $user->organization_name }}</a></p>
+                            <p class="text-sm text-gray-500">Organization Name: <a href="#" class="font-medium text-gray-900"> {{ $user->organization_name }}</a></p>
                         </div>
                     </div>
 
@@ -119,7 +119,7 @@
                     <li>
                     <div class="relative flex pb-1 space-x-3">
                         <div>
-                            <p class="text-sm text-gray-500">Organization Website<a href="#" class="font-medium text-gray-900"> {{ $user->website }}</a></p>
+                            <p class="text-sm text-gray-500">Organization Website: <a href="#" class="font-medium text-gray-900"> {{ $user->website }}</a></p>
                         </div>
                     </div>
 
@@ -127,7 +127,7 @@
                      <li>
                     <div class="relative flex pb-8 space-x-3">
                         <div>
-                            <p class="text-sm text-gray-500">Address<a href="#" class="font-medium text-gray-900"> Hier komt address</a></p>
+                            <p class="text-sm text-gray-500">Address: <a href="#" class="font-medium text-gray-900"> Hier komt address</a></p>
                         </div>
                     </div>
 
@@ -159,7 +159,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Sterilized<a href="#" class="font-medium text-gray-900"> {{ $animal->sterilized == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Sterilized: <a href="#" class="font-medium text-gray-900"> {{ $animal->sterilized == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -179,7 +179,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Chipped<a href="#" class="font-medium text-gray-900"> {{ $animal->chipped == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Chipped: <a href="#" class="font-medium text-gray-900"> {{ $animal->chipped == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -199,7 +199,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Vaccinated<a href="#" class="font-medium text-gray-900"> {{ $animal->vaccinated == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Vaccinated: <a href="#" class="font-medium text-gray-900"> {{ $animal->vaccinated == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -219,7 +219,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Rabies<a href="#" class="font-medium text-gray-900"> {{ $animal->rabies == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Rabies: <a href="#" class="font-medium text-gray-900"> {{ $animal->rabies == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -239,7 +239,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Medicins<a href="#" class="font-medium text-gray-900"> {{ $animal->medicins == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Medicins: <a href="#" class="font-medium text-gray-900"> {{ $animal->medicins == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -259,7 +259,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Special Food<a href="#" class="font-medium text-gray-900"> {{ $animal->special_food== 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Special Food: <a href="#" class="font-medium text-gray-900"> {{ $animal->special_food== 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -293,7 +293,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Friendly to Cats <a href="#" class="font-medium text-gray-900">{{ $animal->cats_friendly == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Friendly to Cats: <a href="#" class="font-medium text-gray-900">{{ $animal->cats_friendly == 1 ? "Yes" : "No" }}</a></p>
                         </div>
 
                         </div>
@@ -314,7 +314,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Friendly to Dogs <a href="#" class="font-medium text-gray-900">{{ $animal->dogs_friendly == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Friendly to Dogs: <a href="#" class="font-medium text-gray-900">{{ $animal->dogs_friendly == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -334,7 +334,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Friendly to Kids <a href="#" class="font-medium text-gray-900">{{ $animal->kids_friendly == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Friendly to Kids: <a href="#" class="font-medium text-gray-900">{{ $animal->kids_friendly == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -354,7 +354,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Well Behaved <a href="#" class="font-medium text-gray-900">{{ $animal->well_behaved == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Well Behaved: <a href="#" class="font-medium text-gray-900">{{ $animal->well_behaved == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -374,7 +374,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Playful <a href="#" class="font-medium text-gray-900">{{ $animal->playful == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Playful: <a href="#" class="font-medium text-gray-900">{{ $animal->playful == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -394,7 +394,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Everybody Friendly <a href="#" class="font-medium text-gray-900">{{ $animal->everybody_friendly == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Everybody Friendly: <a href="#" class="font-medium text-gray-900">{{ $animal->everybody_friendly == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -415,7 +415,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Affectionate <a href="#" class="font-medium text-gray-900">{{ $animal->affectionate == 1 ? "Yes" : "No" }}</a></p>
+                            <p class="text-sm text-gray-500">Affectionate: <a href="#" class="font-medium text-gray-900">{{ $animal->affectionate == 1 ? "Yes" : "No" }}</a></p>
                         </div>
                         </div>
                     </div>

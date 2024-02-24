@@ -436,9 +436,16 @@ class AnimalResource extends Resource
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\Action::make('delete')
+                    ->action(fn (Animal $record) => $record->delete())
+                    ->requiresConfirmation(),
                 Tables\Actions\Action::make('Publish')
+                    ->requiresConfirmation()
                     ->icon('heroicon-m-pencil-square')
                     ->color('info')
+                    ->action(function (Animal $animal, array $data): void {
+                        redirect(self::getUrl('checkout', [$animal]));
+                    })
                     // ->form([
                     //     Forms\Components\TextInput::make('publish_price')
                     //         ->label('Price')
@@ -454,67 +461,67 @@ class AnimalResource extends Resource
                     //         })
                     // ])
                     //->url(fn ($record): string => self::getUrl('checkout', [$record]))
-                    ->action(function (Animal $animal, array $data): void {
-                        //redirect to checkout filament resource
-                        redirect(self::getUrl('checkout', [$animal]));
-                        // if (!$animal->activeVouchers()->first() == null) {
-                        //     // there is an active voucher for this animal, continue to process
-                        //     // if the provided code is the same as the code for the active voucher, continue to process
-                        //     // if the active voucher is not redeemed yet, continue to process
-                        //     // if the animal is not published yet, continue to process
+                    //->action(function (Animal $animal, array $data): void {
+                    //redirect to checkout filament resource
+                    //redirect(self::getUrl('checkout', [$animal]));
+                    // if (!$animal->activeVouchers()->first() == null) {
+                    //     // there is an active voucher for this animal, continue to process
+                    //     // if the provided code is the same as the code for the active voucher, continue to process
+                    //     // if the active voucher is not redeemed yet, continue to process
+                    //     // if the animal is not published yet, continue to process
 
 
-                        //     if ($data['vouchers']['code'] == $animal->activeVouchers()->first()->vouchers->first()->code && $animal->activeVouchers()->first()->vouchers->first()->redeemed_at == null && $animal->published_state != 'Published') {
-                        //         if ($animal->vouchers->first()->discount == '10 percent discount') {
-                        //             $new_price = $animal->publish_price * 0.90;
-                        //         }
-                        //         if ($animal->vouchers->first()->discount == '50 percent discount') {
-                        //             $new_price = $animal->publish_price * 0.50;
-                        //         }
-                        //         if ($animal->vouchers->first()->discount == '2 euro discount') {
-                        //             $new_price = $animal->publish_price - 2;
-                        //         }
-                        //         if ($animal->vouchers->first()->discount == '10 euro discount') {
-                        //             $new_price = $animal->publish_price - 10;
-                        //         }
+                    //     if ($data['vouchers']['code'] == $animal->activeVouchers()->first()->vouchers->first()->code && $animal->activeVouchers()->first()->vouchers->first()->redeemed_at == null && $animal->published_state != 'Published') {
+                    //         if ($animal->vouchers->first()->discount == '10 percent discount') {
+                    //             $new_price = $animal->publish_price * 0.90;
+                    //         }
+                    //         if ($animal->vouchers->first()->discount == '50 percent discount') {
+                    //             $new_price = $animal->publish_price * 0.50;
+                    //         }
+                    //         if ($animal->vouchers->first()->discount == '2 euro discount') {
+                    //             $new_price = $animal->publish_price - 2;
+                    //         }
+                    //         if ($animal->vouchers->first()->discount == '10 euro discount') {
+                    //             $new_price = $animal->publish_price - 10;
+                    //         }
 
-                        //         $animal->published_state = AnimalPublishState::Published;
-                        //         $animal->publish_price = $new_price;
-                        //         $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
+                    //         $animal->published_state = AnimalPublishState::Published;
+                    //         $animal->publish_price = $new_price;
+                    //         $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
 
-                        //         $animal->vouchers->first()->redeemed_at = Carbon::now()->format('Y-m-d H:i:s');
-                        //         $animal->vouchers->first()->status = 'inactive';
-                        //         $animal->vouchers->first()->save();
-                        //         $animal->save();
+                    //         $animal->vouchers->first()->redeemed_at = Carbon::now()->format('Y-m-d H:i:s');
+                    //         $animal->vouchers->first()->status = 'inactive';
+                    //         $animal->vouchers->first()->save();
+                    //         $animal->save();
 
-                        //         Notification::make()
-                        //             ->title('Success')
-                        //             ->success('')
-                        //             ->body('Voucher applied successfully and animal published successfully')
-                        //             ->send();
-                        //     } else {
-                        //         Notification::make()
-                        //             ->title('Error')
-                        //             ->danger()
-                        //             ->body('One of three errors occurred <br> 
-                        //                        1) Voucher was already redeemed <br> 
-                        //                        2) You have used an invalid voucher <br> 
-                        //                        3) Animal was published already <br> 
-                        //                     => Therefor, animal was not published')
-                        //             ->send();
-                        //     }
-                        // } else {
-                        //     $animal->published_state = AnimalPublishState::Published;
-                        //     $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
+                    //         Notification::make()
+                    //             ->title('Success')
+                    //             ->success('')
+                    //             ->body('Voucher applied successfully and animal published successfully')
+                    //             ->send();
+                    //     } else {
+                    //         Notification::make()
+                    //             ->title('Error')
+                    //             ->danger()
+                    //             ->body('One of three errors occurred <br> 
+                    //                        1) Voucher was already redeemed <br> 
+                    //                        2) You have used an invalid voucher <br> 
+                    //                        3) Animal was published already <br> 
+                    //                     => Therefor, animal was not published')
+                    //             ->send();
+                    //     }
+                    // } else {
+                    //     $animal->published_state = AnimalPublishState::Published;
+                    //     $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
 
-                        //     $animal->save();
-                        //     Notification::make()
-                        //         ->title('Success')
-                        //         ->success('')
-                        //         ->body('Animal published successfully')
-                        //         ->send();
-                        // }
-                    })
+                    //     $animal->save();
+                    //     Notification::make()
+                    //         ->title('Success')
+                    //         ->success('')
+                    //         ->body('Animal published successfully')
+                    //         ->send();
+                    // }
+                    //})
                     ->visible(function (Animal $record) {
                         return $record->published_state == 'Draft' ? true : false;
                     }),

@@ -23,6 +23,8 @@ class Checkout extends Page
     protected string $checkoutKey;
     public string $clientSecret;
 
+
+
     public function mount(int | string $record): void
     {
         $formatter = new NumberFormatter(app()->getLocale(), NumberFormatter::CURRENCY);

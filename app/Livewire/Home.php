@@ -22,6 +22,7 @@ class Home extends Component
     public function render()
     {
         //$this->animals_featured = Animal::all();
-        return view('components.home.index');
+        //return view('components.home.index');
+        return view('components.home.home');
     }
 }

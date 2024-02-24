@@ -2,16 +2,18 @@
 
 namespace App\Jobs;
 
-use App\Models\Order;
-use App\Models\Purchase;
 use Carbon\Carbon;
+use App\Models\Order;
+use App\Models\Animal;
+use App\Models\Purchase;
+use Stripe\PaymentIntent;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use App\Enums\AnimalPublishState;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Stripe\PaymentIntent;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 
 class ProcessPurchase implements ShouldQueue
 {
@@ -35,5 +37,10 @@ class ProcessPurchase implements ShouldQueue
             'purchase_price'    => $purchase_price,
             'purchase_date'     => Carbon::now(),
         ]);
+
+        $animal = Animal::find($metadata->animal_id);
+        $animal->published_state = AnimalPublishState::Published;
+        $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
+        $animal->save();
     }
 }

@@ -25,7 +25,8 @@ class showAnimalDetail extends Component
 
         $this->photos = $this->animal->photos_additional;
         $this->youtube_links = $this->animal->youtube_links;
-        $this->youtube_links = explode(' ', $this->youtube_links);
+
+        //$this->youtube_links = explode(' ', $this->youtube_links);
     }
 
     public function render()

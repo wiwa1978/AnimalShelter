@@ -10,7 +10,7 @@ export default {
   plugins: [
         require('@tailwindcss/forms'),
         require('@tailwindcss/aspect-ratio'),
-        require("daisyui")
+        //require("daisyui")
     ],
 }
 

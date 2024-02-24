@@ -11,8 +11,13 @@
 </head>
 
 <body class="bg-white">
-    @include('layouts.navigation')
-    {{ $slot }}
+    @if(request()->routeIS('home'))
+         {{ $slot }}
+    @else
+        @include('layouts.navigation')
+        {{ $slot }}
+    @endif
+   
 
     @livewireScripts
 

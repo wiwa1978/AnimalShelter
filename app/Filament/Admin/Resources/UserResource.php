@@ -64,15 +64,27 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('organization')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Draft' => 'danger',
+                        'Published' => 'success'
+                    }),
                 Tables\Columns\TextColumn::make('email_verified_at')
                     ->dateTime('d-m-Y H:i')
                     ->sortable(),
-                Tables\Columns\TextColumn::make('roles.name')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'super_admin' => 'danger',
-                        'user' => 'info'
+                Tables\Columns\IconColumn::make('organization')
+                    ->alignCenter()
+                    ->icon(fn (string $state): string => match ($state) {
+                        '0' => 'heroicon-o-user',
+                        '1' => 'heroicon-o-user-group',
                     }),
+
+
+                Tables\Columns\TextColumn::make('organization_name')
+                    ->searchable()
+                    ->sortable(),
+
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('d-m-Y H:i')

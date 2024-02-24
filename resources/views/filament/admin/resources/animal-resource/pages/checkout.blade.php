@@ -66,16 +66,22 @@
         });
     </script>
 
-    <form id="payment-form" class="max-w-lg">
-        <div id="payment-element">
-            <!--Stripe.js injects the Payment Element-->
-        </div>
-        <x-filament::button id="submit" type="submit" class="w-full mt-2" size="xl">
-            <x-filament::loading-indicator class="h-5 w-5 hidden" id="spinner" />
-            <span id="button-text">Pay now</span>
-        </x-filament::button>
-        <div id="payment-message" class="hidden"></div>
-    </form>
+ 
+
+    
+
+    <div class="w-1/2">
+        <form id="payment-form">
+            <div id="payment-element">
+                <!--Stripe.js injects the Payment Element-->
+            </div>
+            <x-filament::button id="submit" type="submit" class="w-full mt-2" size="xl">
+                <x-filament::loading-indicator class="h-5 w-5 hidden" id="spinner" />
+                <span id="button-text">Pay and Publish</span>
+            </x-filament::button>
+            <div id="payment-message" class="hidden"></div>
+        </form>
+    </div> 
 
 
 

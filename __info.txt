@@ -15,6 +15,9 @@ Start NGROK
 -----------
 1- Go to "C:\Users\waute\OneDrive\ngrok.exe"
 2- ngrok http --host-header=animalshelter.test 80
+    - payment_intent.processing
+    - payment_intent.succeeded
+    - payment_intent_payment_failed
 
 
 Start queue listener
@@ -23,7 +26,7 @@ php artisan queue:listen
 
 Start Redis
 -----------
-C:\Laragon\bin\redis\redis-x64-5.0.14.1\redis-server.exe
+C:\Users\waute\OneDrive\Code\Laragon\bin\redis\redis-x64-5.0.14.1\redis-server.exe
 
 
 
@@ -42,3 +45,6 @@ Issues:
 - Fix draft naar publish
 - Fix publish at 0EUR dat het dan payment form niet toont
 - Payment form central aligneren
+- If a user has already paid for an animal he should not pay twice (maybe when he unpublishes and then publishes again)
+- When purchase is done, send a notication and also redirect to the purchase view
+- When purchase is done, check if there is a voucher
