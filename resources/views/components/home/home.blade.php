@@ -8,11 +8,12 @@
             Anim aute id magna aliqua ad ad non deserunt sunt.
           </div>
         </div>
-        <h1 class="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10 sm:text-6xl">Help find a home for our animals</h1>
-        <p class="mt-6 text-lg leading-8 text-gray-600">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
+        <h1 class="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10 sm:text-6xl">Herplaatsen van honden, katten en andere huisdieren</h1>
+        <p class="mt-6 text-lg leading-8 text-gray-600">Welkom bij onze adoptiecommunity, waar liefde voor dieren centraal staat. Ontdek een wereld vol hoop en compassie, waar we streven naar het verbinden van dieren in nood met liefdevolle thuisomgevingen. Samen creëren we kansen voor dieren die een tweede kans verdienen. Blader door onze adoptieprofielen en vind jouw perfecte metgezel - want het begin van een levenslange vriendschap wacht op jou!</p>
         <div class="mt-10 flex items-center gap-x-6">
-          <a href="{{ route('show-dogs') }}" class="rounded-md bg-rose-800 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Search Dogs</a>
-          <a href="{{ route('show-cats') }}" class="rounded-md bg-rose-800 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Search Cats</a>
+          <a href="{{ route('show-dogs') }}" class="rounded-md bg-rose-800 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Adopteer een hond</a>
+          <a href="{{ route('show-cats') }}" class="rounded-md bg-blue-800 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Adopteer een kat</a>
+          <a href="{{ route('show-others') }}" class="rounded-md bg-green-800 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Adopteer een ander huisdier</a>
           <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Learn more <span aria-hidden="true">→</span></a>
         </div>
       </div>

@@ -5,12 +5,10 @@ namespace App\Filament\Admin\Resources;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
-use App\Models\Animal;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Filament\Tables\Actions\Action;
-use BeyondCode\Vouchers\Models\Voucher;
 use Filament\Tables\Actions\EditAction;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\DeleteAction;
@@ -18,7 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Admin\Resources\UserResource\Pages;
 use App\Filament\Admin\Resources\UserResource\RelationManagers;
-use App\Filament\Admin\Resources\UserResource\RelationManagers\AnimalsRelationManager;
 
 class UserResource extends Resource
 {
@@ -26,9 +23,12 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    // protected static ?string $navigationGroup = 'User Management';
-
     protected static ?string $navigationGroup = 'User Management';
+
+    public static function getNavigationLabel(): string
+    {
+        return  __('users.users');
+    }
 
     public static function form(Form $form): Form
     {
@@ -53,6 +53,7 @@ class UserResource extends Resource
                     ->native(false)
                     ->relationship('roles', 'name')
                     ->columnSpan('full'),
+
             ]);
     }
 
@@ -79,13 +80,11 @@ class UserResource extends Resource
                         '0' => 'heroicon-o-user',
                         '1' => 'heroicon-o-user-group',
                     }),
-
-
                 Tables\Columns\TextColumn::make('organization_name')
+                    //->formatStateUsing(fn (string $state): string => __("{$state}"))
+                    ->placeholder('Not applicable')
                     ->searchable()
                     ->sortable(),
-
-
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime('d-m-Y H:i')
                     ->sortable()
@@ -96,18 +95,17 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('organization')
+                    ->query(fn (Builder $query): Builder => $query->where('organization', true)),
+                Tables\Filters\Filter::make('individual')
+                    ->query(fn (Builder $query): Builder => $query->where('organization', false)),
             ])
             ->actions([
-
-
-
-
-
-
-
                 EditAction::make()->color('info'),
-                Action::make('activities')->url(fn ($record) => UserResource::getUrl('activities', ['record' => $record])),
+                Action::make('activities')
+                    ->url(fn ($record) => UserResource::getUrl('activities', ['record' => $record]))
+                    ->icon('heroicon-m-envelope')
+                    ->color('success'),
                 DeleteAction::make()
                     ->action(function ($data, $record) {
                         if ($record->animals()->count() > 0) {
@@ -128,7 +126,6 @@ class UserResource extends Resource
 
                         $record->delete();
                     })
-
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -140,7 +137,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            AnimalsRelationManager::class,
+            //
         ];
     }
 
@@ -157,6 +154,5 @@ class UserResource extends Resource
     public static function getNavigationBadge(): ?string
     {
         return User::count();
-        //return Animal::whereDate('created_at', today())->count() ? 'NEW' : '';
     }
 }

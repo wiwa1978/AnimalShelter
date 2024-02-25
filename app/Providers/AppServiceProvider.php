@@ -7,6 +7,7 @@ use App\Observers\UserObserver;
 use Filament\Support\Assets\Js;
 use Illuminate\Support\ServiceProvider;
 use Filament\Support\Facades\FilamentAsset;
+use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 
 class AppServiceProvider extends ServiceProvider
@@ -40,5 +41,14 @@ class AppServiceProvider extends ServiceProvider
         FilamentAsset::register([
             Js::make('stripe-js', 'https://js.stripe.com/v3/'),
         ]);
+
+        LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
+            $switch
+                ->locales(['nl', 'en'])
+                ->labels([
+                    'nl_NL' => 'Nederlands (NL)',
+                    'en_EN' => 'English (EN)'
+                ]);
+        });
     }
 }

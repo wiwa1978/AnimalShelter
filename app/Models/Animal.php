@@ -10,6 +10,7 @@ use App\Enums\AnimalPublishState;
 use Spatie\Activitylog\LogOptions;
 use App\Models\Traits\Multitenantable;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -18,12 +19,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Animal extends Model
 {
     use HasFactory, Multitenantable, LogsActivity;
+    //use HasTranslations;
 
     protected $fillable = [
         'name', 'user_id', 'slug', 'featured', 'published_state', 'published_at', 'publish_price', 'feature_price', 'animal_type', 'location', 'age', 'gender', 'status', 'size', 'description', 'breed', 'reason_adoption', 'sterilized', 'chipped', 'passport', 'vaccinated', 'rabies', 'medicins', 'special_food', 'behavioural_problem', 'kids_friendly', 'cats_friendly', 'dogs_friendly', 'environment',
         'affectionate', 'well_behaved', 'playful', 'everybody_friendly', 'environment', 'photo_main', 'photos_additional', 'videos', 'youtube_links', 'unpublish_reason', 'unpublish_at'
 
     ];
+
+    //public $translatable = ['name'];
+
 
     protected $casts = [
         'animal_type'       =>  AnimalType::class,
@@ -57,10 +62,6 @@ class Animal extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function vouchers(): HasMany
-    {
-        return $this->hasMany(Voucher::class);
-    }
 
     public function purchases(): HasMany
     {

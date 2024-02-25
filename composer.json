@@ -9,8 +9,10 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "bezhansalleh/filament-language-switch": "^3.0",
         "bezhansalleh/filament-shield": "^3.1",
-        "filament/filament": "3.1",
+        "filament/filament": "3.2.37",
+        "filament/spatie-laravel-translatable-plugin": "^3.2",
         "guzzlehttp/guzzle": "^7.2",
         "jeffgreco13/filament-breezy": "v2.2.1.1",
         "laravel/framework": "^10.40",
@@ -20,6 +22,7 @@
         "pxlrbt/filament-activity-log": "^1.0",
         "spatie/laravel-activitylog": "^4.7",
         "spatie/laravel-permission": "^6.3",
+        "spatie/laravel-translatable": "^6.6",
         "stripe/stripe-php": "^13.8"
     },
     "require-dev": {

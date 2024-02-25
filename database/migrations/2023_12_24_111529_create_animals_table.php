@@ -51,10 +51,9 @@ return new class extends Migration
             $table->text('youtube_links')->nullable();
             $table->string('published_state')->default('Draft');
             $table->timestamp('published_at')->nullable();
-            $table->integer('publish_price')->unsigned()->default(1000);
             $table->timestamp('unpublished_at')->nullable();
             $table->string('unpublish_reason', 255)->nullable();
-            $table->integer('feature_price')->unsigned()->default(1000);
+            $table->boolean('published')->default(false);
             $table->boolean('featured')->default(false);
             $table->timestamps();
         });

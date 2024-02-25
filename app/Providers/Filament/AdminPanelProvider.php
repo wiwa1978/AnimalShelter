@@ -6,12 +6,15 @@ use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use LaraZeus\Sky\SkyPlugin;
 use Filament\Navigation\MenuItem;
+
 use Filament\Support\Colors\Color;
 use Filament\Navigation\NavigationGroup;
 use Filament\Http\Middleware\Authenticate;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
 use App\Http\Middleware\VerifyIsSuperAdmin;
+use Filament\SpatieLaravelTranslatablePlugin;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -86,9 +89,14 @@ class AdminPanelProvider extends PanelProvider
                             shouldRegisterNavigation: false, // Adds a main navigation item for the My Profile page (default = false)
                             hasAvatars: false, // Enables the avatar upload form component (default = false)
                             slug: 'my-profile' // Sets the slug for the profile page (default = 'my-profile')
-                        )
+                        ),
+
                 ]
             )
+
+            ->plugins([])
+
+
             ->authMiddleware([
                 Authenticate::class,
             ]);

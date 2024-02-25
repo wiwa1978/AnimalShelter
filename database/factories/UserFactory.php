@@ -23,6 +23,7 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
@@ -30,6 +31,9 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
             'organization' => fake()->boolean(),
+            'organization_name' => 'organization' == true ? fake()->company() :  null,
+            'website' => 'organization' == true ? fake()->url() :  null,
+
         ];
     }
 
