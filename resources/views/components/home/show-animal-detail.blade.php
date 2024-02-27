@@ -1,7 +1,7 @@
 
   <div class="mx-auto w-full px-4 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-16">
-      <h2 class="text-2xl font-bold text-gray-900">Collections</h2>
+      <h2 class="text-4xl text-rose-900 font-bold ">{{ $animal->name}}</h2>
 
       <div class="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
         @foreach($photos as $photo)
@@ -21,7 +21,7 @@
         <section aria-labelledby="applicant-information-title">
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
             <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
-              <h2 class="text-xl font-medium leading-6 text-gray-900">{{ $animal->name}}</h2>
+              <h2 class="text-xl font-medium leading-6 text-rose-900">{{ $animal->name}}</h2>
               <h2 class="text-xl font-medium leading-6 text-gray-900">{{ $user->organization == 1 ? "Organization" : "Individual" }}</h2>
             </div>
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
@@ -103,7 +103,7 @@
       <div class="space-y-6 ">
         <section  class="lg:col-span-1 lg:col-start-3">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-            <h2  class="text-lg font-medium text-gray-900">Current Location</h2>
+            <h2  class="text-lg font-medium text-rose-900">Current Location</h2>
 
             <!-- Activity Feed -->
             <div class="mt-6 flow-root">
@@ -141,7 +141,7 @@
         <!-- Medical Information -->
         <section aria-labelledby="timeline-title" class="lg:col-span-1 lg:col-start-3">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-            <h2 id="timeline-title" class="text-lg font-medium text-gray-900">Medical Information</h2>
+            <h2 id="timeline-title" class="text-lg font-medium text-rose-900">Medical Information</h2>
 
             <!-- Activity Feed -->
             <div class="mt-6 flow-root">
@@ -274,7 +274,7 @@
          <!-- Social Information -->
         <section aria-labelledby="timeline-title" class="lg:col-span-1 lg:col-start-3 pb-16">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-            <h2 id="timeline-title" class="text-lg font-medium text-gray-900">Social Information</h2>
+            <h2 id="timeline-title" class="text-lg font-medium text-rose-900">Social Information</h2>
 
             <!-- Social Information -->
             <div class="mt-6 flow-root">

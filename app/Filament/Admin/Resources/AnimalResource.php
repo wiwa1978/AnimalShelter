@@ -149,7 +149,7 @@ class AnimalResource extends Resource
                             ->columnSpan(3),
 
 
-                        Section::make(__('animals.publish_info'))
+                        Section::make(__('animals.publish_info'))->visible(fn ($context): int => $context === 'edit')
                             ->schema([
                                 Toggle::make('featured')
                                     ->required(),
