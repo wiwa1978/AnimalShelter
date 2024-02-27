@@ -15,20 +15,20 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $user1 = User::create([
-            'name' => 'Wim-org1',
-            'email' => 'wim@user.com',
+            'name' => 'Marlinda-individual',
+            'email' => 'marlinda-individual@test.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('Wauters1978'),
+            'password' => Hash::make('Welcome@1234'),
             'organization' => false,
             'organization_name' => null,
             'website' => null,
         ]);
 
         $user2 = User::create([
-            'name' => 'Lore-org1',
-            'email' => 'lore@user.com',
+            'name' => 'Wim-individual',
+            'email' => 'wim-individual@test.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('Wauters1978'),
+            'password' => Hash::make('Welcome@1234'),
             'organization' => false,
             'organization_name' => null,
             'website' => 'organization' == true ? fake()->url() :  null,
@@ -36,10 +36,10 @@ class UserSeeder extends Seeder
 
 
         $user3 = User::create([
-            'name' => 'Lise-org1',
-            'email' => 'lise@user.com',
+            'name' => 'Marlinda-organisatie',
+            'email' => 'marlinda-organisatie@test.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('Wauters1978'),
+            'password' => Hash::make('Welcome@1234'),
             'organization' => true,
             'organization_name' => fake()->company(),
             'website' => 'organization' == true ? fake()->url() :  null,
@@ -47,27 +47,14 @@ class UserSeeder extends Seeder
 
 
         $user4 = User::create([
-            'name' => 'Iris-org2',
-            'email' => 'iris@user.com',
+            'name' => 'Wim-organisatie',
+            'email' => 'wim-organisatie@test.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('Wauters1978'),
+            'password' => Hash::make('Welcome@1234'),
             'organization' => true,
             'organization_name' => fake()->company(),
             'website' => 'organization' == true ? fake()->url() :  null,
         ]);
-
-
-        $user5 = User::create([
-            'name' => 'Charlotte-org3',
-            'email' => 'charlotte@user.com',
-            'email_verified_at' => now(),
-            'password' => Hash::make('Wauters1978'),
-            'organization' => false,
-            'organization_name' => null,
-            'website' => null,
-        ]);
-
-
 
         User::factory()
             ->count(20)
