@@ -8,7 +8,7 @@
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
             <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-            <a href={{ route('home') }} wire:navigate class="rounded-md bg-rose-900 px-3 py-2 text-xl font-medium text-white">Home123</a>
+            <a href={{ route('home') }} wire:navigate class="rounded-md bg-rose-900 px-3 py-2 text-xl font-medium text-white">Home</a>
             <a href={{ route('show-dogs') }} wire:navigate class="rounded-md px-3 py-2 text-xl font-medium text-rose-900 hover:bg-gray-700 hover:text-white"> {{ ucfirst(__('animals_front.dogs'))}}</a>
             <a href={{ route('show-cats') }} wire:navigate class="rounded-md px-3 py-2 text-xl font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.cats'))}}</a>
             <a href={{ route('show-others') }} wire:navigate class="rounded-md px-3 py-2 text-xl font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.others'))}}</a>
