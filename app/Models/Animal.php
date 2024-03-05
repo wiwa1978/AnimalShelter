@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Enums\AnimalType;
 use App\Enums\AnimalStatus;
+use App\Enums\ApprovalState;
 use App\Enums\AnimalLocation;
 use App\Enums\AnimalPublishState;
 use App\Models\Traits\Multitenantable;
@@ -17,16 +18,18 @@ class Animal extends Model
     use HasFactory, Multitenantable;
 
     protected $fillable = [
-        'name', 'user_id', 'slug', 'featured', 'published_state', 'published_at', 'publish_price', 'feature_price', 'animal_type', 'location', 'age', 'gender', 'status', 'size', 'description', 'breed', 'reason_adoption', 'sterilized', 'chipped', 'passport', 'vaccinated', 'rabies', 'medicins', 'special_food', 'behavioural_problem', 'kids_friendly', 'cats_friendly', 'dogs_friendly', 'environment',
-        'affectionate', 'well_behaved', 'playful', 'everybody_friendly', 'environment', 'photo_main', 'photos_additional', 'videos', 'youtube_links', 'unpublish_reason', 'unpublish_at'
+        'name', 'user_id', 'slug', 'featured', 'published_state', 'published_at', 'approval_state', 'publish_price', 'feature_price', 'animal_type', 'location', 'age', 'gender', 'status', 'size', 'description', 'breed', 'reason_adoption', 'sterilized', 'chipped', 'passport', 'vaccinated', 'rabies', 'medicins', 'special_food', 'behavioural_problem', 'kids_friendly_6y', 'kids_friendly_14y', 'cats_friendly', 'dogs_friendly', 'environment',
+        'affectionate', 'well_behaved', 'playful', 'everybody_friendly', 'needs_garden', 'potty_trained', 'car_friendly', 'home_alone', 'knows_commands','experience_required', 'environment', 'photo_main', 'photos_additional', 'videos', 'youtube_links', 'unpublish_reason', 'unpublish_at'
 
     ];
+
 
     protected $casts = [
         'animal_type'       =>  AnimalType::class,
         'location'          =>  AnimalLocation::class,
         'status'            =>  AnimalStatus::class,
         'publish_state'     =>  AnimalPublishState::class,
+        'approval_state'    =>  ApprovalState::class,
         'videos'            =>  'array',
         'photos_additional' =>  'array',
         'youtube_links'     =>  'array',

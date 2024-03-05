@@ -18,7 +18,6 @@ use Filament\Resources\Resource;
 use App\Enums\AnimalPublishState;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
-
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Section;
@@ -199,7 +198,9 @@ class AnimalResource extends Resource
                                     ->required(),
                                 Toggle::make('behavioural_problem')
                                     ->required(),
-                                Toggle::make('kids_friendly')
+                                Toggle::make('kids_friendly_6y')
+                                    ->required(),
+                                Toggle::make('kids_friendly_14y')
                                     ->required(),
                                 Toggle::make('cats_friendly')
                                     ->required(),
@@ -214,6 +215,19 @@ class AnimalResource extends Resource
                                     ->required(),
                                 Toggle::make('affectionate')
                                     ->required(),
+                                Toggle::make('needs_garden')
+                                    ->required(),
+                                Toggle::make('potty_trained')
+                                    ->required(),
+                                Toggle::make('car_friendly')
+                                    ->required(),
+                                Toggle::make('home_alone')
+                                    ->required(),
+                                Toggle::make('knows_commands')
+                                    ->required(),
+                                    Toggle::make('experience_required')
+                                    ->required(),
+
 
                                 MarkdownEditor::make('environment')
                                     ->label('Describe the environment the animal would ideally have (e.g garden, no children, etc...')
@@ -272,10 +286,11 @@ class AnimalResource extends Resource
                 TextColumn::make('name')
                     ->sortable()
                     ->searchable(isIndividual: false, isGlobal: true),
-                IconColumn::make('featured')
 
+                IconColumn::make('featured')
                     ->sortable()
                     ->boolean(),
+
                 TextColumn::make('published_state')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -284,6 +299,18 @@ class AnimalResource extends Resource
                     })
                     ->sortable()
                     ->searchable(),
+
+                TextColumn::make('approval_state')
+                    ->badge()
+                    // ->color(fn (string $state): string => match ($state) {
+                    //     'NotApproved' => 'danger',
+                    //     'InReview' => 'warning',
+                    //     'Approved' => 'success'
+                    // })
+                    ->sortable()
+                    ->searchable(),
+
+
                 TextColumn::make('published_at')
                     ->dateTime('d-m-Y H:i')
                     ->placeholder((' --- '))

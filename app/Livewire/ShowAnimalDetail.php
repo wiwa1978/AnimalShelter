@@ -2,14 +2,17 @@
 
 namespace App\Livewire;
 
-use Livewire\Attributes\Layout;
-use App\Models\Animal;
 use App\Models\User;
+use App\Models\Animal;
 use Livewire\Component;
+use Livewire\Attributes\Layout;
+use App\Livewire\AnimalsByOrganization;
+
 
 #[Layout('layouts.app')]
 class showAnimalDetail extends Component
 {
+
 
     public $animal;
     public $photos;
@@ -24,6 +27,7 @@ class showAnimalDetail extends Component
 
 
         $this->photos = $this->animal->photos_additional;
+
         $this->youtube_links = $this->animal->youtube_links;
 
         //$this->youtube_links = explode(' ', $this->youtube_links);
@@ -34,4 +38,15 @@ class showAnimalDetail extends Component
 
         return view('components.home.show-animal-detail');
     }
+
+
+    public function viewAnimals()
+    {
+
+        $this->dispatch('view-animals')->to(AnimalsByOrganization::class);
+        
+    }
+
+
+
 }

@@ -2,13 +2,13 @@
   <div class="mx-auto w-full m-16 px-6 lg:px-8">
     <div class="mx-auto w-full lg:mx-0 text-center">
       <h2 class="text-3xl font-bold tracking-tight text-rose-900 sm:text-4xl">
-         @if($type == 'dog')
+         @if($animal_type == 'dog')
             {{ __('animals_front.adopt_dog')}}
          @endif
-         @if($type == 'cat')
+         @if($animal_type == 'cat')
             {{ __('animals_front.adopt_cat')}}
          @endif
-         @if($type == 'other')
+         @if($animal_type == 'other')
             {{ __('animals_front.adopt_other')}}
          @endif
 
@@ -20,13 +20,13 @@
 
 
     <h2 class="text-2xl font-bold text-rose-900">
-         @if($type == 'dog')
+         @if($animal_type == 'dog')
             {{ __('animals_front.featured_dogs')}}
          @endif
-         @if($type == 'cat')
+         @if($animal_type == 'cat')
             {{ __('animals_front.featured_cats')}}
          @endif
-         @if($type == 'other')
+         @if($animal_type == 'other')
             {{ __('animals_front.featured_others')}}
          @endif
     </h2>
@@ -37,13 +37,13 @@
     </ul>
 
     <h2 class="mt-6 text-2xl font-bold text-rose-900">
-         @if($type == 'dog')
+         @if($animal_type == 'dog')
             {{ __('animals_front.all_dogs')}}
          @endif
-         @if($type == 'cat')
+         @if($animal_type == 'cat')
             {{ __('animals_front.all_cats')}}
          @endif
-         @if($type == 'other')
+         @if($animal_type == 'other')
             {{ __('animals_front.all_others')}}
          @endif
 

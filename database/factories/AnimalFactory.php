@@ -9,6 +9,7 @@ use App\Enums\AnimalGender;
 use App\Enums\AnimalStatus;
 use Illuminate\Support\Str;
 use App\Enums\AnimalLocation;
+use App\Enums\ApprovalState;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -33,6 +34,7 @@ class AnimalFactory extends Factory
             'slug'  => fake()->slug(3),
             'featured' => fake()->boolean(10),
             'published_state' => $published_state,
+            'approval_state' => fake()->randomElement(ApprovalState::cases()),
             'published_at' => $published_state == 'Published' ? fake()->dateTimeBetween('-1 Week', '-1 Day') :  null,
             'published' => $published_state == 'Published' ? True :  False,
             'user_id' => User::query()->inRandomOrder()->first()?->id ?? User::factory(),
@@ -42,7 +44,7 @@ class AnimalFactory extends Factory
             'gender' => fake()->randomElement(AnimalGender::cases()),
             'status' => fake()->randomElement(AnimalStatus::cases()),
             'size' => fake()->randomElement(AnimalSize::cases()),
-            'description' => fake()->paragraphs(fake()->numberBetween(10, 100), true),
+            'description' => fake()->paragraphs(fake()->numberBetween(4, 8), true),
             'breed' => fake()->words(2, asText: true),
             'reason_adoption' => fake()->words(2, asText: true),
             'sterilized' => fake()->boolean(),
@@ -53,14 +55,21 @@ class AnimalFactory extends Factory
             'medicins' => fake()->boolean(),
             'special_food' => fake()->boolean(),
             'behavioural_problem' => fake()->boolean(),
-            'kids_friendly' => fake()->boolean(),
+            'kids_friendly_6y' => fake()->boolean(),
+            'kids_friendly_14y' => fake()->boolean(),
             'cats_friendly' => fake()->boolean(),
             'dogs_friendly' => fake()->boolean(),
-            'environment' => fake()->paragraphs(fake()->numberBetween(2, 20), true),
+            'environment' => fake()->paragraphs(fake()->numberBetween(4, 8), true),
             'well_behaved' => fake()->boolean(),
             'playful' => fake()->boolean(),
             'everybody_friendly' => fake()->boolean(),
             'affectionate' => fake()->randomElement([true, false]),
+            'needs_garden' => fake()->boolean(),
+            'potty_trained' => fake()->boolean(),
+            'car_friendly' => fake()->boolean(),
+            'home_alone' => fake()->boolean(),
+            'knows_commands' => fake()->boolean(),
+            'experience_required' => fake()->boolean(),
             'photo_featured' => $faker->imageUrl(width: 800, height: 600, randomize: false, id: fake()->numberBetween(1, 100)),
             'photos_additional' => [
                 $faker->imageUrl(width: 800, height: 600, randomize: false, id: fake()->numberBetween(1, 100)), $faker->imageUrl(width: 800, height: 600, randomize: false, id: fake()->numberBetween(1, 100)), $faker->imageUrl(width: 800, height: 600, randomize: false, id: fake()->numberBetween(1, 100))

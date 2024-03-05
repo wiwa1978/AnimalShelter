@@ -294,6 +294,19 @@ class AnimalResource extends Resource
                     })
                     ->sortable()
                     ->searchable(),
+
+
+                TextColumn::make('approval_state')
+                    ->badge()
+                    // ->color(fn (string $state): string => match ($state) {
+                    //     'NotApproved' => 'danger',
+                    //     'InReview' => 'warning',
+                    //     'Approved' => 'success'
+                    // })
+                    ->sortable()
+                    ->searchable(),
+
+
                 TextColumn::make('published_at')
                     ->dateTime('d-m-Y H:i')
                     ->placeholder((' --- '))

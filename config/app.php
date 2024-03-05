@@ -171,6 +171,7 @@ return [
         App\Providers\Filament\UsrPanelProvider::class,
         App\Providers\Filament\OrgPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
     ])->toArray(),
 
