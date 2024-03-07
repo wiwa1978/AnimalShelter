@@ -22,4 +22,5 @@ return [
     'all_others' => 'Alle dieren',
 
     'medical_info' => 'Medische informatie',
+    'contact_info' => 'Contact gegevens',
 ];

@@ -14,7 +14,7 @@
     </h2>
     <ul role="list" class="mx-auto mt-6 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4">
         @foreach($animals_featured as $animal)
-            @include('components.home.card-animal', ['animal' => $animal])
+            @include('components.animals.animal-card', ['animal' => $animal])
         @endforeach
     </ul>
 
@@ -25,7 +25,7 @@
     <ul role="list" class="mx-auto mt-6 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4">
 
             @foreach($animals_not_featured as $animal)
-                @include('components.home.card-animal', ['animal' => $animal])
+                @include('components.animals.animal-card', ['animal' => $animal])
             @endforeach
 
 

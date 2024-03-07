@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Animals;
 
 use App\Models\User;
 use App\Models\Animal;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
-use App\Livewire\AnimalsByOrganization;
 
 
 #[Layout('layouts.app')]
-class showAnimalDetail extends Component
+class AnimalDetail extends Component
 {
 
 
@@ -36,17 +35,13 @@ class showAnimalDetail extends Component
     public function render()
     {
 
-        return view('components.home.show-animal-detail');
+        return view('components.animals.animal-detail');
     }
 
-
-    public function viewAnimals()
+    public function viewAnimalsByOrganization($userId)
     {
-
-        $this->dispatch('view-animals')->to(AnimalsByOrganization::class);
-        
+    
+        $this->redirect(route('show-animal-organization', ['userId' => $userId]));
     }
-
-
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Animals;
 
 use App\Models\Animal;
 use Livewire\Component;
@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 use App\Livewire\ShowAnimalDetail;
 use Illuminate\Support\Facades\Route;
 
-class ShowAnimals extends Component
+class Animals extends Component
 {
     use WithPagination;
 
@@ -43,7 +43,7 @@ class ShowAnimals extends Component
 
     public function render()
     {
-        return view('components.home.animals');
+        return view('components.animals.animals');
 
         // return view('components.home.animals',  [
         //     'animals_featured=' => Animal::dogs()->featured()->paginate(5),

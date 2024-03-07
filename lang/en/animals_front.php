@@ -21,4 +21,5 @@ return [
     'all_others' => 'All animals',
 
     'medical_info' => 'Medical info',
+    'contact_info' => 'Contact info',
 ];
