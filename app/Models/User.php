@@ -49,6 +49,25 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function canAccessPanel(Panel $panel): bool
+    {
+        if ($panel->getId() === 'admin') {
+            return $this->isSuperAdmin();
+        }
+
+        if ($panel->getId() === 'app-ind') {
+            return true;
+        }
+
+        if ($panel->getId() === 'app-org') {
+            return $this->isRegularUser() && $this->isOrganization();
+        }
+
+        //return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
+        //return true;
+    }
+
+
     public function animals(): HasMany
     {
         return $this->hasMany(Animal::class);

@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'organization' => false,
             'organization_name' => null,
             'website' => null,
-        ]);
+        ])->assignRole('user');
 
         $user2 = User::create([
             'name' => 'Wim-individual',
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             'organization' => false,
             'organization_name' => null,
             'website' => 'organization' == true ? fake()->url() :  null,
-        ]);
+        ])->assignRole('user');
 
 
         $user3 = User::create([
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
             'organization' => true,
             'organization_name' => fake()->company(),
             'website' => 'organization' == true ? fake()->url() :  null,
-        ]);
+        ])->assignRole('user');
 
 
         $user4 = User::create([
@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
             'organization' => true,
             'organization_name' => fake()->company(),
             'website' => 'organization' == true ? fake()->url() :  null,
-        ]);
+        ])->assignRole('user');
 
         User::factory()
             ->count(20)

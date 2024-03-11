@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Support\Arr;
+use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Arr;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        User::observe(UserObserver::class);
 
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {
             $switch

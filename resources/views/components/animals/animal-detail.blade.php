@@ -1,7 +1,9 @@
 
 <div class="mx-auto w-full px-4 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-16">
-      <h2 class="text-4xl text-rose-900 font-bold ">{{ $animal->name}}</h2>
+      <h2 class="text-4xl text-rose-900 font-bold ">{{ $animal->name}} </h2>
+
+      
 
       <div class="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
         @foreach($photos as $photo)
@@ -25,8 +27,17 @@
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
             <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
               <h2 class="text-xl font-medium leading-6 text-rose-900">{{ $animal->name}}</h2>
-              <h2 class="text-xl font-medium leading-6 text-gray-900">{{ $user->organization == 1 ? "Organization" : "Individual" }}</h2>
+
+              <div class="">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-rose-900 w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                    </svg>
+                </div>
+
+                <h2 class="text-xl font-medium leading-6 text-gray-900">{{ $user->organization == 1 ? "Organization" : "Individual" }}</h2>
             </div>
+
+            
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                 <div class="sm:col-span-1">
@@ -45,6 +56,7 @@
                   <dt class="text-sm font-medium text-gray-500">Breed:</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->breed}}</dd>
                 </div>
+         
               </dl>
             </div>
           </div>
@@ -113,9 +125,9 @@
         <section  class=" lg:col-span-1 lg:col-start-3">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 text-center">
                 <h2 class="text-lg font-bold text-rose-900 text-center">{{$animal->name}}</h2>
-                <h1 class="pt-6 text-lg font-medium text-gray-900 text-center">verblijft momenteel bij</h1>
                 
                 @if ($user->isOrganization() )
+                  <h1 class="pt-6 text-lg font-medium text-gray-900 text-center">verblijft momenteel al 98 dagen bij</h1>
                   <h1 class="pt-6 text-lg font-medium text-indigo-900">Stichting {{$user->organization_name}}</h1>
                 @else
                   <h1 class="pt-6 text-lg font-medium text-indigo-900">{{$user->name}}</h1>
@@ -129,15 +141,15 @@
             <div class="grid grid-cols-2 gap-3 border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 text-center">
                 <div>
 
-                    <button type="button" class="inline-flex items-center gap-x-2 rounded-md bg-rose-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    <button type="button" class="w-44 inline-flex items-center gap-x-2 rounded-md bg-rose-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                         </svg>
-                        Contacteer ons
+                        Contacteer<br>ons
                     </button>
                 </div>
                 <div>
-                    <button wire:click="viewAnimalsByOrganization({{ $animal->user_id }})" type="button" class="inline-flex items-center gap-x-2 rounded-md bg-indigo-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                    <button wire:click="viewAnimalsByOrganization({{ $animal->user_id }})" type="button" class="w-44 inline-flex items-center gap-x-2 rounded-md bg-indigo-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />

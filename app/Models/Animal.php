@@ -85,4 +85,18 @@ class Animal extends Model
         return $query->where('featured', false);
     }
 
+    public function scopeBelongsToIndividual($query)
+    {
+        return $query->whereHas('user', function ($query) {
+            $query->where('organization', false);
+        });
+    }
+    
+    public function scopeBelongsToOrganization($query)
+    {
+        return $query->whereHas('user', function ($query) {
+            $query->where('organization', true);
+        });
+    }
+
 }

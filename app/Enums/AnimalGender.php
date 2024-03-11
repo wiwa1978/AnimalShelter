@@ -6,14 +6,14 @@ namespace App\Enums;
 
 enum AnimalGender: string 
 {
-    case male = 'Male';
-    case female = 'Female';
+    case male = 'Mannelijk';
+    case female = 'Vrouwelijk';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::male => 'Male',
-            self::female => 'Female',
+            self::male => 'Mannelijk',
+            self::female => 'Vrouwelijk',
         };
     }
 }

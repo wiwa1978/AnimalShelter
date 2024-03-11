@@ -42,7 +42,7 @@ class AnimalFactory extends Factory
             'user_id' => User::query()->inRandomOrder()->first()?->id ?? User::factory(),
             'animal_type' => $type,
             'location' => fake()->randomElement(AnimalLocation::cases()),
-            'age' => '1-2 years',
+            'age' => fake()->randomElement(['1-2 jaar', '2-3 jaar', '3-4 jaar', '5-6 jaar'] ),
             'gender' => fake()->randomElement(AnimalGender::cases()),
             'status' => fake()->randomElement(AnimalStatus::cases()),
             'size' => fake()->randomElement(AnimalSize::cases()),

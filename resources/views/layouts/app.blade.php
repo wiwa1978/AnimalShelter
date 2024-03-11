@@ -28,8 +28,12 @@
 
             <!-- Page Content -->
             <main>
-                @include('layouts.navigation')
-                {{ $slot }}
+                @if(request()->routeIs('home'))
+                    {{ $slot }}
+                @else
+                    @include('layouts.navigation')
+                    {{ $slot }}
+                @endif
             </main>
         </div>
         
