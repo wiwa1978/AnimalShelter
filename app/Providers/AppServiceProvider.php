@@ -7,7 +7,10 @@ use Illuminate\Support\Arr;
 use App\Observers\UserObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Builder;
+
+use App\Http\Responses\CustomLoginResponse;
 use BezhanSalleh\FilamentLanguageSwitch\LanguageSwitch;
+use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        $this->app->singleton(
+            LoginResponse::class, CustomLoginResponse::class
+        );
+
         if ($this->app->environment('local')) {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }

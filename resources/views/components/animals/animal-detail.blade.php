@@ -27,33 +27,29 @@
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
             <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
               <h2 class="text-xl font-medium leading-6 text-rose-900">{{ $animal->name}}</h2>
-
-              <div class="">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-rose-900 w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
-                    </svg>
-                </div>
-
-                <h2 class="text-xl font-medium leading-6 text-gray-900">{{ $user->organization == 1 ? "Organization" : "Individual" }}</h2>
+                
+                <livewire:animals.favorite-button :animal="$animal" :key="$animal->id"/>
+               
+                <h2 class="text-sm font-medium leading-6 text-indigo-900">{{ $user->organization == 1 ? "Organization" : "Individual" }}</h2>
             </div>
 
             
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">Country:</dt>
+                  <dt class="text-sm font-medium text-indigo-900">Country:</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->location}}</dd>
                 </div>
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">Age:</dt>
+                  <dt class="text-sm font-medium text-indigo-900">Age:</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->age}}</dd>
                 </div>
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">Gender:</dt>
+                  <dt class="text-sm font-medium text-indigo-900">Gender:</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->gender}}</dd>
                 </div>
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-gray-500">Breed:</dt>
+                  <dt class="text-sm font-medium text-indigo-900">Breed:</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->breed}}</dd>
                 </div>
          
@@ -67,7 +63,7 @@
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                 <div class="sm:col-span-4">
-                  <dt class="text-sm font-medium text-gray-500">Description</dt>
+                  <dt class="text-sm font-medium text-indigo-900">Description</dt>
                     <div class="prose mt-1 text-sm texte-gray-900">
                         <x-markdown>
                             {{ $animal->description }}
@@ -86,7 +82,7 @@
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                 <div class="sm:col-span-4">
-                  <dt class="text-sm font-medium text-gray-500">Environment</dt>
+                  <dt class="text-sm font-medium text-indigo-900">Environment</dt>
                   <dd class="mt-1 text-sm texte-gray-900">{{ $animal->environment }}</dd>
                 </div>
               </dl>

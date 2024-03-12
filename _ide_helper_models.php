@@ -66,6 +66,8 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \App\Enums\AnimalPublishState $publish_state
  * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Animal belongsToIndividual()
+ * @method static \Illuminate\Database\Eloquent\Builder|Animal belongsToOrganization()
  * @method static \Illuminate\Database\Eloquent\Builder|Animal cats()
  * @method static \Illuminate\Database\Eloquent\Builder|Animal dogs()
  * @method static \Illuminate\Database\Eloquent\Builder|Animal draft()
@@ -94,6 +96,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Animal whereExperienceRequired($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Animal whereFeatured($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Animal whereGender($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Animal whereHasMark(\Maize\Markable\Mark $mark, \Illuminate\Database\Eloquent\Model $user, ?string $value = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Animal whereHomeAlone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Animal whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Animal whereKidsFriendly14y($value)
@@ -149,13 +152,19 @@ namespace App\Models{
  * @property-read int|null $animals_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Permission> $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
+ * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
  * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
  * @method static \Illuminate\Database\Eloquent\Builder|User regularUsers()
+ * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null, $without = false)
  * @method static \Illuminate\Database\Eloquent\Builder|User superAdmins()
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
@@ -168,6 +177,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereWebsite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User withoutPermission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|User withoutRole($roles, $guard = null)
  */
 	class User extends \Eloquent {}
 }

@@ -6,8 +6,10 @@ use App\Models\User;
 use App\Enums\AnimalType;
 use App\Enums\AnimalStatus;
 use App\Enums\ApprovalState;
+use Maize\Markable\Markable;
 use App\Enums\AnimalLocation;
 use App\Enums\AnimalPublishState;
+use Maize\Markable\Models\Favorite;
 use App\Models\Traits\Multitenantable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,12 +17,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Animal extends Model
 {
-    use HasFactory, Multitenantable;
+    use HasFactory, Multitenantable, Markable;
 
     protected $fillable = [
         'name', 'user_id', 'slug', 'featured', 'published_state', 'published_at', 'approval_state', 'publish_price', 'feature_price', 'animal_type', 'location', 'age', 'gender', 'status', 'size', 'description', 'breed', 'reason_adoption', 'sterilized', 'chipped', 'passport', 'vaccinated', 'rabies', 'medicins', 'special_food', 'behavioural_problem', 'kids_friendly_6y', 'kids_friendly_14y', 'cats_friendly', 'dogs_friendly', 'environment',
         'affectionate', 'well_behaved', 'playful', 'everybody_friendly', 'needs_garden', 'potty_trained', 'car_friendly', 'home_alone', 'knows_commands','experience_required', 'environment', 'photo_main', 'photos_additional', 'videos', 'youtube_links', 'unpublish_reason', 'unpublish_at'
 
+    ];
+
+    protected static $marks = [
+        Favorite::class,
     ];
 
     protected $casts = [

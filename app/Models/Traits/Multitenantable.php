@@ -2,6 +2,7 @@
 
 namespace App\Models\Traits;
 
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -14,7 +15,9 @@ trait Multitenantable
 
         $user = Auth::user();
 
-        if (auth()->check()) {
+        
+        if (auth()->check() && Filament::getCurrentPanel()->getId() === 'app-ind' ) {
+
             static::creating(function ($model) {
                 $model->user_id = auth()->id();
             });
@@ -25,5 +28,7 @@ trait Multitenantable
                 });
             }
         }
+     
+   
     }
 }
