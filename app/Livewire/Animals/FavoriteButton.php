@@ -10,11 +10,22 @@ use Illuminate\Support\Facades\Auth;
 class FavoriteButton extends Component
 {
     public $animal;
-    public bool $is_favorite;
+    public bool $is_favorite=false;
 
     public function mount(Animal $animal)
     {
+
         $this->is_favorite = Favorite::has($animal, Auth::user());
+
+        //$this->is_favorite = Favorite::has($animal, Auth::user());
+        // if (Auth::user()!==null) {
+        //     $this->is_favorite = Favorite::has($animal, Auth::user());
+        // }
+        // else {
+        //     return true;
+        // }
+      
+       
     }
 
     public function toggleFav($animal)

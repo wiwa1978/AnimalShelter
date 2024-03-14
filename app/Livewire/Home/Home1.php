@@ -14,6 +14,7 @@ class Home1 extends Component
 {
     use WithPagination;
 
+    public $animals_count;
     public $searchTerm;
     public $searchAnimalType='None';
     public $searchAnimalLocation='None';
@@ -21,7 +22,7 @@ class Home1 extends Component
     public $searchAnimalGender='None';
     public $searchAnimalOwner='None';
 
-    public $animaltypes = ['Dog', 'Cat', 'Other'];
+    public $animaltypes = ['Hond', 'Kat', 'Andere'];
 
     public $animallocations = ['België', 'Nederland', 'Duitsland', 'Albanië'];
 
@@ -32,26 +33,39 @@ class Home1 extends Component
     public $animalowners = ['Particulier', 'Stichting'];
 
 
+    // public function updating($key): void
+    // {
+    //     if ($key === 'searchTerm' || $key === 'searchAnimalType' || $key === 'searchAnimalLocation' || $key === 'searchAnimalAge' || $key === 'searchAnimalGender' || $key === 'searchAnimalOwner') {
+    //         $this->resetPage();
+    //     }
+    // }
+
+    public function mount()
+    {
+        $this->searchTerm = '';
+        $this->searchAnimalType = 'None';
+        $this->searchAnimalLocation = 'None';
+        $this->searchAnimalAge = 'None';
+        $this->searchAnimalGender = 'None';
+        $this->searchAnimalOwner = 'None';
+
+        $this->animals_count = Animal::all()->count();
+    }
+
+    public function resetFilter()
+    {
+
+        $this->searchTerm = '';
+        $this->searchAnimalType = 'None';
+        $this->searchAnimalLocation = 'None';
+        $this->searchAnimalAge = 'None';
+        $this->searchAnimalGender = 'None';
+        $this->searchAnimalOwner = 'None';
+    }
+
     public function render()
     {
-        //dd($this->animaltypes);
-        //$animals = Animal::whereLike('name', $this->search ?? '')->get();
-        //dd($animals);
-        // return view('components.home.home1', [
-        //     'animals_featured' => Animal::featured()->paginate(4),
-        //     'animals_not_featured' => Animal::notFeatured()->paginate(12),
-        // ]);
-        
-      
-        // return view('components.home.home1', [
-        //     'animals_featured' => Animal::featured(),
-        //     'animals_not_featured' => Animal::whereLike('name', $this->searchTerm ?? '')
-        //         ->when($this->animaltypes, function($query, $animaltypes) {
-        //             return $query->whereIn('animal_type', $animaltypes);
-        //         })
-        //         ->get(),
-        //     //'animals_not_featured' => Animal::search('name', $this->searchTerm ?? '')->paginate(12)
-        // ]);
+
         $animals_count = Animal::all()->count();
 
         $animals = Animal::notFeatured()

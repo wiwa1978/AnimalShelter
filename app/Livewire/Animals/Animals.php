@@ -60,9 +60,10 @@ class Animals extends Component
     {
         return view('components.animals.animals');
 
-        // return view('components.home.animals',  [
-        //     'animals_featured=' => Animal::dogs()->featured()->paginate(5),
-        //     'animals_not_featured=' => Animal::dogs()->notFeatured()->paginate(5),
+        // return view('components.animals.animals',  [
+        //     'animals_all' => Animal::dogs()->get(),
+        //     'animals_featured' => Animal::dogs()->featured()->paginate(5),
+        //     'animals_not_featured' => Animal::dogs()->notFeatured()->paginate(5),
         //     'animal_type' => "dog"
         // ]);
     }

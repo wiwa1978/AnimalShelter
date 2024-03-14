@@ -7,7 +7,7 @@ enum AnimalLocation: string
 {
     case Albania = 'Albanië';
     case Netherlands = 'Nederland';
-    case Germany = 'Duitland';
+    case Germany = 'Duitsland';
     case Belgium = 'België';
 
     public function getLabel(): ?string
@@ -15,7 +15,7 @@ enum AnimalLocation: string
         return match ($this) {
             self::Albania => 'Albanië',
             self::Netherlands => 'Nederland',
-            self::Germany => 'Duitland',
+            self::Germany => 'Duitsland',
             self::Belgium => 'België',
         };
     }

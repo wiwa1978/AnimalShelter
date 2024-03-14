@@ -53,6 +53,9 @@
                           @endforeach
                     </select>
               </div>
+              <div>
+              <button type="button" wire:click="resetFilter" class="ml-2 inline-flex bg-rose-900 text-white rounded-md px-3 py-2 text-xl font-medium hover:bg-indigo-900 hover:text-white">Reset</button>
+              </div>
             </div>
           </div>
         </div>
@@ -61,7 +64,7 @@
     </div>
 
     <h2 class="pt-12 text-2xl font-bold text-indigo-900">
-        Alle dieren ({{ $animals_count}})
+        Alle dieren <span wire:model.live="animals_count"=>({{ $animals_count}})</span> 
     </h2>
 
     <ul role="list" class="mx-auto mt-6 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4">

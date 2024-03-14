@@ -6,16 +6,16 @@ namespace App\Enums;
 
 enum AnimalType: string 
 {
-    case Dog = 'Dog';
-    case Cat = 'Cat';
-    case Other = 'Other';
+    case Dog = 'Hond';
+    case Cat = 'Kat';
+    case Other = 'Andere';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Dog => 'Dog',
-            self::Cat => 'Cat',
-            self::Other => 'Other',
+            self::Dog => 'Hond',
+            self::Cat => 'Kat',
+            self::Other => 'Andere',
         };
     }
 }

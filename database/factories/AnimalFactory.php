@@ -29,7 +29,7 @@ class AnimalFactory extends Factory
 
         // return a string that contains a url like 'https://picsum.photos/800/600/'
 
-        $type = fake()->randomElement(['Dog', 'Cat', 'Other']);
+        $type = fake()->randomElement(['Hond', 'Kat', 'Andere']);
 
         return [
             'name'  => $type . '-' . fake()->numberBetween(1, 50),

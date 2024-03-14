@@ -27,9 +27,10 @@
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
             <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
               <h2 class="text-xl font-medium leading-6 text-rose-900">{{ $animal->name}}</h2>
-                
+                @auth
                 <livewire:animals.favorite-button :animal="$animal" :key="$animal->id"/>
-               
+                @endauth
+                
                 <h2 class="text-sm font-medium leading-6 text-indigo-900">{{ $user->organization == 1 ? "Organization" : "Individual" }}</h2>
             </div>
 
@@ -62,9 +63,9 @@
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
-                <div class="sm:col-span-4">
+                <div class="col-span-2 sm:col-span-4">
                   <dt class="text-sm font-medium text-indigo-900">Description</dt>
-                    <div class="prose mt-1 text-sm texte-gray-900">
+                    <div class="prose mt-1 text-sm text-gray-900">
                         <x-markdown>
                             {{ $animal->description }}
                         </x-markdown>
@@ -81,7 +82,7 @@
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
-                <div class="sm:col-span-4">
+                <div class="col-span-2 sm:col-span-4">
                   <dt class="text-sm font-medium text-indigo-900">Environment</dt>
                   <dd class="mt-1 text-sm texte-gray-900">{{ $animal->environment }}</dd>
                 </div>
