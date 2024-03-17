@@ -24,3 +24,5 @@ Route::get('/login', function () {
 Route::get('/register', function () {
     return redirect(route('filament.app.auth.register'));
 })->name('register');
+
+#test
