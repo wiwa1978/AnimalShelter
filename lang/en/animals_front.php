@@ -5,7 +5,7 @@
 return [
     'dog' => 'dog',
     'dogs' => 'dogs',
-    'adopt_dog' => 'Adopt a dog',
+    'adopt_dog' => 'Adopt a dog!!',
     'featured_dogs' => 'Featured dogs',
     'all_dogs' => 'All dogs',
 

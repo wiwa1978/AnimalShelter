@@ -1,6 +1,6 @@
 <?php
 
-// lang/en/messages.php
+// lang/nl/messages.php
 
 return [
     'dog' => 'hond',
@@ -15,7 +15,7 @@ return [
     'featured_cats' => 'Katten in de kijker',
     'all_cats' => 'Alle katten',
 
-    'other' => 'andert',
+    'other' => 'andere',
     'others' => 'ander huisdier',
     'adopt_other' => 'Adopteer een ander dier',
     'featured_others' => 'Dieren in de kijker',
