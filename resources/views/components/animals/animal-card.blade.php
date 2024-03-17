@@ -5,13 +5,17 @@
       <div class="p-6">
         <div class="flex justify-between items-center">
           <h3 class="text-lg font-semibold leading-8 tracking-tight text-rose-900">{{ $animal->name }}</h3>
-          @if($animal->user->organization)
-          <h3 class="text-lg font-semibold leading-8 tracking-tight text-indigo-900">Stichting</h3>
+          @if( $animal->organization->is_shelter )
+          <h3 class="text-lg font-semibold leading-8 tracking-tight text-rose-900">Asiel</h3>
           @else
-          <h3 class="text-lg font-semibold leading-8 tracking-tight text-indigo-900">Particulier</h3>
+          <h3 class="text-lg font-semibold leading-8 tracking-tight text-rose-900">Particulier</h3>
           @endif
         </div>
-        <p class="text-base leading-7 text-gray-600">{{ $animal->location }}</p>
+        <div class="flex justify-between">
+          <p class="text-base leading-7 text-gray-600">{{ $animal->current_location }}</p> 
+          <p class="text-base leading-7 text-gray-600">sinds {{ \Carbon\Carbon::parse($animal->date_added)->format('d-m-Y') }}</p>
+        </div>
+     
       </div>
     </li>
   </a>

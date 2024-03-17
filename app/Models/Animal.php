@@ -2,58 +2,59 @@
 
 namespace App\Models;
 
-use App\Models\User;
 use App\Enums\AnimalType;
 use App\Enums\AnimalStatus;
 use App\Enums\ApprovalState;
-use Maize\Markable\Markable;
 use App\Enums\AnimalLocation;
 use App\Enums\AnimalPublishState;
-use Maize\Markable\Models\Favorite;
-use App\Models\Traits\Multitenantable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Animal extends Model
 {
-    use HasFactory, Multitenantable, Markable;
+    use HasFactory;
 
     protected $fillable = [
-        'name', 'user_id', 'slug', 'featured', 'published_state', 'published_at', 'approval_state', 'publish_price', 'feature_price', 'animal_type', 'location', 'age', 'gender', 'status', 'size', 'description', 'breed', 'reason_adoption', 'sterilized', 'chipped', 'passport', 'vaccinated', 'rabies', 'medicins', 'special_food', 'behavioural_problem', 'kids_friendly_6y', 'kids_friendly_14y', 'cats_friendly', 'dogs_friendly', 'environment',
-        'affectionate', 'well_behaved', 'playful', 'everybody_friendly', 'needs_garden', 'potty_trained', 'car_friendly', 'home_alone', 'knows_commands','experience_required', 'environment', 'photo_main', 'photos_additional', 'videos', 'youtube_links', 'unpublish_reason', 'unpublish_at'
-
-    ];
-
-    protected static $marks = [
-        Favorite::class,
-    ];
+        'name', 'slug', 'organization_id','date_added', 'published','featured', 'published_at', 'unpublished_at', 'approval_state', 'published_state','unpublished_reason', 'animal_type', 'current_location', 'original_location', 'current_kids', 'current_cats', 'current_dogs', 'current_home_alone', 'current_garden', 'adoption_fee', 'age','gender','status','size','breed','reason_adoption','sterilized','chipped','passport','vaccinated','rabies','medicins','special_food','behavioural_problem','kids_friendly_6y','kids_friendly_14y','cats_friendly','dogs_friendly','well_behaved','playful','everybody_friendly','affectionate','needs_garden','needs_movement','potty_trained','car_friendly','home_alone','knows_commands','experience_required','description','environment','photo_featured','photos_additional', 'videos', 'youtube_links'
+       ];
 
     protected $casts = [
-        'animal_type'       =>  AnimalType::class,
-        'location'          =>  AnimalLocation::class,
-        'status'            =>  AnimalStatus::class,
-        'publish_state'     =>  AnimalPublishState::class,
-        'approval_state'    =>  ApprovalState::class,
-        'videos'            =>  'array',
-        'photos_additional' =>  'array',
-        'youtube_links'     =>  'array',
-        'chipped'           =>  'boolean',
-        'passport'          =>  'boolean',
-        'vaccinated'        =>  'boolean',
-        'rabies'            =>  'boolean',
-        'medicins'          =>  'boolean',
-        'special_food'      =>  'boolean',
+        'animal_type'           =>  AnimalType::class,
+        'location'              =>  AnimalLocation::class,
+        'status'                =>  AnimalStatus::class,
+        'publish_state'         =>  AnimalPublishState::class,
+        'approval_state'        =>  ApprovalState::class,
+        'videos'                =>  'array',
+        'photos_additional'     =>  'array',
+        'youtube_links'         =>  'array',
+        'sterilized'            =>  'boolean',
+        'chipped'               =>  'boolean',
+        'passport'              =>  'boolean',
+        'vaccinated'            =>  'boolean',
+        'rabies'                =>  'boolean',
+        'medicins'              =>  'boolean',
+        'special_food'          =>  'boolean',
         'behavioural_problem'   =>  'boolean',
-        'affectionate'      =>  'boolean',
-        'well_behaved'      =>  'boolean',
-        'playful'           =>  'boolean',
-        'everybody_friendly' => 'boolean',
+        'kids_friendly_6y'      =>  'boolean',
+        'kids_friendly_14y'     =>  'boolean',
+        'cats_friendly'         =>  'boolean',
+        'dogs_friendly'         =>  'boolean',
+        'well_behaved'          =>  'boolean',
+        'everybody_friendly'    =>  'boolean',
+        'affectionate'          =>  'boolean',
+        'needs_garden'          =>  'boolean',
+        'needs_movement'        =>  'boolean',
+        'potty_trained'         =>  'boolean',
+        'car_friendly'          =>  'boolean',
+        'home_alone'            =>  'boolean',
+        'knows_commands'        =>  'boolean',
+        'experience_required'   =>  'boolean'
     ];
-
-    public function user(): BelongsTo
+        
+    public function organization(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Organization::class);
     }
 
     public function scopeDogs($query)
@@ -81,6 +82,11 @@ class Animal extends Model
         return $query->where('published_state', AnimalPublishState::Published);
     }
 
+    public function scopeUnPublished($query)
+    {
+        return $query->where('published_state', AnimalPublishState::Unpublished);
+    }
+
     public function scopeFeatured($query)
     {
         return $query->where('featured', true);
@@ -91,17 +97,10 @@ class Animal extends Model
         return $query->where('featured', false);
     }
 
-    public function scopeBelongsToIndividual($query)
+    public function scopeBelongsToShelter($query)
     {
-        return $query->whereHas('user', function ($query) {
-            $query->where('organization', false);
-        });
-    }
-    
-    public function scopeBelongsToOrganization($query)
-    {
-        return $query->whereHas('user', function ($query) {
-            $query->where('organization', true);
+        return $query->whereHas('organization', function ($query) {
+            $query->where('is_shelter', 1);
         });
     }
 

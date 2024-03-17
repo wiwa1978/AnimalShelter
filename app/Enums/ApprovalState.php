@@ -2,20 +2,18 @@
 
 namespace App\Enums;
 
-
-
 enum ApprovalState: string 
 {
-    case Approved = 'Approved';
-    case InReview = 'InReview';
-    case NotApproved = 'NotApproved';
+    case Approved = 'Goedgekeurd';
+    case InReview = 'Wordt beoordeeld';
+    case NotApproved = 'Afgekeurd';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::Approved => 'Approved',
-            self::InReview => 'InReview',
-            self::NotApproved => 'NotApproved',
+            self::Approved => 'Goedgekeurd',
+            self::InReview => 'Wordt beoordeeld',
+            self::NotApproved => 'Afgekeurd',
         };
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasLabel;
 
-enum AnimalLocation: string
+enum AnimalLocation: string implements HasLabel
 {
     case Albania = 'Albanië';
     case Netherlands = 'Nederland';

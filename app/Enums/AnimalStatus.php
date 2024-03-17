@@ -2,24 +2,25 @@
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasLabel;
 
-
-enum AnimalStatus: string 
+enum AnimalStatus: string implements HasLabel
 {
-    case adopted = 'Adopted';
-    case adoptable = 'Adoptable';
-    case reserved = 'Reserved';
-    case pending_treatment = 'Pending treatment';
-    case notadoptable = 'Not Adoptable';
+    case adopted = 'Geadopteerd';
+    case adoptable = 'Kan geadopteerd worden';
+
+    case reserved = 'Gereserveerd';
+    case pending_treatment = 'Wacht op behandeling';
+    case notadoptable = 'Kan niet worden geadopteerd';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::adopted => 'Adopted',
-            self::adoptable => 'Adoptable',
-            self::reserved => 'Reserved',
-            self::pending_treatment => 'Pending treatment',
-            self::notadoptable => 'Not adoptable',
+            self::adopted => 'Geadopteerd',
+            self::adoptable => 'Kan geadopteerd worden',
+            self::reserved => 'Gereserveerd',
+            self::pending_treatment => 'Wacht op behandeling',
+            self::notadoptable => 'Kan niet worden geadopteerd',
         };
     }
 }

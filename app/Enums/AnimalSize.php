@@ -2,22 +2,22 @@
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasLabel;
 
-
-enum AnimalSize: string 
+enum AnimalSize: string implements HasLabel
 {
-    case small = 'Small';
+    case small = 'Klein';
     case medium = 'Medium';
-    case large = 'Large';
-    case verylarge = 'Very Large';
+    case large = 'Groot';
+    case verylarge = 'Zeer groot';
 
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::small => 'Small',
+            self::small => 'Klein',
             self::medium => 'Medium',
-            self::large => 'Large',
-            self::verylarge => 'Very Large',
+            self::large => 'Groot',
+            self::verylarge => 'Zeer groot',
         };
     }
 }

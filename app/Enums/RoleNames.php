@@ -2,9 +2,9 @@
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasLabel;
 
-
-enum RoleNames: string 
+enum RoleNames: string implements HasLabel
 {
     case super_admin = 'super_admin';
     case user = 'user';

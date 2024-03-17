@@ -2,18 +2,21 @@
 
 namespace App\Enums;
 
+use Filament\Support\Contracts\HasLabel;
 
-
-enum AnimalPublishState: string
+enum AnimalPublishState: string implements HasLabel
 {
     case Draft = 'Draft';
-    case Published = 'Published';
+    case Published = 'Gepubliceerd';
+
+    case Unpublished = 'Niet gepubliceerd';
 
     public function getLabel(): ?string
     {
         return match ($this) {
             self::Draft => 'Draft',
-            self::Published => 'Published',
+            self::Published => 'Gepubliceerd',
+            self::Unpublished => 'Niet gepubliceerd',
         };
     }
 }

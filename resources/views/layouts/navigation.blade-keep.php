@@ -11,7 +11,7 @@
             
             
               <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'home' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('home') }}">Home</a>
-              <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'home1' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('home1') }}">Zoek huisdier</a>
+              <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'search-animal' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('search-animal') }}">Zoek huisdier</a>
               <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'show-dogs' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('show-dogs') }}">{{ ucfirst(__('animals_front.dogs')) }}</a>
               <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'show-cats' ? 'bg-rose-900 text-white ' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('show-cats') }}">{{ ucfirst(__('animals_front.cats'))}}</a>
               <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'show-others' ? 'bg-rose-900 text-white ' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('show-others') }}">{{ ucfirst(__('animals_front.others'))}}</a>
@@ -64,7 +64,7 @@
     <div class="space-y-1 px-2 pb-3 pt-2">
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
       <a href="{{ route('home') }}" wire:click="$refresh" wire:navigate class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Home</a>
-      <a href="{{ route('home1') }}" wire:click="$refresh" wire:navigate class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Zoek huisdier</a>
+      <a href="{{ route('search-animal') }}" wire:click="$refresh" wire:navigate class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Zoek huisdier</a>
       <a href="{{ route('show-dogs') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.dogs'))}}</a>
       <a href="{{ route('show-cats') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.cats'))}}</a>
       <a href="{{ route('show-others') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.others'))}}</a>

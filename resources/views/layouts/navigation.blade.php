@@ -11,11 +11,40 @@
             
             
               <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'home' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('home') }}">Home</a>
-              <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'home1' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('home1') }}">Zoek huisdier</a>
-              <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'show-dogs' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('show-dogs') }}">{{ ucfirst(__('animals_front.dogs')) }}</a>
-              <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'show-cats' ? 'bg-rose-900 text-white ' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('show-cats') }}">{{ ucfirst(__('animals_front.cats'))}}</a>
-              <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'show-others' ? 'bg-rose-900 text-white ' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('show-others') }}">{{ ucfirst(__('animals_front.others'))}}</a>
-          </div>
+              {{--
+                <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'search-animal' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('search-animal') }}">Zoek huisdier</a>
+                <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'show-dogs' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('show-dogs') }}">{{ ucfirst(__('animals_front.dogs')) }}</a>
+                <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'show-cats' ? 'bg-rose-900 text-white ' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('show-cats') }}">{{ ucfirst(__('animals_front.cats'))}}</a>
+                <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == 'show-others' ? 'bg-rose-900 text-white ' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('show-others') }}">{{ ucfirst(__('animals_front.others'))}}</a>
+              --}}
+
+             
+               <!-- dropdown -->
+              <div class="relative ml-5 flex-shrink-0">
+                <div class="x-data='{ open: false }'">
+                  <button @click="open = !open" type="button" class="" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                    <span class="absolute -inset-1.5"></span>
+                    <span class="sr-only">Open user menu</span>
+                    <p class="{{ ( Route::currentRouteName() == 'search-animal' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="{{ route('search-animal') }}">Onze dieren</p>
+                  </button>
+                </div>
+
+                <div x-show="open" class="absolute right-0 z-10 mt-2 w-64 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                  <!-- Active: "bg-gray-100", Not Active: "" -->
+                  <a wire:click="$refresh" wire:navigate href="{{ route('search-animal') }}" class="{{ ( Route::currentRouteName() == 'search-animal' ? 'bg-rose-900 text-white' : '' )}} block px-4 py-2 text-sm text-rose-900 text-xl rounded font-medium hover:bg-gray-700 hover:text-white" role="menuitem" tabindex="-1" id="user-menu-item-0"> Zoek een dier</a>
+                  <a wire:click="$refresh" wire:navigate href="{{ route('show-dogs') }}" class="{{ ( Route::currentRouteName() == 'show-dogs' ? 'bg-rose-900 text-white' : '' )}} block px-4 py-2 text-sm text-rose-900 text-xl rounded font-medium hover:bg-gray-700 hover:text-white" role="menuitem" tabindex="-1" id="user-menu-item-0">{{ ucfirst(__('animals_front.dogs')) }}</a>
+                  <a wire:click="$refresh" wire:navigate href="{{ route('show-cats') }}" class="{{ ( Route::currentRouteName() == 'show-cats' ? 'bg-rose-900 text-white' : '' )}} block px-4 py-2 text-sm text-rose-900 text-xl rounded font-medium hover:bg-gray-700 hover:text-white" role="menuitem" tabindex="-1" id="user-menu-item-1">{{ ucfirst(__('animals_front.cats')) }}</a>
+                  <a wire:click="$refresh" wire:navigate href="{{ route('show-others') }}" class="{{ ( Route::currentRouteName() == 'show-others' ? 'bg-rose-900 text-white' : '' )}} block px-4 py-2 text-sm text-rose-900 text-xl rounded font-medium hover:bg-gray-700 hover:text-white" role="menuitem" tabindex="-1" id="user-menu-item-2">{{ ucfirst(__('animals_front.others')) }}</a>
+                </div>
+              </div>
+
+              <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == '#' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="#">Onze werking</a>
+              <a wire:click="$refresh" wire:navigate class="{{ ( Route::currentRouteName() == '#' ? 'bg-rose-900 text-white' : '' )}} rounded-md text-rose-900 px-3 py-2 text-xl font-medium hover:bg-gray-700 hover:text-white" href="#">Prijzen</a>
+
+
+
+          
+            </div>
         </div>
       </div>
       <div class="hidden sm:ml-6 sm:block">
@@ -64,7 +93,7 @@
     <div class="space-y-1 px-2 pb-3 pt-2">
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
       <a href="{{ route('home') }}" wire:click="$refresh" wire:navigate class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Home</a>
-      <a href="{{ route('home1') }}" wire:click="$refresh" wire:navigate class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Zoek huisdier</a>
+      <a href="{{ route('search-animal') }}" wire:click="$refresh" wire:navigate class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white">Zoek huisdier</a>
       <a href="{{ route('show-dogs') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.dogs'))}}</a>
       <a href="{{ route('show-cats') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.cats'))}}</a>
       <a href="{{ route('show-others') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.others'))}}</a>
