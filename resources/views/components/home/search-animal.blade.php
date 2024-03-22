@@ -11,10 +11,10 @@
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-base font-semibold leading-6 text-gray-900">Zoek een huisdier</h3>
           <div class="mt-6 max-w-xl text-sm text-gray-500">
-            <div style="display: flex; justify-content: center; align-items: center;">
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
               <input class="space-y-4 border border-dashed border-rose-900 rounded-lg rounded" wire:model.live="searchTerm" type="text" placeholder="Zoek op naam">
               <div>
-                <select wire:model.live="searchAnimalType" class="ml-2 inline-flex space-y-4 border border-dashed border-rose-900 rounded-lg rounded"> 
+                <select wire:model.live="searchAnimalType" class="ml-2 inline-flex space-y-4 border border-dashed border-rose-900 rounded-lg rounded "> 
                   <option value="None">Diersoort</option>
                     @foreach($animaltypes as $id => $animaltype)
                       <option value="{{ $animaltype  }}"> {{ $animaltype }}</option>

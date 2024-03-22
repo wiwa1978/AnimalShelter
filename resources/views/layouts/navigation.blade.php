@@ -50,7 +50,7 @@
       <div class="hidden sm:ml-6 sm:block">
         <div class="flex items-center">
           @auth
-            <a href="{{ route('filament.app-ind.pages.dashboard') }}" class="rounded-md px-3 py-2 text-xl font-medium text-rose-900 hover:bg-gray-700 hover:text-white">Dashboard</a>
+            <a href="{{ route('filament.app.pages.dashboard') }}" class="rounded-md px-3 py-2 text-xl font-medium text-rose-900 hover:bg-gray-700 hover:text-white">Dashboard</a>
         
             @else
             <a href="{{ route('register') }}" class="rounded-md px-3 py-2 text-xl font-medium text-rose-900 hover:bg-gray-700 hover:text-white">Register</a>
@@ -97,7 +97,9 @@
       <a href="{{ route('show-dogs') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.dogs'))}}</a>
       <a href="{{ route('show-cats') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.cats'))}}</a>
       <a href="{{ route('show-others') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white">{{ ucfirst(__('animals_front.others'))}}</a>
-      
+      <a href="#" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white">Onze werking</a>
+      <a href="{{ route('pricing') }}" wire:click="$refresh" wire:navigate  class="block rounded-md px-3 py-2 text-base font-medium text-rose-900 hover:bg-gray-700 hover:text-white" >Prijzen</a>
+
     </div>
   </div>
     <div class="sm:hidden" id="mobile-menu" x-show="open">
