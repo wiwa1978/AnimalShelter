@@ -25,7 +25,7 @@ class SearchAnimal extends Component
     public $searchAnimalGender='None';
     public $searchAnimalOwner='None';
 
-    public $animaltypes = ['Hond', 'Kat', 'Andere'];
+    public $animaltypes = ['Hond', 'Kat', 'Ander huisdier'];
 
     public $animallocations = ['België', 'Nederland', 'Duitsland', 'Albanië'];
 
@@ -33,7 +33,7 @@ class SearchAnimal extends Component
 
     public $animalgenders = ['Mannelijk', 'Vrouwelijk'];
 
-    public $animalowners = ['Particulier', 'Stichting'];
+    public $animalowners = ['Particulier', 'Asiel'];
 
 
     public function updating($key): void
@@ -48,10 +48,17 @@ class SearchAnimal extends Component
     {
         $this->animals = Animal::when($this->searchTerm !== '', fn(Builder $query) => $query->where('name', 'like', '%'. $this->searchTerm .'%')) 
         ->when($this->searchAnimalType !== 'None', fn(Builder $query) => $query->where('animal_type', 'like', $this->searchAnimalType)) 
-        ->when($this->searchAnimalLocation !== 'None', fn(Builder $query) => $query->where('location', 'like', $this->searchAnimalLocation)) 
+        ->when($this->searchAnimalLocation !== 'None', fn(Builder $query) => $query->where('current_location', 'like', $this->searchAnimalLocation)) 
         ->when($this->searchAnimalAge !== 'None', fn(Builder $query) => $query->where('age', 'like', $this->searchAnimalAge)) 
         ->when($this->searchAnimalGender !== 'None', fn(Builder $query) => $query->where('gender', 'like', $this->searchAnimalGender)) 
-        ->when($this->searchAnimalOwner !== 'None', fn(Builder $query) => $query->where('gender', 'like', $this->searchAnimalOwner)) 
+        //->when($this->searchAnimalOwner !== 'None', fn(Builder $query) => $query->where('is_shelter', 1 )) 
+        ->when($this->searchAnimalOwner !== 'None', function ($query) {
+            $isShelter = $this->searchAnimalOwner === 'Asiel' ? 1 : 0;
+            
+            $query->whereHas('organization', function ($query) use ($isShelter) {
+                $query->where('is_shelter', $isShelter);
+            });
+        })
         ->get();
 
         $this->animals_count = $this->animals->count();

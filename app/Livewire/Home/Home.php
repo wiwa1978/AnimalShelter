@@ -15,7 +15,7 @@ class Home extends Component
     public function render()
     {
 
-        return view('components.home.home',
+        return view('components.home.home1',
             [
                 'dogs_featured' => Animal::dogs()->featured()->paginate(4),
                 'cats_featured' => Animal::cats()->featured()->paginate(4),
@@ -23,6 +23,9 @@ class Home extends Component
                 'dogs_featured_count' => Animal::dogs()->featured()->count(),
                 'cats_featured_count' => Animal::cats()->featured()->count(),
                 'others_featured_count' => Animal::others()->featured()->count(),
+                'dogs_count' => Animal::dogs()->count(),
+                'cats_count' => Animal::cats()->count(),
+                'others_count' => Animal::others()->count(),
             ]);
     }
 }

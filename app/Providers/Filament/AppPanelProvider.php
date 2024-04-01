@@ -7,10 +7,14 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use App\Models\Organization;
+use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
+use Filament\Support\Enums\MaxWidth;
+use App\Http\Middleware\ApplyTenantScopes;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use Filament\Billing\Providers\SparkBillingProvider;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -28,17 +32,57 @@ class AppPanelProvider extends PanelProvider
         return $panel
             ->id('app')
             ->path('app')
-            ->tenant(Organization::class, ownershipRelationship: 'organization')
+            ->darkMode(false)
+            ->brandName('Animals')
+            ->brandLogo(asset('storage/images/logo3.svg'))
+            ->favicon(asset('storage/images/logo3.svg'))
+            ->tenantBillingProvider(new SparkBillingProvider())
+            //->tenantBillingRouteSlug('billing')
+            ->requiresTenantSubscription()
+            ->tenant(Organization::class, ownershipRelationship: 'organizations')
             ->tenantRegistration(RegisterOrganization::class)
             ->tenantProfile(EditOrganizationProfile::class)
+            // ->tenantMenuItems([
+            //     MenuItem::make()
+            //     ->label('Settings')
+            //     ->icon('heroicon-m-cog-8-tooth')
+            //     ])
+            ->tenantMenu(false)
+            ->tenantMiddleware([
+                ApplyTenantScopes::class,
+            ], isPersistent: true)
             ->login()
             ->registration()
             ->passwordReset()
             ->emailVerification()
             ->spa()
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::hex('#BE123C'),  //#881337
+                'danger' => Color::Red, 
+                'success' => Color::Green,
+                'warning' => Color::Yellow,
+                'info' => Color::Blue,
             ])
+            ->userMenuItems([
+                MenuItem::make()
+                ->label('Go back to website')
+                ->icon('heroicon-o-cog-6-tooth')
+                ->url('/'),
+                MenuItem::make()
+                    ->label('Admin Panel')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->url('/admin')
+                    ->visible(fn () => auth()->user()->isSuperAdmin()),
+                MenuItem::make()
+                    ->label('My Profile')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->url('/app/my-profile')
+            ])
+            //->tenantRoutePrefix('organization')
+            //->topNavigation()
+            ->sidebarCollapsibleOnDesktop()
+            //->sidebarFullyCollapsibleOnDesktop()
+            ->maxContentWidth(MaxWidth::Full)
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
             ->pages([

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->boolean('featured')->default(false);
             $table->timestamp('published_at')->nullable();
             $table->timestamp('unpublished_at')->nullable();
-            $table->string('approval_state')->default('NotApproved');
+            $table->string('approval_state')->default('Wordt beoordeeld');
             $table->string('published_state')->default('Draft');
             $table->string('unpublish_reason', 255)->nullable();
             $table->string('animal_type')->nullable();

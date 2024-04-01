@@ -21,7 +21,7 @@
     </div>
 
     <div>
-      <h2 class="text-2xl font-bold text-rose-900">
+      <h2 class="text-2xl font-bold text-rose-700">
           Honden in de kijker ({{ $dogs_featured_count}})
           
       </h2>
@@ -36,7 +36,7 @@
       {{ $dogs_featured->links() }}
     </div> 
     <div>
-      <h2 class="text-2xl font-bold text-rose-900">
+      <h2 class="text-2xl font-bold text-rose-700">
           Katten in de kijker ({{ $cats_featured_count}})
           
       </h2>
@@ -51,7 +51,7 @@
     </div>
 
     <div>
-      <h2 class="text-2xl font-bold text-rose-900">
+      <h2 class="text-2xl font-bold text-rose-700">
           Andere huisdieren in de kijker ({{ $others_featured_count}})
           
       </h2>

@@ -1,7 +1,7 @@
 
 <div class="mx-auto w-full m-16 px-6 lg:px-8">
     <div class="mx-auto w-full lg:mx-0 text-center">
-      <h2 class="text-3xl font-bold tracking-tight text-rose-900 sm:text-4xl">
+      <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
         Adopteer een huisdier
       </h2>
 
@@ -18,6 +18,7 @@
                   <option value="None">Diersoort</option>
                     @foreach($animaltypes as $id => $animaltype)
                       <option value="{{ $animaltype  }}"> {{ $animaltype }}</option>
+                      <p>{{ $animaltype  }}</p>
                     @endforeach
                 </select>
               </div>
@@ -47,14 +48,14 @@
               </div>
               <div>
                   <select wire:model.live="searchAnimalOwner" class="ml-2 inline-flex space-y-4 border border-dashed border-rose-900 rounded-lg rounded"> 
-                      <option value="None">Verblijf</option>
+                   <option value="None">Verblijf</option>
                           @foreach($animalowners as $id => $owner)
                               <option value="{{ $owner }}"> {{ $owner }} </option>
                           @endforeach
                     </select>
               </div>
               <div>
-              <button type="button" wire:click="resetFilter" class="ml-2 inline-flex bg-rose-900 text-white rounded-md px-3 py-2 text-xl font-medium hover:bg-indigo-900 hover:text-white">Reset</button>
+              <button type="button" wire:click="resetFilter" class="ml-2 inline-flex bg-rose-700 text-white rounded-md px-3 py-2 text-xl font-medium hover:bg-indigo-900 hover:text-white">Reset</button>
               </div>
             </div>
           </div>
@@ -76,10 +77,11 @@
 
 
     </ul>
-    <div class="mt-6">
-    {{-- {{ $animals_all->links() }} --}}
+    {{--
+    <div class="mt-10 ">
+      {{ $animals_all->links() }}
     </div>
-
+      --}}
 
 
 

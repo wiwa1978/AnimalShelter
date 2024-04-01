@@ -1,7 +1,7 @@
 
 <div class="mx-auto w-full px-4 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-16">
-      <h2 class="text-4xl text-rose-900 font-bold ">{{ $animal->name}} </h2>
+      <h2 class="text-4xl text-rose-700 font-bold ">{{ $animal->name}} </h2>
 
       
 
@@ -26,11 +26,12 @@
         <section aria-labelledby="applicant-information-title">
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
             <div class="px-4 py-5 sm:px-6 flex justify-between items-center">
-              <h2 class="text-xl font-medium leading-6 text-rose-900">{{ $animal->name}}</h2>
+              <h2 class="text-xl font-medium leading-6 text-rose-700">{{ $animal->name}}</h2>
+              
                 @auth
-                <livewire:animals.favorite-button :animal="$animal" :key="$animal->id"/>
+                    <livewire:animals.favorite-button :animal="$animal" :key="$animal->id"/>
                 @endauth
-            
+
                 @if ( $isAnimalBelongsToShelter)
                     <h2 class="text-xl font-medium leading-6 text-indigo-900">Asiel</h2>
                 @else
@@ -42,23 +43,23 @@
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-5">
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-indigo-900">Huidig verblijf</dt>
+                  <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.current_location')}}</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->current_location}}</dd>
                 </div>
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-indigo-900">Oorsprong</dt>
+                  <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.origin')}}</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->original_location}}</dd>
                 </div>
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-indigo-900">Leeftijd</dt>
+                  <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.age')}}</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->age}}</dd>
                 </div>
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-indigo-900">Geslacht</dt>
+                  <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.gender')}}</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->gender}}</dd>
                 </div>
                 <div class="sm:col-span-1">
-                  <dt class="text-sm font-medium text-indigo-900">Ras</dt>
+                  <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.breed')}}</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->breed}}</dd>
                 </div>
          
@@ -72,7 +73,7 @@
                 <section aria-labelledby="applicant-information-title">
                     <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
                         <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-                        <dt class="mb-6 text-sm font-medium text-indigo-900">Thuissituatie</dt>
+                        <dt class="mb-6 text-sm font-medium text-indigo-900">{{ __('animals_front.home_situation')}}</dt>
                             <dl class="grid grid-cols-1 gap-x-4 gap-y-1 sm:grid-cols-2">
                                 <div>
                                     <div class="relative">
@@ -80,7 +81,7 @@
                                             <div>
                                                 <div>
                                                     <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                                         <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                                         </svg>
                                                     </span>
@@ -88,7 +89,7 @@
                                             </div>
                                             <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                 <div>
-                                                    <p class="text-sm text-gray-500">Omgeving met kinderen: {{ $animal->current_kids == 1 ? "Ja" : "Nee" }}</p>
+                                                    <p class="text-sm text-gray-500">{{ __('animals_front.environment_children')}}: {{ $animal->current_kids == 1 ? "Ja" : "Nee" }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -101,7 +102,7 @@
                                             <div>
                                                 <div>
                                                     <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                                         <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                                         </svg>
                                                     </span>
@@ -109,7 +110,7 @@
                                             </div>
                                             <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                 <div>
-                                                    <p class="text-sm text-gray-500">Omgeving met honden: {{ $animal->current_dogs == 1 ? "Ja" : "Nee" }}</p>
+                                                    <p class="text-sm text-gray-500">{{ __('animals_front.environment_dogs')}}: {{ $animal->current_dogs == 1 ? "Ja" : "Nee" }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -122,7 +123,7 @@
                                             <div>
                                                 <div>
                                                     <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                                         <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                                         </svg>
                                                     </span>
@@ -130,7 +131,7 @@
                                             </div>
                                             <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                 <div>
-                                                    <p class="text-sm text-gray-500">Omgeving met katten: {{ $animal->current_cats == 1 ? "Ja" : "Nee" }}</p>
+                                                    <p class="text-sm text-gray-500">{{ __('animals_front.environment_cats')}}: {{ $animal->current_cats == 1 ? "Ja" : "Nee" }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,7 +144,7 @@
                                             <div>
                                                 <div>
                                                     <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                                         <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                                         </svg>
                                                     </span>
@@ -151,7 +152,7 @@
                                             </div>
                                             <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                 <div>
-                                                    <p class="text-sm text-gray-500">Soms alleen thuis: {{ $animal->current_home_alone == 1 ? "Ja" : "Nee" }}</p>
+                                                    <p class="text-sm text-gray-500">{{ __('animals_front.home_alone')}}: {{ $animal->current_home_alone == 1 ? "Ja" : "Nee" }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -164,7 +165,7 @@
                                             <div>
                                                 <div>
                                                     <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                                         <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                                         </svg>
                                                     </span>
@@ -172,7 +173,7 @@
                                             </div>
                                             <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                 <div>
-                                                    <p class="text-sm text-gray-500">Tuin: {{ $animal->current_garden == 1 ? "Ja" : "Nee" }}</p>
+                                                    <p class="text-sm text-gray-500">{{ __('animals_front.garden')}}: {{ $animal->current_garden == 1 ? "Ja" : "Nee" }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -191,7 +192,7 @@
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                 <div class="col-span-2 sm:col-span-4">
-                  <dt class="text-sm font-medium text-indigo-900">Description</dt>
+                  <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.description')}}</dt>
                     <div class="prose mt-1 text-sm text-gray-900">
                         <x-markdown>
                             {{ $animal->description }}
@@ -210,7 +211,7 @@
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                 <div class="col-span-2 sm:col-span-4">
-                  <dt class="text-sm font-medium text-indigo-900">Environment</dt>
+                  <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.environment')}}</dt>
                   <dd class="mt-1 text-sm texte-gray-900">{{ $animal->environment }}</dd>
                 </div>
               </dl>
@@ -227,7 +228,7 @@
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                 <div class="sm:col-span-4">
-                  <dt class="text-sm font-medium text-gray-500">Videos</dt>
+                  <dt class="text-sm font-medium text-gray-500">{{ __('animals_front.videos')}}</dt>
 
                     @foreach ($youtube_links as $link)
                         <div class="mt-6 group relative ">
@@ -260,11 +261,11 @@
         <section  class=" lg:col-span-1 lg:col-start-3">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 text-center">
              @if ($animal->animal_type->getLabel() === 'Hond' or $animal->animal_type->getLabel() === 'Kat')
-                <span class="text-lg text-gray-800 text-center">Deze {{ strtolower($animal->animal_type->getLabel()) }} is </span><span class="text-lg text-rose-900 text-center">beschikbaar</span> <span class="text-lg text-gray-800 text-center">voor adoptie en staat al </span><span class="text-lg text-rose-900 text-center"> {{$days_adoptable}} dagen</span><span class="text-lg text-gray-800 text-center">  op deze site.</span>
-                <span class="text-lg text-gray-800 text-center">Contacteer </span><span class="text-lg text-rose-900 text-center">{{ $organization->name}} </span><span class="text-lg text-gray-800 text-center">voor meer informatie</span>
+                <span class="text-lg text-gray-800 text-center">Deze {{ strtolower($animal->animal_type->getLabel()) }} is </span><span class="text-lg text-rose-700 text-center">beschikbaar</span> <span class="text-lg text-gray-800 text-center">voor adoptie en staat al </span><span class="text-lg text-rose-700 text-center"> {{$days_adoptable}} dagen</span><span class="text-lg text-gray-800 text-center">  op deze site.</span>
+                <span class="text-lg text-gray-800 text-center">Contacteer </span><span class="text-lg text-rose-700 text-center">{{ $organization->name}} </span><span class="text-lg text-gray-800 text-center">voor meer informatie</span>
              @else
-                <span class="text-lg text-gray-800 text-center">Dit huisdier is nog </span><span class="text-lg text-rose-900 text-center">beschikbaar</span> <span class="text-lg text-gray-800 text-center">voor adoptie en staat al </span><span class="text-lg text-rose-900 text-center"> {{$days_adoptable}} dagen</span><span class="text-lg text-gray-800 text-center">  op deze site.</span>
-                <span class="text-lg text-gray-800 text-center">Contacteer </span><span class="text-lg text-rose-900 text-center">{{ $organization->name}} </span><span class="text-lg text-gray-800 text-center">voor meer informatie</span>
+                <span class="text-lg text-gray-800 text-center">Dit huisdier is nog </span><span class="text-lg text-rose-700 text-center">beschikbaar</span> <span class="text-lg text-gray-800 text-center">voor adoptie en staat al </span><span class="text-lg text-rose-700 text-center"> {{$days_adoptable}} dagen</span><span class="text-lg text-gray-800 text-center">  op deze site.</span>
+                <span class="text-lg text-gray-800 text-center">Contacteer </span><span class="text-lg text-rose-700 text-center">{{ $organization->name}} </span><span class="text-lg text-gray-800 text-center">voor meer informatie</span>
              @endif
                
     
@@ -299,7 +300,7 @@
 
         <section  class=" lg:col-span-1 lg:col-start-3">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 ">
-                <h2 id="timeline-title" class="text-lg font-medium text-rose-900">{{ __('animals_front.contact_info')}}</h2>
+                <h2 id="timeline-title" class="text-lg font-medium text-rose-700">{{ __('animals_front.contact_info')}}</h2>
                 <div>
                     <div class="mt-6 mb-6 flow-root justify-center">
                     <ul role="list" class="-mb-8">
@@ -359,7 +360,7 @@
         <!-- Medical Information -->
         <section aria-labelledby="timeline-title" class="lg:col-span-1 lg:col-start-3">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-            <h2 id="timeline-title" class="text-lg font-medium text-rose-900">{{ __('animals_front.medical_info')}}</h2>
+            <h2 id="timeline-title" class="text-lg font-medium text-rose-700">{{ __('animals_front.medical_info')}}</h2>
 
             <!-- Activity Feed -->
             <div class="mt-6 flow-root">
@@ -370,7 +371,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                         <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                             <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                             </svg>
                         </span>
@@ -390,7 +391,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -410,7 +411,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -430,7 +431,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -450,7 +451,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -470,7 +471,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -492,7 +493,7 @@
          <!-- Social Information -->
         <section aria-labelledby="timeline-title" class="lg:col-span-1 lg:col-start-3 pb-16">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-            <h2 id="timeline-title" class="text-lg font-medium text-rose-900">Social Information</h2>
+            <h2 id="timeline-title" class="text-lg font-medium text-rose-700">Social Information</h2>
 
             <!-- Social Information -->
             <div class="mt-6 flow-root">
@@ -504,7 +505,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -525,7 +526,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -545,7 +546,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -565,7 +566,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -585,7 +586,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -605,7 +606,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -624,7 +625,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -643,7 +644,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -663,7 +664,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -683,7 +684,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -704,7 +705,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -724,7 +725,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -744,7 +745,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>
@@ -765,7 +766,7 @@
                     <div class="relative flex space-x-3">
                         <div>
                             <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-900 w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
                                     <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
                                 </svg>
                             </span>

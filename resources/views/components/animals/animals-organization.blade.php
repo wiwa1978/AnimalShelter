@@ -2,11 +2,11 @@
     <div class="mb-16 mx-auto w-full lg:mx-0 text-center">
       
       @if ( $isAnimalBelongsToShelter )
-        <h2 class="text-3xl font-bold tracking-tight text-rose-900 sm:text-4xl">
+        <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
           {{ $organization->shelter_name }}
         </h2>
       @else
-        <h2 class="text-3xl font-bold tracking-tight text-rose-900 sm:text-4xl">
+        <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
           {{ $organization->name }}
         </h2>
       @endif

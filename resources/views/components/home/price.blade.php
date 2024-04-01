@@ -1,7 +1,7 @@
 
   <div class="mx-auto max-w-7xl px-6 lg:px-8">
     <div class="mx-auto max-w-4xl text-center">
-      <p class="mt-16 text-4xl font-bold tracking-tight text-rose-900 sm:text-5xl">Prijsinformatie</p>
+      <p class="mt-16 text-4xl font-bold tracking-tight text-rose-700 sm:text-5xl">Prijsinformatie</p>
     </div>
     <p class="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-600">Distinctio et nulla eum soluta et neque labore quibusdam. Saepe et quasi iusto modi velit ut non voluptas in. Explicabo id ut laborum.</p>
 
@@ -31,14 +31,18 @@
                 <p class="mt-4 text-sm leading-6 text-gray-600">The essentials to provide your best work for clients.</p>
                 <p class="mt-6 justify-center flex items-baseline gap-x-1 ">
                 <!-- Price, update based on frequency toggle state -->
-                 <!-- <span class="text-4xl font-bold tracking-tight text-rose-900">$15</span>-->
+                 <!-- <span class="text-4xl font-bold tracking-tight text-rose-700">$15</span>-->
                 
-                <span class="text-4xl font-bold tracking-tight text-rose-900" x-text="selected === 'monthly' ? '15' : '150'"></span>
+                <span class="text-4xl font-bold tracking-tight text-rose-700" x-text="selected === 'monthly' ? '15' : '150'"></span>
                 <!-- Payment frequency, update based on frequency toggle state -->
         
-                <span class="text-sm font-semibold leading-6 text-rose-900" x-text="selected === 'monthly' ? 'EUR/maand' : 'EUR/jaar'"></span>
+                <span class="text-sm font-semibold leading-6 text-rose-700" x-text="selected === 'monthly' ? 'EUR/maand' : 'EUR/jaar'"></span>
                 </p>
-                <a href="#" aria-describedby="tier-freelancer" class="mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 bg-indigo-900 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600">Inschrijven op dit plan</a>
+                @auth
+                <a href= "{{ url('billing/organization', ['organization' => $organization->id]) }}" aria-describedby="tier-freelancer" class="mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 bg-indigo-900 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600">Inschrijven op dit plan</a>
+                @else
+                <a href="{{ route('register') }}" class="mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 bg-indigo-900 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600">Inschrijven op dit plan</a>
+                @endauth
                 <ul role="list" class="mt-8 space-y-3 text-sm leading-6 xl:mt-10 text-gray-600">
                 <li class="flex gap-x-3">
                     <svg class="h-6 w-5 flex-none text-indigo-600" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -71,11 +75,11 @@
                 <p class="mt-4 text-sm leading-6 text-gray-600">A plan that scales with your rapidly growing business.</p>
                 <p class="mt-6 justify-center flex items-baseline gap-x-1">
                 <!-- Price, update based on frequency toggle state -->
-                <span class="text-4xl font-bold tracking-tight text-rose-900" x-text="selected === 'monthly' ? '30' : '300'"></span>
+                <span class="text-4xl font-bold tracking-tight text-rose-700" x-text="selected === 'monthly' ? '30' : '300'"></span>
                 
                 <!-- Payment frequency, update based on frequency toggle state -->
                
-                <span class="text-sm font-semibold leading-6 text-rose-900" x-text="selected === 'monthly' ? 'EUR/maand' : 'EUR/jaar'"></span>
+                <span class="text-sm font-semibold leading-6 text-rose-700" x-text="selected === 'monthly' ? 'EUR/maand' : 'EUR/jaar'"></span>
                 
                 </p>
                 <a href="#" aria-describedby="tier-startup" class="mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 bg-indigo-900 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline-indigo-600">Inschrijven op dit plan</a>

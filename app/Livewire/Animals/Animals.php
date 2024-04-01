@@ -14,58 +14,69 @@ class Animals extends Component
 
     public $animal;
 
-    public $animals_all;
-    public $animals_featured;
-    public $animals_not_featured;
+    
     public $currentRoute;
-    public $animal_type;
-
-    public $animal_featured_count;
-
-    public $animal_not_featured_count;
-
+   
     public function mount()
     {
         $this->currentRoute = Route::currentRouteName();
 
-        if ($this->currentRoute == 'show-dogs') {
-            $this->animals_all = Animal::dogs()->get();
-            $this->animals_featured = Animal::dogs()->featured()->get();
-            $this->animals_not_featured = Animal::dogs()->notFeatured()->get();
-            $this->animal_type = "dog";
-            $this->animal_featured_count = Animal::dogs()->featured()->count();
-            $this->animal_not_featured_count = Animal::dogs()->notFeatured()->count();
-        }
-
-        if ($this->currentRoute == 'show-cats') {
-            $this->animals_all = Animal::cats()->get();
-            $this->animals_featured = Animal::cats()->featured()->get();
-            $this->animals_not_featured = Animal::cats()->notFeatured()->get();
-            $this->animal_type = "cat";
-            $this->animal_featured_count = Animal::cats()->featured()->count();
-            $this->animal_not_featured_count = Animal::cats()->notFeatured()->count();
-        }
-
-        if ($this->currentRoute == 'show-others') {
-            $this->animals_all = Animal::others()->get();
-            $this->animals_featured = Animal::others()->featured()->get();
-            $this->animals_not_featured = Animal::others()->notFeatured()->get();
-            $this->animal_type = "other";
-            $this->animal_featured_count = Animal::others()->featured()->count();
-            $this->animal_not_featured_count = Animal::others()->notFeatured()->count();
-        }
+        
     }
 
     public function render()
     {
-        return view('components.animals.animals');
+        
+        if ($this->currentRoute == 'show-dogs') {
+       
+            return view('components.animals.animals',  [
+                'animals_all' => Animal::dogs()->paginate(12),
+                'animal_type' => "dog",
+                'animals_count' => Animal::dogs()->count(),
+            ]);
+        }
 
-        // return view('components.animals.animals',  [
-        //     'animals_all' => Animal::dogs()->get(),
-        //     'animals_featured' => Animal::dogs()->featured()->paginate(5),
-        //     'animals_not_featured' => Animal::dogs()->notFeatured()->paginate(5),
-        //     'animal_type' => "dog"
-        // ]);
+        if ($this->currentRoute == 'show-featured-dogs') {
+            return view('components.animals.animals',  [
+                'animals_all' => Animal::dogs()->featured()->paginate(12),
+                'animal_type' => "dog-featured",
+                'animals_count' => Animal::dogs()->featured()->count(),
+            ]);
+        }
+
+        if ($this->currentRoute == 'show-cats') {
+            return view('components.animals.animals',  [
+                'animals_all' => Animal::cats()->paginate(12),
+                'animal_type' => "cat",
+                'animals_count' => Animal::cats()->count(),
+            ]);
+        }
+
+        if ($this->currentRoute == 'show-featured-cats') {
+            return view('components.animals.animals',  [
+                'animals_all' => Animal::cats()->featured()->paginate(12),
+                'animal_type' => "cat-featured",
+                'animals_count' => Animal::dogs()->featured()->count(),
+            ]);
+        }
+
+        if ($this->currentRoute == 'show-others') {
+            return view('components.animals.animals',  [
+                'animals_all' => Animal::others()->paginate(12),
+                'animal_type' => "other",
+                'animals_count' => Animal::others()->count(),
+            ]);
+        }
+
+        if ($this->currentRoute == 'show-featured-others') {
+            return view('components.animals.animals',  [
+                'animals_all' => Animal::others()->featured()->paginate(12),
+                'animal_type' => "other-featured",
+                'animals_count' => Animal::others()->featured()->count(),
+            ]);
+        }
+
+
     }
 
     public function showAnimalDetail($id)

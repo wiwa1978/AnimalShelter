@@ -27,13 +27,15 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="isolate">
                 @if(request()->routeIs('home'))
+                @include('layouts.navigation')
                     {{ $slot }}
                 @else
                     @include('layouts.navigation')
                     {{ $slot }}
                 @endif
+            
             </main>
         </div>
         

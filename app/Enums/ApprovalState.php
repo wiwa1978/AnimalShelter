@@ -2,7 +2,9 @@
 
 namespace App\Enums;
 
-enum ApprovalState: string 
+use Filament\Support\Contracts\HasLabel;
+
+enum ApprovalState: string implements HasLabel
 {
     case Approved = 'Goedgekeurd';
     case InReview = 'Wordt beoordeeld';

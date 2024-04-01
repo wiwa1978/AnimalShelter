@@ -22,6 +22,8 @@ class AnimalDetail extends Component
     public $youtube_links;
     public $organization;
 
+
+
     public function mount(Animal $animal)
     {
         $dateAdded = Carbon::parse($animal->date_added); // assuming $date_added is your date
@@ -37,13 +39,16 @@ class AnimalDetail extends Component
         $this->photos = $this->animal->photos_additional;
         $this->youtube_links = $this->animal->youtube_links;
         //$this->youtube_links = explode(' ', $this->youtube_links);
+
     }
+
 
     public function render()
     {
         return view('components.animals.animal-detail');
     }
 
+    
     public function viewAnimalsByOrganization($organizationId)
     {
         $this->redirect(route('show-animal-organization', ['organization' => $organizationId]));

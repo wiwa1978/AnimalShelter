@@ -4,7 +4,6 @@ namespace App\Livewire\Animals;
 
 use App\Models\Animal;
 use Livewire\Component;
-use Maize\Markable\Models\Favorite;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteButton extends Component
@@ -14,23 +13,15 @@ class FavoriteButton extends Component
 
     public function mount(Animal $animal)
     {
-        $this->is_favorite = Favorite::has($animal, Auth::user());
+        $this->is_favorite = Auth::user()->favorites()->where('animal_id', $animal->id)->exists();
     }
 
-    public function toggleFav($animal)
+    public function toggleFavorite($animal)
     {   
         $animal = Animal::findOrFail($animal);
-        Favorite::toggle($animal, Auth::user());
+        Auth::user()->favorites()->toggle($animal->id);
         $this->mount($animal);
     }
-
-    public function toggle($animal)
-    {   
-       $animal = Animal::findOrFail($animal);
-        Favorite::toggle($animal, Auth::user());
-        $this->mount($animal);
-    }
-
 
     public function render()
     {

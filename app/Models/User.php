@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
+use App\Models\Animal;
 use App\Models\Organization;
 use Illuminate\Support\Collection;
 use Spatie\Permission\Traits\HasRoles;
@@ -53,6 +54,8 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         ];
     }
 
+
+
    public function canAccessPanel(Panel $panel): bool
    {
         return true;
@@ -68,6 +71,10 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         return $this->belongsToMany(Organization::class);
     }
     
+    public function favorites()
+    {
+        return $this->belongsToMany(Animal::class, 'favorites');
+    }
  
     public function canAccessTenant(Model $tenant): bool
     {
