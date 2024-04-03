@@ -1,11 +1,11 @@
-<nav x-data="{ open: false }" class="relative bg-gray-50">
+<nav x-data="{ open: false }" class="relative bg-gray-50 navbar z-50">
 <div class="relative bg-white shadow">
   <div class="mx-auto w-full px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <div class="flex items-center">
         <div class="flex-shrink-0">
           <!-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=rose&shade=800" alt="Your Company"> -->
-          <img class="h-16 w-auto" src="{{ asset('storage/images/logo4.svg')}}" alt="Your Company">
+          <img class="h-16 w-auto sm:h-20 sm:w-auto" src="{{ asset('storage/images/logo4.svg')}}" alt="Your Company">
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">
