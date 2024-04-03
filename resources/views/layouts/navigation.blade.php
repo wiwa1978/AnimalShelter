@@ -37,7 +37,6 @@
                   <hr class="my-2">
                   <a wire:click="$refresh" wire:navigate href="{{ route('show-others') }}"   class="block px-4 py-2 text-base text-rose-700  rounded font-medium hover:bg-rose-700 hover:text-white" role="menuitem" tabindex="-1" id="user-menu-item-3">{{ ucfirst(__('animals_front.all_others')) }}</a>
                   <a wire:click="$refresh" wire:navigate href="{{ route('show-featured-others') }}" class="block px-4 py-2 text-base text-rose-700  rounded font-medium hover:bg-rose-700 hover:text-white" role="menuitem" tabindex="-1" id="user-menu-item-2">{{ ucfirst(__('animals_front.others_in_picture')) }}</a>
-
                 
                 </div>
               </div>
@@ -109,8 +108,6 @@
       <a href="{{ route('show-featured-others') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-700 hover:bg-gray-900 hover:text-white" >{{ ucfirst(__('animals_front.others_in_picture')) }}</a>
       <a href="#" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-700 hover:bg-gray-900 hover:text-white">Onze werking</a>
       <a href="{{ route('pricing') }}" wire:click="$refresh" wire:navigate  class="block rounded-md px-3 py-2 text-base font-medium text-rose-700 hover:bg-gray-900 hover:text-white" >Prijzen</a>
-    
-
                 
 
 

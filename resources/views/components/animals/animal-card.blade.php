@@ -13,7 +13,7 @@
         </div>
         <div class="flex justify-between">
           <p class="text-base leading-7 text-gray-600">{{ $animal->current_location }}</p> 
-          <p class="text-base leading-7 text-gray-600">sinds {{ \Carbon\Carbon::parse($animal->date_added)->format('d-m-Y') }}</p>
+          {{--<p class="text-base leading-7 text-gray-600">{{ \Carbon\Carbon::parse($animal->date_added)->format('d-m-Y') }}</p>--}}
         </div>
      
       </div>

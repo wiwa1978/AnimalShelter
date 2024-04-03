@@ -13,15 +13,13 @@ class Animals extends Component
     use WithPagination;
 
     public $animal;
-
-    
     public $currentRoute;
+    const PER_PAGE = 12;
+
    
     public function mount()
     {
         $this->currentRoute = Route::currentRouteName();
-
-        
     }
 
     public function render()
@@ -30,15 +28,16 @@ class Animals extends Component
         if ($this->currentRoute == 'show-dogs') {
        
             return view('components.animals.animals',  [
-                'animals_all' => Animal::dogs()->paginate(12),
+                'animals_all' => Animal::dogs()->paginate(self::PER_PAGE),
                 'animal_type' => "dog",
                 'animals_count' => Animal::dogs()->count(),
+                
             ]);
         }
 
         if ($this->currentRoute == 'show-featured-dogs') {
             return view('components.animals.animals',  [
-                'animals_all' => Animal::dogs()->featured()->paginate(12),
+                'animals_all' => Animal::dogs()->featured()->paginate(self::PER_PAGE),
                 'animal_type' => "dog-featured",
                 'animals_count' => Animal::dogs()->featured()->count(),
             ]);
@@ -46,7 +45,7 @@ class Animals extends Component
 
         if ($this->currentRoute == 'show-cats') {
             return view('components.animals.animals',  [
-                'animals_all' => Animal::cats()->paginate(12),
+                'animals_all' => Animal::cats()->paginate(self::PER_PAGE),
                 'animal_type' => "cat",
                 'animals_count' => Animal::cats()->count(),
             ]);
@@ -54,7 +53,7 @@ class Animals extends Component
 
         if ($this->currentRoute == 'show-featured-cats') {
             return view('components.animals.animals',  [
-                'animals_all' => Animal::cats()->featured()->paginate(12),
+                'animals_all' => Animal::cats()->featured()->paginate(self::PER_PAGE),
                 'animal_type' => "cat-featured",
                 'animals_count' => Animal::dogs()->featured()->count(),
             ]);
@@ -62,7 +61,7 @@ class Animals extends Component
 
         if ($this->currentRoute == 'show-others') {
             return view('components.animals.animals',  [
-                'animals_all' => Animal::others()->paginate(12),
+                'animals_all' => Animal::others()->paginate(self::PER_PAGE),
                 'animal_type' => "other",
                 'animals_count' => Animal::others()->count(),
             ]);
@@ -70,7 +69,7 @@ class Animals extends Component
 
         if ($this->currentRoute == 'show-featured-others') {
             return view('components.animals.animals',  [
-                'animals_all' => Animal::others()->featured()->paginate(12),
+                'animals_all' => Animal::others()->featured()->paginate(self::PER_PAGE),
                 'animal_type' => "other-featured",
                 'animals_count' => Animal::others()->featured()->count(),
             ]);
