@@ -5,10 +5,19 @@
 
       <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
 
+        @if($animal_type == 'dog')
             {{ __('animals_front.adopt_dog')}} 
             <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} honden zoeken een nieuwe thuis</p>
-   
-         
+         @endif
+         @if($animal_type == 'cat')
+            {{ __('animals_front.adopt_cat')}}
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} katten zoeken een nieuwe thuis</p>
+         @endif
+         @if($animal_type == 'other')
+            {{ __('animals_front.adopt_other')}}
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} andere huisdieren zoeken een nieuwe thuis</p>
+         @endif
+
 
       </h2>
 
@@ -19,8 +28,16 @@
 
 
     <h2 class="mt-6 text-2xl font-bold text-indigo-900">
-        
+
+          @if($animal_type == 'dog')
             {{ __('animals_front.all_dogs')}} ({{ $animals_count }})
+         @endif
+         @if($animal_type == 'cat')
+            {{ __('animals_front.all_cats')}} ({{ $animals_count }})
+         @endif
+         @if($animal_type == 'other')
+            {{ __('animals_front.all_others')}} ({{ $animals_count }})
+         @endif
        
        
 

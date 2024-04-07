@@ -55,7 +55,7 @@ class Animals extends Component
             return view('components.animals.animals',  [
                 'animals_all' => Animal::cats()->featured()->paginate(self::PER_PAGE),
                 'animal_type' => "cat-featured",
-                'animals_count' => Animal::dogs()->featured()->count(),
+                'animals_count' => Animal::cats()->featured()->count(),
             ]);
         }
 
