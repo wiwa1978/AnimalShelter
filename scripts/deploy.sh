@@ -31,7 +31,7 @@ npm install
 npm run build
 
 # Run database migrations
-# php artisan migrate --force
+php artisan migrate --force
 #php artisan migrate:fresh --seed
 
 # Exit maintenance mode
