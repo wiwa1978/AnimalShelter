@@ -31,10 +31,11 @@ npm install
 npm run build
 
 # Run database migrations
-php artisan migrate --force
+# php artisan migrate --force
 #php artisan migrate:fresh --seed
 
 # Exit maintenance mode
+php artisan down
 php artisan up
 
 echo "Deployment finished!"
