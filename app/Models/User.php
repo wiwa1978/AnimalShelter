@@ -78,7 +78,8 @@ class User extends Authenticatable implements FilamentUser, HasTenants
  
     public function canAccessTenant(Model $tenant): bool
     {
-        return $this->organizations->contains($tenant);
+        //eturn $this->organizations->contains($tenant);
+        return $this->organizations()->whereKey($tenant)->exists();
     }
 
     public function isSuperAdmin(): bool

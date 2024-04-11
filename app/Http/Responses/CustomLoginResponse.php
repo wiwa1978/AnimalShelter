@@ -5,6 +5,7 @@ namespace App\Http\Responses;
 use Filament\Facades\Filament;
 use Illuminate\Http\RedirectResponse;
 use App\Filament\Resources\OrderResource;
+use App\Filament\App\Resources\AnimalResource;
 use Livewire\Features\SupportRedirects\Redirector;
  
 class CustomLoginResponse extends \Filament\Http\Responses\Auth\LoginResponse
@@ -13,7 +14,8 @@ class CustomLoginResponse extends \Filament\Http\Responses\Auth\LoginResponse
     {
         // Here, you can define which resource and which page you want to redirect to
         if (Filament::getCurrentPanel()->getId() === 'app') {
-            return redirect()->to('/');
+            return redirect()->to('/app');
+            //return redirect()->to(AnimalResource::getUrl('index'));
         }
         return parent::toResponse($request);
     }

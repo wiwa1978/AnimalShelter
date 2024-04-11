@@ -15,6 +15,11 @@ use Filament\Pages\Tenancy\RegisterTenant;
 
 class RegisterOrganization extends RegisterTenant
 {
+    public static function canCreate(): bool
+{
+    return false;
+}
+
     public static function getLabel(): string
     {
         return 'Register user or organisation';

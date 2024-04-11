@@ -88,7 +88,7 @@ return [
 
     'features' => [
         Features::billingAddressCollection(['required' => true]),
-        Features::mustAcceptTerms(),
+        //Features::mustAcceptTerms(),
         Features::euVatCollection(['home-country' => 'BE']),
         Features::invoiceEmails(['custom-addresses' => true]),
         Features::paymentNotificationEmails(),
@@ -133,7 +133,7 @@ return [
         'organization' => [
             'model' => Organization::class,
 
-            'trial_days' => 7,
+            'trial_days' => 2,
 
             'default_interval' => 'monthly',
 
@@ -141,19 +141,20 @@ return [
                 [
                     'name' => 'Individual',
                     'short_description' => 'This is a short, human friendly description of the plan.',
-                    'monthly_id' => 'price_1P0hH921JyPRVPKfXbQchY8X',
-                    'yearly_id' => 'price_1P0hHV21JyPRVPKfvZ9QufIJ',
+                    'monthly_id' => 'price_1P2wkh21JyPRVPKffPtVHo3c',
+                    'yearly_id' => 'price_1P2wlF21JyPRVPKfQofPAXhY',
                     'features' => [
                         'Feature 1',
                         'Feature 2',
                         'Feature 3',
                     ],
+                    
                 ],
                 [
                     'name' => 'Organization',
                     'short_description' => 'This is a short, human friendly description of the plan.',
-                    'monthly_id' => 'price_1P0hI821JyPRVPKfqiHhSdk3',
-                    'yearly_id' => 'price_1P0hIS21JyPRVPKfx0nGACKd',
+                    'monthly_id' => 'price_1P2wlg21JyPRVPKfhYUTfylp',
+                    'yearly_id' => 'price_1P2wmG21JyPRVPKfVzJGtlXw',
                     'features' => [
                         'Feature 1',
                         'Feature 2',

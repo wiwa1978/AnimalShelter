@@ -80,8 +80,7 @@ class UserResource extends Resource
                 TextInput::make('password')
                     ->password()
                     ->required()
-                    ->maxLength(255)
-                    ,
+                    ->maxLength(255),
                 Select::make('roles')
                     ->preload()
                     ->multiple()

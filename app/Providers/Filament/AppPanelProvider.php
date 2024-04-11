@@ -7,12 +7,14 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use App\Models\Organization;
+use App\Http\Middleware\OnTrial;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\MaxWidth;
 use App\Http\Middleware\ApplyTenantScopes;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
+use App\Http\Middleware\CheckTenantSubscription;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Billing\Providers\SparkBillingProvider;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -37,25 +39,31 @@ class AppPanelProvider extends PanelProvider
             ->brandLogo(asset('storage/images/logo3.svg'))
             ->favicon(asset('storage/images/logo3.svg'))
             ->tenantBillingProvider(new SparkBillingProvider())
-            //->tenantBillingRouteSlug('billing')
+            ->tenantBillingRouteSlug('billing')
             ->requiresTenantSubscription()
             ->tenant(Organization::class, ownershipRelationship: 'organizations')
-            ->tenantRegistration(RegisterOrganization::class)
+            //->tenantRegistration(RegisterOrganization::class)
             ->tenantProfile(EditOrganizationProfile::class)
             // ->tenantMenuItems([
             //     MenuItem::make()
             //     ->label('Settings')
             //     ->icon('heroicon-m-cog-8-tooth')
             //     ])
-            ->tenantMenu(false)
+            // ->tenantMenuItems([
+            //     'billing' => MenuItem::make()->label('Manage subscription'),
+            //     // ...
+            // ])
+            ->tenantMenu(true)
             ->tenantMiddleware([
                 ApplyTenantScopes::class,
+                //CheckTenantSubscription::class,
+                //OnTrial::class
             ], isPersistent: true)
             ->login()
             ->registration()
             ->passwordReset()
             ->emailVerification()
-            ->spa()
+            //->spa()
             ->colors([
                 'primary' => Color::hex('#BE123C'),  //#881337
                 'danger' => Color::Red, 
@@ -65,7 +73,7 @@ class AppPanelProvider extends PanelProvider
             ])
             ->userMenuItems([
                 MenuItem::make()
-                ->label('Go back to website')
+                ->label('Back to website')
                 ->icon('heroicon-o-cog-6-tooth')
                 ->url('/'),
                 MenuItem::make()
@@ -76,7 +84,11 @@ class AppPanelProvider extends PanelProvider
                 MenuItem::make()
                     ->label('My Profile')
                     ->icon('heroicon-o-cog-6-tooth')
-                    ->url('/app/my-profile')
+                    ->url('/app/my-profile'),
+                MenuItem::make()
+                    ->label('Billing')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
             ])
             //->tenantRoutePrefix('organization')
             //->topNavigation()
@@ -103,6 +115,8 @@ class AppPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                CheckTenantSubscription::class,
+                OnTrial::class
             ])
             ->authMiddleware([
                 Authenticate::class,
