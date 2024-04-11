@@ -11,6 +11,7 @@ use App\Http\Middleware\OnTrial;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\MaxWidth;
+use App\Filament\App\Pages\Auth\Register;
 use App\Http\Middleware\ApplyTenantScopes;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
@@ -60,7 +61,8 @@ class AppPanelProvider extends PanelProvider
                 //OnTrial::class
             ], isPersistent: true)
             ->login()
-            ->registration()
+            //->registration()
+            ->registration(Register::class) 
             ->passwordReset()
             ->emailVerification()
             //->spa()
