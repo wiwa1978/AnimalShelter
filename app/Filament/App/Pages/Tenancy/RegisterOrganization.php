@@ -36,48 +36,18 @@ class RegisterOrganization extends RegisterTenant
                             ->default(false),
                         TextInput::make('name')
                             ->label('Name'),
-                        TextInput::make('streetname')
-                            ->label('Streetname'),
-                        TextInput::make('streetnumber')
-                            ->label('Number'),
-                        TextInput::make('zipcode')
-                            ->label('Zip'),
-                        TextInput::make('city')
-                            ->label('City'),
-                        TextInput::make('country')
-                            ->label('Country'),
+                    
                     ]),
-                Section::make('Organization specific information')
-                    ->schema([
-                        TextInput::make('shelter_name')
-                            ->label('Shelter name'),
-                        TextInput::make('shelter_website')
-                            ->label('Website'),
-                        TextInput::make('phone')
-                            ->label('phone'),
-                        TextInput::make('email')
-                            ->label('email'),
-                        
-                    ]),
+                
             ]);
     }
 
     protected function handleRegistration(array $data): Organization
     {
         $data = [
-            'name' => Auth::user()->name ,
-            'slug' => Str::slug(Auth::user()->name),
+            'name' =>  $data['name'],
+            'slug' => Str::slug( $data['name']),
             'is_shelter' => $data['is_shelter'],
-            'streetname' => $data['streetname'],
-            'streetnumber' => $data['streetnumber'],
-            'zipcode' => $data['zipcode'],
-            'city' => $data['city'],
-            'country' => $data['country'],
-            'shelter_name' => $data['shelter_name'],
-            'shelter_website' => $data['shelter_website'],
-            'phone' => $data['phone'],
-            'email' => $data['email'],
-            
             
         ];
 

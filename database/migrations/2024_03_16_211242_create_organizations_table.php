@@ -20,11 +20,6 @@ return new class extends Migration
             $table->boolean('is_shelter')->nullable();
             $table->string('shelter_name')->nullable();
             $table->string('shelter_website')->nullable();
-            $table->string('streetname')->nullable();
-            $table->string('streetnumber')->nullable();
-            $table->string('zipcode')->nullable();
-            $table->string('city')->nullable();
-            $table->string('country')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->timestamps();

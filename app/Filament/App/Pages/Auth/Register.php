@@ -3,6 +3,7 @@
 namespace App\Filament\App\Pages\Auth;
 
 use Filament\Pages\Page;
+
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Component;
 use Filament\Pages\Auth\Register as BaseRegister;
@@ -28,12 +29,13 @@ class Register extends BaseRegister
  
     protected function getRoleFormComponent(): Component
     {
-        return Select::make('role')
+           return Select::make('is_shelter')
             ->options([
-                'buyer' => 'Particulier',
-                'seller' => 'Asiel',
+                0 => 'Particulier',
+                1 => 'Asiel',
             ])
-            ->default('particulier')
+            ->default(0)
             ->required();
+    
     }
 }

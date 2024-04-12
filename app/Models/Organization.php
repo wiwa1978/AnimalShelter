@@ -22,13 +22,16 @@ class Organization extends Model
         'is_shelter',
         'shelter_name',
         'shelter_website',
-        'streetname',
-        'streetnumber',
-        'zipcode',
-        'city',
-        'country',
-        'phonenumber',
+        'billing_address',
+        'billing_address_line_2',
+        'billing_city',
+        'billing_state',
+        'billing_postal_code',
+        'billing_country',
+        'invoice_emails',
         'email',
+        'phone',
+        'vat_id',
     ];
 
     protected $casts = [

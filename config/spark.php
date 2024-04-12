@@ -19,6 +19,8 @@ return [
 
     'path' => 'billing',
 
+    'dashboard_url' => '/app',
+
     /*
     |--------------------------------------------------------------------------
     | Spark Middleware
@@ -133,7 +135,7 @@ return [
         'organization' => [
             'model' => Organization::class,
 
-            'trial_days' => 2,
+            'trial_days' => 7,
 
             'default_interval' => 'monthly',
 

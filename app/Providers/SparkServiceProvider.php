@@ -10,6 +10,7 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 use Laravel\Cashier\Cashier;
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\ValidationException;
 
@@ -94,9 +95,22 @@ class SparkServiceProvider extends ServiceProvider
         // });
 
         Spark::billable(Organization::class)->checkPlanEligibility(function (Organization $billable, Plan $plan) {
-            // if ($billable->projects > 5 && $plan->name == 'Basic') {
+            // Get the user's organization
+            $organization = Auth::user()->organizations()->first();
+
+           if ($plan->name == 'Individual') {
+                    $organization->update(['is_shelter' => false]);
+            }
+
+            if ($plan->name == 'Organization') {
+                $organization->update(['is_shelter' => true]);
+        }
+
+
+            
+            // if ($billable->animals > 5 && $plan->name == 'Individual') {
             //     throw ValidationException::withMessages([
-            //         'plan' => 'You have too many projects for the selected plan.'
+            //         'plan' => 'You have too many animals for the selected plan.'
             //     ]);
             // }
         });
