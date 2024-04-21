@@ -16,4 +16,26 @@ class EditAnimal extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
+    protected function mutateFormDataBeforeSave(array $data): array
+    {
+        foreach ($data['youtube_links'] as $key => $value) {
+            $data['youtube_links'][$key] = str_replace('watch?v=', 'embed/', $value);
+        }
+
+        foreach ($data['youtube_links'] as $key => $value) {
+            $data['youtube_links'][$key] = str_replace('youtu.be', 'www.youtube.com/embed', $value);
+        }
+
+        foreach ($data['youtube_links'] as $key => $value) {
+            $data['youtube_links'][$key] = str_replace('shorts', 'embed', $value);
+        }
+
+        return $data;
+    }
 }

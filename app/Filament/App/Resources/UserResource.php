@@ -5,10 +5,13 @@ namespace App\Filament\App\Resources;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
+use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use App\Models\Organization;
 use Filament\Facades\Filament;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -29,7 +32,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $tenantOwnershipRelationshipName = 'organizations';
 
@@ -37,23 +40,23 @@ class UserResource extends Resource
 
     public static function getNavigationGroup(): ?string
     {
-        return __('users.user_management');
+        return __('users_back.user_management');
     }
 
     public static function getNavigationLabel(): string
     {
-        return  __('users.users');
+        return  __('users_back.users');
     }
 
     public static function getModelLabel(): string
     {
-        return __('users.user');
+        return __('users_back.user');
     }
 
 
     public static function getPluralModelLabel(): string
     {
-        return __('users.users');
+        return __('users_back.users');
     }
 
     public static function getNavigationBadge(): ?string
@@ -63,57 +66,118 @@ class UserResource extends Resource
         return $userCount;
     }
 
-
+    public static function canCreate(): bool
+    {
+        $organization = Organization::find(2);
+        $plan = $organization->getPlan();
+        
+        // if the user count is higher than the plan limit, then disable the button
+        // if the organization is not free forever (hence is billable), then disable the create button
+        if ($organization->users->count() >= $plan->options['users'] && !$organization->isFreeForever()) {
+            // Notification::make()
+            // ->title('Cannot perform action')
+            // ->success()
+            // ->send();
+            return false;
+        }
+        
+      
+        else {
+            return true;
+        }
+    }
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 TextInput::make('name')
+                    ->label(__('users_back.name'))
                     ->required()
                     ->maxLength(255),
+
                 TextInput::make('email')
+                    ->label(__('users_back.email'))
                     ->email()
                     ->required()
                     ->maxLength(255),
-                DateTimePicker::make('email_verified_at'),
+
                 TextInput::make('password')
+                    ->label(__('users_back.password'))
                     ->password()
                     ->required()
                     ->maxLength(255),
-                Select::make('roles')
-                    ->preload()
-                    ->multiple()
-                    ->native(false)
-                    ->relationship('roles', 'name')
-                    ->columnSpan('full'),
+                
+                // Select::make('roles')
+                //     ->label(__('users_back.roles'))
+                //     ->preload()
+                //     ->multiple()
+                //     ->native(false)
+                //     ->relationship('roles', 'name')
+                //     ->columnSpan('full'),
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $organization = Organization::find(1);
+        $plan = $organization->getPlan();
+
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label(__('users_back.name'))
                     ->searchable(),
                 
                 TextColumn::make('email')
+                    ->label(__('users_back.email'))
                     ->searchable(),
                 
-                TextColumn::make('roles.name')
-                    ->badge(),
+                // TextColumn::make('roles.name')
+                //     ->badge(),
                 
                 TextColumn::make('organizations.name')
                     //->formatStateUsing(fn (string $state): string => __("{$state}"))
+                    ->label(__('users_back.organization_name'))
                     ->placeholder('Not applicable')
                     ->searchable()
                     ->sortable(),
+
+                TextColumn::make('organizations.billing_city')
+                    ->label(__('users_back.billing_city'))
+                    ->searchable(),
+
+                TextColumn::make('organizations.shelter_name')
+                    ->label(__('users_back.shelter_name'))
+                    ->searchable()
+                    ->visible(fn (): bool => Auth::user()->organizations->first()->is_shelter)
+                    ->getStateUsing( function (User $record){
+                        return $record->organizations->first()->shelter_name ?? 'NA';
+                    }),
+
+                TextColumn::make('organizations.shelter_name')
+                    ->label(__('users_back.shelter_name'))
+                    ->searchable()
+                    ->visible(fn (): bool => Auth::user()->organizations->first()->is_shelter)
+                    ->getStateUsing( function (User $record){
+                        return $record->organizations->first()->shelter_name ?? 'NA';
+                }),
+
+                TextColumn::make('subscription')
+                    ->label(__('users_back.current_plan'))
+                    ->getStateUsing( function (User $record){
+                        return optional($record->organizations->first()->getPlan())->name ?? 'NA';
+                    }),
+                
                 
                 TextColumn::make('created_at')
+                    ->label(__('users_back.created_at'))
                     ->dateTime('d-m-Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('updated_at')
+                    ->label(__('users_back.updated_at'))
                     ->dateTime('d-m-Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

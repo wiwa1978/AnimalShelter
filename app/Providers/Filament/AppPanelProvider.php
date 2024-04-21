@@ -7,7 +7,6 @@ use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use App\Models\Organization;
-use App\Http\Middleware\OnTrial;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\MaxWidth;
@@ -15,18 +14,20 @@ use App\Filament\App\Pages\Auth\Register;
 use App\Http\Middleware\ApplyTenantScopes;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
-use App\Http\Middleware\CheckTenantSubscription;
+
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Billing\Providers\SparkBillingProvider;
+use App\Http\Middleware\VerifyOrganizationIsBillable;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use App\Filament\App\Pages\Tenancy\RegisterOrganization;
+
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Filament\App\Pages\Tenancy\EditOrganizationProfile;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Filament\Navigation\NavigationItem;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -36,6 +37,16 @@ class AppPanelProvider extends PanelProvider
             ->id('app')
             ->path('app')
             ->darkMode(false)
+            ->navigationItems([
+                NavigationItem::make('Profiel')
+                    ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile')
+                    ->group('Gebruikersbeheer')
+                    ->icon('heroicon-o-user-circle'),
+                NavigationItem::make('Abonnement')
+                    ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
+                    ->group('Gebruikersbeheer')
+                    ->icon('heroicon-o-banknotes'),
+            ])
             ->brandName('Animals')
             ->brandLogo(asset('storage/images/logo3.svg'))
             ->favicon(asset('storage/images/logo3.svg'))
@@ -54,11 +65,10 @@ class AppPanelProvider extends PanelProvider
             //     'billing' => MenuItem::make()->label('Manage subscription'),
             //     // ...
             // ])
-            ->tenantMenu(true)
+            ->tenantMenu(false)
             ->tenantMiddleware([
-                ApplyTenantScopes::class,
-                //CheckTenantSubscription::class,
-                //OnTrial::class
+                //ApplyTenantScopes::class,
+
             ], isPersistent: true)
             ->login()
             //->registration()
@@ -66,6 +76,10 @@ class AppPanelProvider extends PanelProvider
             ->passwordReset()
             ->emailVerification()
             //->spa()
+            ->databaseNotifications(true)
+            ->databaseNotificationsPolling('30s')
+            ->unsavedChangesAlerts()
+            ->databaseTransactions()
             ->colors([
                 'primary' => Color::hex('#BE123C'),  //#881337
                 'danger' => Color::Red, 
@@ -76,22 +90,23 @@ class AppPanelProvider extends PanelProvider
             ->userMenuItems([
                 MenuItem::make()
                 ->label('Back to website')
-                ->icon('heroicon-o-cog-6-tooth')
+                ->icon('heroicon-o-link')
                 ->url('/'),
                 MenuItem::make()
                     ->label('Admin Panel')
-                    ->icon('heroicon-o-cog-6-tooth')
+                    ->icon('heroicon-o-link')
                     ->url('/admin')
                     ->visible(fn () => auth()->user()->isSuperAdmin()),
                 MenuItem::make()
-                    ->label('My Profile')
-                    ->icon('heroicon-o-cog-6-tooth')
-                    ->url('/app/my-profile'),
+                    ->label('Profiel')
+                    ->icon('heroicon-o-user-circle')
+                    ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile'),
                 MenuItem::make()
-                    ->label('Billing')
-                    ->icon('heroicon-o-cog-6-tooth')
+                    ->label('Abonnement')
+                    ->icon('heroicon-o-banknotes')
                     ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
-            ])
+                    //->visible(fn() => auth()->user()->organizations()->first()->organizationIsShelter()),
+                ])
             //->tenantRoutePrefix('organization')
             //->topNavigation()
             ->sidebarCollapsibleOnDesktop()
@@ -117,8 +132,8 @@ class AppPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                CheckTenantSubscription::class,
-                OnTrial::class
+                VerifyOrganizationIsBillable::class
+                
             ])
             ->authMiddleware([
                 Authenticate::class,

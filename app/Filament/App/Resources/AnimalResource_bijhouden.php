@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Admin\Resources;
+namespace App\Filament\App\Resources;
 
 use Carbon\Carbon;
 use Filament\Forms;
@@ -14,7 +14,6 @@ use App\Enums\AnimalGender;
 use App\Enums\AnimalStatus;
 use Filament\Support\RawJs;
 use Illuminate\Support\Str;
-use App\Enums\ApprovalState;
 use App\Models\Organization;
 use App\Enums\AnimalLocation;
 use Filament\Facades\Filament;
@@ -22,10 +21,8 @@ use Filament\Resources\Resource;
 use App\Enums\AnimalPublishState;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
-use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
@@ -43,41 +40,50 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use App\Filament\Admin\Resources\AnimalResource\Pages;
-use App\Filament\Admin\Resources\AnimalResource\RelationManagers;
+use App\Filament\App\Resources\AnimalResource\Pages;
+use App\Filament\App\Resources\AnimalResource\RelationManagers;
 
-class AnimalResource extends Resource
+class AnimalResource1 extends Resource
 {
-   
-
     protected static ?string $model = Animal::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-group';
 
     protected static ?string $tenantOwnershipRelationshipName = 'organization';
 
+    
 
     public static function getModelLabel(): string
     {
         return __('animals_back.animal');
     }
 
+    public static function canCreate(): bool
+    {
+        $organization = Organization::find(2);
+        $plan = $organization->getPlan();
+        
+        // if the animal count is higher than the plan limit, then disable the button
+        // if the organization is not free forever (hence is billable), then disable the create button
+        if ($organization->animals->count() >= $plan->options['animals'] && !$organization->isFreeForever()) {
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
 
     public static function getPluralModelLabel(): string
     {
         return __('animals_back.my_animals');
     }
 
-
     public static function getNavigationBadge(): ?string
     {
-        return Animal::count();
-    }
-
-    public static function canCreate(): bool
-    {
-        return false;
-    
+        $animalCount = Filament::getTenant()->animals()->count();
+        return $animalCount;
+  
     }
 
     public static function form(Form $form): Form
@@ -86,141 +92,122 @@ class AnimalResource extends Resource
         return $form
             ->schema([
                 Grid::make(4)
-                ->schema([
-                    Section::make(__('animals_back.publish_info'))
                     ->schema([
-                        // Toggle::make('featured')
-                        //     ->label(__('animals_back.featured'))
-                        //     ->required(),
-                        
-                        Toggle::make('published')
-                            ->label(__('animals_back.published'))
-                            ->disabled()
-                            ->required(),
-
-                        Placeholder::make('featured')
-                            ->label(__('animals_back.featured'))
-                            ->content(fn (Animal $record): string => $record->featured == 1 ? __('animals_back.yes') : __('animals_back.no')),
-                        
-
-                        Placeholder::make('published')
-                            ->label(__('animals_back.status'))
-                            //->content(fn (Animal $record): string => (string)$record->published),
-                            ->content(fn (Animal $record): string => $record->published == 1 ? __('animals_back.published') : __('animals_back.not_published')),
-                        
-                        Placeholder::make('approval_state')
-                            ->label(__('animals_back.approval_state'))
-                            ->content(fn (Animal $record): string => (string)$record->approval_state),
-                    ])
-                    ->columns(4)
-                    ->columnSpan(4),
-
-                ]) 
-     
-            ->visible(fn ($context): int => $context === 'edit'),
-
-                Wizard::make([
-                    Wizard\Step::make(__('animals_back.general_info'))
-                    ->schema([
-                        Grid::make(4)
+                        Section::make(__('animals_back.general_info'))
+                        ->columns([
+                            'sm' => 1,
+                            'xl' => 2,
+                        ])
                             ->schema([
-                                Section::make(__('animals_back.general_info'))
-                                    ->schema([
-                                        TextInput::make('name')
-                                            ->label(__('animals_back.name'))
-                                            ->minLength(2)
-                                            ->maxLength(100)
-                                            ->required()
-                                            ->live(onBlur: true)
-                                            ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state)))
-                                            ->validationAttribute('full name'),
+                                TextInput::make('name')
+                                    ->label(__('animals_back.name'))
+                                    ->minLength(2)
+                                    ->maxLength(100)
+                                    ->required()
+                                    ->live(onBlur: true)
+                                    ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state)))
+                                    ->validationAttribute('full name'),
 
-                                        Select::make('animal_type')
-                                        ->label(__('animals_back.type'))
-                                            ->options(AnimalType::class)
-                                            ->native(false)
-                                            ->preload()
-                                            ->required(),
-                                        
-                                        RichEditor::make('description')
-                                            ->label(__('animals_back.description'))
-                                            ->required()
-                                            ->maxLength(65535)
-                                            ->columnSpanFull(),
-            
-                                        Select::make('current_location')
-                                            ->label(__('animals_back.current_location'))
-                                            ->required()
-                                            ->native(false)
-                                            ->preload()
-                                            ->options(AnimalLocation::class),
-                                        
-                                        Select::make('original_location')
-                                            ->label(__('animals_back.original_location'))
-                                            ->required()
-                                            ->native(false)
-                                            ->preload()
-                                            ->options(AnimalLocation::class),
-                                            
-                                        Select::make('gender')
-                                            ->label(__('animals_back.gender'))
-                                            ->required()
-                                            ->preload()
-                                            ->native(false)
-                                            ->options(AnimalGender::class),
-            
-                                        Select::make('size')
-                                            ->label(__('animals_back.size'))
-                                            ->required()
-                                            ->native(false)
-                                            ->label('Animal Size')
-                                            ->options(AnimalSize::class),
-
-                                        TextInput::make('breed')
-                                            ->label(__('animals_back.breed'))
-                                            ->required()
-                                            ->maxLength(255),
-
-                                        Select::make('status')
-                                            ->label(__('animals_back.status'))
-                                            ->required()
-                                            ->label('Adoption Status')
-                                            ->native(false)
-                                            ->preload()
-                                            ->options(AnimalStatus::class),
-            
-                                        Radio::make('age')
-                                            ->label(__('animals_back.age'))
-                                            ->options([
-                                                '0-1 jaar' => '0-1 jaar',
-                                                '1-2 jaar' => '1-2 jaar',
-                                                '2-3 jaar' => '2-3 jaar',
-                                                '3-4 jaar' => '3-4 jaar',
-                                                '4-5 jaar' => '4-5 jaar',
-                                                '5-6 jaar' => '5-6 jaar',
-                                                '6-7 jaar' => '6-7 jaar',
-                                                '7-8 jaar' => '7-8 jaar',
-                                                '8-9 jaar' => '8-9 jaar',
-                                                '9-10 jaar' => '9-10 jaar',
-                                                'ouder dan 10 jaar' => 'ouder dan 10 jaar',
-                                                'ouder dan 15 jaar' => 'ouder dan 15 jaar',
-                                            ])
-                                            ->columns(4)
-                                            ->columnSpanFull()
-                                            //->gridDirection('row')
-                                            ->required(),
-                                            ]),
+                                Select::make('animal_type')
+                                ->label(__('animals_back.type'))
+                                    ->options(AnimalType::class)
+                                    ->native(false)
+                                    ->preload()
+                                    ->required(),
+    
+                                
+                                RichEditor::make('description')
+                                    ->label(__('animals_back.description'))
+                                    ->required()
+                                    ->maxLength(65535)
+                                    ->columnSpanFull(),
+ 
+    
+                                Select::make('current_location')
+                                    ->label(__('animals_back.current_location'))
+                                    ->required()
+                                    ->native(false)
+                                    ->preload()
+                                    ->options(AnimalLocation::class),
+                                   
+    
+                                Select::make('original_location')
+                                    ->label(__('animals_back.original_location'))
+                                    ->required()
+                                    ->native(false)
+                                    ->preload()
+                                    ->options(AnimalLocation::class),
                                     
+                                Select::make('gender')
+                                    ->label(__('animals_back.gender'))
+                                    ->required()
+                                    ->preload()
+                                    ->native(false)
+                                    ->options(AnimalGender::class),
+    
+                                Select::make('size')
+                                    ->label(__('animals_back.size'))
+                                    ->required()
+                                    ->native(false)
+                                    ->label('Animal Size')
+                                    ->options(AnimalSize::class),
 
+                                TextInput::make('breed')
+                                    ->label(__('animals_back.breed'))
+                                    ->required()
+                                    ->maxLength(255),
+
+                                Select::make('status')
+                                    ->label(__('animals_back.status'))
+                                    ->required()
+                                    ->label('Adoption Status')
+                                    ->native(false)
+                                    ->preload()
+                                    ->options(AnimalStatus::class),
+    
+                                Radio::make('age')
+                                    ->label(__('animals_back.age'))
+                                    ->options([
+                                        '0-1 years' => '0-1 jaar',
+                                        '1-2 years' => '1-2 jaar',
+                                        '2-3 years' => '2-3 jaar',
+                                        '3-4 years' => '3-4 jaar',
+                                        '4-5 years' => '4-5 jaar',
+                                        '5-6 years' => '5-6 jaar',
+                                        '6-7 years' => '6-7 jaar',
+                                        '7-8 years' => '7-8 jaar',
+                                        '8-9 years' => '8-9 jaar',
+                                        '9-10 years' => '9-10 jaar',
+                                        'older than 10 years' => 'ouder dan 10 jaar',
+                                        'older than 15 years' => 'ouder dan 15 jaar',
+                                    ])
+                                    ->columns(4)
+                                    ->columnSpanFull()
+                                    //->gridDirection('row')
+                                    ->required(),
                             ])
-                     ]),
-            
+                            //->columnSpan(3)
+                         
+                            ->columnSpan(fn ($record) => $record !== null ? 3 : 4),
+           
+                    
+        
+                        Section::make(__('animals_back.publish_info'))->visible(fn ($context): int => $context === 'edit')
+                            ->schema([
+                                Toggle::make('featured')
+                                    ->label(__('animals_back.featured'))
+                                    ->required(),
+                                Toggle::make('published')
+                                    ->label(__('animals_back.published'))
+                                    ->required(),
+                                Placeholder::make('test')
+                                    ->label(__('animals_back.approval_state'))
+                                    ->content(fn (Animal $record): string => (string)$record->approval_state),
+                            ])
+                            ->columnSpan(1),
+    
 
-                    Wizard\Step::make(__('animals_back.medical_social_info'))
-                    ->schema([
-                        Grid::make(4)
-                        ->schema([
-                            Section::make(__('animals_back.medical_social_info'))
+                        Section::make(__('animals_back.medical_social_info'))
                             ->schema([
                                 Toggle::make('sterilized')
                                     ->label(__('animals_back.sterilized'))
@@ -276,9 +263,6 @@ class AnimalResource extends Resource
                                 Toggle::make('potty_trained')
                                     ->label(__('animals_back.potty_trained'))
                                     ->required(),
-                                Toggle::make('needs_movement')
-                                    ->label(__('animals_back.needs_movement'))
-                                    ->required(),
                                 Toggle::make('car_friendly')
                                     ->label(__('animals_back.car_friendly'))
                                     ->required(),
@@ -298,18 +282,10 @@ class AnimalResource extends Resource
                                     ->maxLength(65535)
                                     ->columnSpanFull(),
                             ])
-                            ->columns(3)
+                            ->columns(4)
                             ->columnSpan(4),
-                        ])
 
-                    ]),
-
-
-                    Wizard\Step::make(__('animals_back.media'))
-                    ->schema([
-                        Grid::make(4)
-                        ->schema([   
-                            Section::make(__('animals_back.photo_title'))
+                        Section::make(__('animals_back.photo_title'))
                             ->schema([
                                 FileUpload::make('photo_featured')
                                     ->label(__('animals_back.photo_featured'))
@@ -326,11 +302,6 @@ class AnimalResource extends Resource
                                     ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
                                     ->reorderable()
                                     ->appendFiles()
-                                    ->image()
-                                    ->imageResizeMode('cover')
-                                    ->imageResizeTargetWidth('800')
-                                    ->imageResizeTargetHeight('600')
-                                    ->imageCropAspectRatio('16:9')
                                     ->maxFiles(20)
                                     ->columnSpan('full')
                             ])
@@ -358,31 +329,13 @@ class AnimalResource extends Resource
                                     
                             ])
                             ->columnSpan(2),
-                        ])
-                    ]),
-               
-               
-               
-               
-               ])->columnSpanFull(),
-
-
-
-
-              
-           
     
-
-
-
-        
+                    ]),
             ]);
     }
 
     public static function table(Table $table): Table
     {
-        $recipient = auth()->user();
-
         return $table
             ->columns(
                 [
@@ -422,7 +375,7 @@ class AnimalResource extends Resource
                         ->label(__('animals_back.approved'))
                         ->badge()
                         ->color(fn (string $state): string => match ($state) {
-                            'In behandeling' => 'warning',
+                            'Wordt beoordeeld' => 'warning',
                             'Goedgekeurd' => 'success',
                             'Afgekeurd' => 'danger'
                         })
@@ -661,11 +614,9 @@ class AnimalResource extends Resource
                         ->icon('heroicon-o-trash')
                         ->action(fn (Animal $record) => $record->delete())
                         ->requiresConfirmation(),
-                    
-                    
                     Tables\Actions\Action::make('Publish')
                         ->requiresConfirmation()
-                        ->icon('heroicon-o-eye')
+                        ->icon('heroicon-m-pencil-square')
                         ->color('info')
                         ->action(function (Animal $animal, array $data): void {
                             $animal->published_state = AnimalPublishState::Published;
@@ -677,7 +628,6 @@ class AnimalResource extends Resource
                                 ->success('')
                                 ->body('Animal published successfully')
                                 ->send();
-
                         })
 
                         ->visible(function (Animal $record) {
@@ -686,7 +636,7 @@ class AnimalResource extends Resource
 
 
                     Tables\Actions\Action::make('Unpublish')
-                        ->icon('heroicon-o-eye-slash')
+                        ->icon('heroicon-m-pencil-square')
                         ->color('info')
                         ->form([
                             Forms\Components\TextInput::make('unpublish_reason')
@@ -707,52 +657,6 @@ class AnimalResource extends Resource
                         ->visible(function (Animal $record) {
                             return $record->published_state == 'Gepubliceerd' ? true : false;
                         }),
-
-                        // Action Menu item for Approval;
-                        Tables\Actions\Action::make('Approve')
-                            ->requiresConfirmation()
-                            ->icon('heroicon-o-hand-thumb-up')
-                            ->color('info')
-                            ->action(function (Animal $animal, array $data): void {
-                                $animal->approval_state = ApprovalState::Approved;
-                                $animal->approved_at = Carbon::now()->format('Y-m-d H:i:s');
-                                $animal->published_state = AnimalPublishState::Published;
-                                $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
-                                $animal->save();
-
-                                Notification::make()
-                                    ->title('Success')
-                                    ->success('')
-                                    ->body('Animal approved successfully')
-                                    ->send();
-                            })
-                            ->visible(function (Animal $record) {
-                                return $record->approval_state == 'In behandeling' || $record->approval_state == 'Afgekeurd' ? true : false;
-                            }),
-
-
-                        // Action Menu item for Approval;
-                        Tables\Actions\Action::make('Unapprove')
-                            ->requiresConfirmation()
-                            ->icon('heroicon-o-hand-thumb-down')
-                            ->color('info')
-                            ->action(function (Animal $animal, array $data): void {
-                                $animal->approval_state = ApprovalState::NotApproved;
-                                $animal->unapproved_at = Carbon::now()->format('Y-m-d H:i:s');
-                                $animal->published_state = AnimalPublishState::Unpublished;
-                                $animal->unpublished_at = Carbon::now()->format('Y-m-d H:i:s');
-                                $animal->save();
-
-                                Notification::make()
-                                    ->title('Success')
-                                    ->success('')
-                                    ->body('Animal unapproved successfully')
-                                    ->send();
-                            })
-                            ->visible(function (Animal $record) {
-                                return $record->approval_state == 'Goedgekeurd' ? true : false;
-                            }),
-
                 ])
                 ->iconButton()
                 ->button()

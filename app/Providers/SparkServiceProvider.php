@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Laravel\Cashier\Cashier;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\ValidationException;
 
@@ -75,44 +76,36 @@ class SparkServiceProvider extends ServiceProvider
             return $request->user()->organizations->first();
         });
 
-
-
-        // Spark::billable(User::class)->resolve(function (Request $request) {
-        //     return $request->user();
-        // });
-
         Spark::billable(Organization::class)->authorize(function (Organization $billable, Request $request) {
-          
             return $request->user() && $request->user()->organizations->contains($billable->id);
-            //return $request->user() && $request->user()->ownsOrganization($billable);
-            //return true;
-           
         });
 
-        // Spark::billable(User::class)->authorize(function (User $billable, Request $request) {
-        //     return $request->user() &&
-        //            $request->user()->id == $billable->id;
-        // });
 
         Spark::billable(Organization::class)->checkPlanEligibility(function (Organization $billable, Plan $plan) {
             // Get the user's organization
             $organization = Auth::user()->organizations()->first();
+            Log::info($organization);
 
-           if ($plan->name == 'Individual') {
-                    $organization->update(['is_shelter' => false]);
+            if ($plan->name == 'Individual') {
+                $organization->update(['is_shelter' => false]);
+                Log::info('Updated organization {$organization->name} to not be a shelter.');
             }
 
             if ($plan->name == 'Organization') {
                 $organization->update(['is_shelter' => true]);
-        }
+                Log::info('Updated organization {$organization->name} to be a shelter.');
+            }
+
+     
+            if ($billable->animals->count() > $plan->options['animals']) {
+                Log::info('You have too many animals for the selected plan');
+                throw ValidationException::withMessages([
+                    'plan' => 'You have too many animals for the selected plan.'
+                ]);
+                
+            }
 
 
-            
-            // if ($billable->animals > 5 && $plan->name == 'Individual') {
-            //     throw ValidationException::withMessages([
-            //         'plan' => 'You have too many animals for the selected plan.'
-            //     ]);
-            // }
         });
     }
 }

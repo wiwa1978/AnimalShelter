@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Spark\Spark;
 use Spark\Billable;
 use App\Models\User;
 use App\Models\Animal;
@@ -49,9 +50,53 @@ class Organization extends Model
         // Listen for the creating event and set the slug before saving
         static::creating(function (Organization $organisation) {
             $organisation->slug = Str::slug($organisation->name);
+            
         });
+
     }
     
+    public function getPlan()
+    {
+        $plan = $this->sparkPlan();
+
+        if ($plan !== null) {
+            return $plan;
+        }
+
+        // Fallback to "Individual" plan
+        $plan = Spark::plans('organization')->firstWhere('name', '=', 'fallback');
+        
+        return $plan;
+    }
+    
+    public function isBillable(): bool
+    {
+        return ! $this->free_forever;
+    }
+
+    
+    public function isFreeForever(): bool
+    {
+        return $this->free_forever;
+    }
+
+    public function isOnTrialOrSubscribed(): bool
+    {
+        return $this->onTrial() || $this->subscribed();
+    }
+
+    public function organizationIsShelter(): bool
+    {
+        return $this->is_shelter == true;
+        //return $query->where('id', $organizationId)->where('is_shelter', true);
+    }
+
+    public function isNotShelter(): bool
+    {
+        //dd( $this->is_shelter == false);
+        return $this->is_shelter == false;
+        //return $query->where('id', $organizationId)->where('is_shelter', false);
+    }
 
     public function getCurrentTenantLabel(): string
     {

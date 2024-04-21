@@ -6,14 +6,26 @@
       
 
       <div class="mt-6 space-y-12 lg:grid lg:grid-cols-3 lg:gap-x-6 lg:space-y-0">
-        @foreach($photos as $photo)
-        <div class="group relative">
-         
-            <div class="relative overflow-hidden rounded-lg ">
-                <img src="{{ $photo }}" alt="Photo from {{ $animal->name}}" class="h-full w-full object-cover object-center">
+        
+      @empty(!$photos_http)
+        @foreach($photos_http as $photo)
+            <div class="group relative">
+                <div class="relative overflow-hidden rounded-lg ">
+                    <img src=" {{ $photo }}" alt="Photo from {{ $animal->name}}" class="h-800 w-600 object-cover object-center">
+                </div>
             </div>
-        </div>
-        @endforeach
+            @endforeach
+       @endempty
+
+        @empty(!$photos_media)
+        @foreach($photos_media as $photo)
+            <div class="group relative">
+                <div class="relative overflow-hidden rounded-lg ">
+                    <img src=" {{ asset('storage/' . $photo) }}" alt="Photo from {{ $animal->name}}" class="h-800 w-600 object-cover object-center">
+                </div>
+            </div>
+            @endforeach
+        @endempty
       </div>
     </div>
 
@@ -33,9 +45,9 @@
                 @endauth
 
                 @if ( $isAnimalBelongsToShelter)
-                    <h2 class="text-xl font-medium leading-6 text-indigo-900">Asiel</h2>
+                    <h2 class="text-xl font-medium leading-6 text-indigo-900">{{ __('animals_front.shelter')}}</h2>
                 @else
-                    <h2 class="text-xl font-medium leading-6 text-indigo-900">Particulier</h2>
+                    <h2 class="text-xl font-medium leading-6 text-indigo-900">{{ __('animals_front.privateperson')}}</h2>
                 @endif
             </div>
 
@@ -152,7 +164,7 @@
                                             </div>
                                             <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                                                 <div>
-                                                    <p class="text-sm text-gray-500">{{ __('animals_front.home_alone')}}: {{ $animal->current_home_alone == 1 ? "Ja" : "Nee" }}</p>
+                                                    <p class="text-sm text-gray-500">{{ __('animals_front.environment_home')}}: {{ $animal->current_home_alone == 1 ? "Ja" : "Nee" }}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -194,9 +206,7 @@
                 <div class="col-span-2 sm:col-span-4">
                   <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.description')}}</dt>
                     <div class="prose mt-1 text-sm text-gray-900">
-                        <x-markdown>
-                            {{ $animal->description }}
-                        </x-markdown>
+                        {!! $animal->description !!}
                     </div>
 
                 </div>
@@ -212,7 +222,7 @@
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                 <div class="col-span-2 sm:col-span-4">
                   <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.environment')}}</dt>
-                  <dd class="mt-1 text-sm texte-gray-900">{{ $animal->environment }}</dd>
+                  <dd class="mt-1 text-sm texte-gray-900">{!! $animal->environment !!}</dd>
                 </div>
               </dl>
             </div>
@@ -222,27 +232,30 @@
 
 
         <!-- Additional videos -->
+        
         @empty(!$animal->youtube_links)
         <section aria-labelledby="applicant-information-title">
           <div class="border border-gray-200 bg-white shadow sm:rounded-lg">
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
               <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
-                <div class="sm:col-span-4">
-                  <dt class="text-sm font-medium text-gray-500">{{ __('animals_front.videos')}}</dt>
-
+              <div class="sm:col-span-4">
+                <dt class="text-sm font-medium text-gray-500">{{ __('animals_front.videos')}}</dt>
+                <div class="flex flex-wrap justify-center">
                     @foreach ($youtube_links as $link)
-                        <div class="mt-6 group relative ">
+                        <div class="mt-6 group relative mx-2 lg:mx-4 w-full sm:w-1/2 lg:w-1/4">
                             <div class="media-body rounded">
-                                <iframe class="rounded-lg" width="300" height="200" src="{{ $link }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe class="rounded-lg w-full justify-center h-auto" src="{{ $link }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                         </div>
                     @endforeach
                 </div>
+            </div>
               </dl>
             </div>
           </div>
         </section>
         @endempty
+
       </div>
 
       <div class="space-y-6 ">
@@ -378,7 +391,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Sterilized: <a href="#" class="font-medium text-gray-900"> {{ $animal->sterilized == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500"> {{ __('animals_front.sterilized')}} : <a href="#" class="font-medium text-gray-900"> {{ $animal->sterilized == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -398,7 +411,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Chipped: <a href="#" class="font-medium text-gray-900"> {{ $animal->chipped == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500"> {{ __('animals_front.chipped')}} : <a href="#" class="font-medium text-gray-900"> {{ $animal->chipped == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -418,7 +431,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Vaccinated: <a href="#" class="font-medium text-gray-900"> {{ $animal->vaccinated == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500"> {{ __('animals_front.vaccinated')}} : <a href="#" class="font-medium text-gray-900"> {{ $animal->vaccinated == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -438,7 +451,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Rabies: <a href="#" class="font-medium text-gray-900"> {{ $animal->rabies == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500"> {{ __('animals_front.rabies')}} : <a href="#" class="font-medium text-gray-900"> {{ $animal->rabies == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -458,7 +471,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Medicins: <a href="#" class="font-medium text-gray-900"> {{ $animal->medicins == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500"> {{ __('animals_front.medicins')}} : <a href="#" class="font-medium text-gray-900"> {{ $animal->medicins == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -478,7 +491,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Special Food: <a href="#" class="font-medium text-gray-900"> {{ $animal->special_food== 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500"> {{ __('animals_front.special_food')}} : <a href="#" class="font-medium text-gray-900"> {{ $animal->special_food== 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -493,7 +506,7 @@
          <!-- Social Information -->
         <section aria-labelledby="timeline-title" class="lg:col-span-1 lg:col-start-3 pb-16">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
-            <h2 id="timeline-title" class="text-lg font-medium text-rose-700">Social Information</h2>
+            <h2 id="timeline-title" class="text-lg font-medium text-rose-700"> {{ __('animals_front.social_info')}} </h2>
 
             <!-- Social Information -->
             <div class="mt-6 flow-root">
@@ -512,7 +525,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Friendly to Cats: <a href="#" class="font-medium text-gray-900">{{ $animal->cats_friendly == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500"> {{ __('animals_front.cat_friendly')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->cats_friendly == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
 
                         </div>
@@ -533,7 +546,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Friendly to Dogs: <a href="#" class="font-medium text-gray-900">{{ $animal->dogs_friendly == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.dog_friendly')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->dogs_friendly == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -553,7 +566,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Friendly to Kids < 6 years: <a href="#" class="font-medium text-gray-900">{{ $animal->kids_friendly_6y == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.kids_friendly_6y')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->kids_friendly_6y == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -573,7 +586,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Friendly to Kids < 14 years: <a href="#" class="font-medium text-gray-900">{{ $animal->kids_friendly_14y == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.kids_friendly_14y')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->kids_friendly_14y == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -593,7 +606,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Needs garden: <a href="#" class="font-medium text-gray-900">{{ $animal->needs_garden == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.needs_garden')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->needs_garden == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -613,7 +626,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Potty Trained: <a href="#" class="font-medium text-gray-900">{{ $animal->potty_trained == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.potty_trained')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->potty_trained == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -632,7 +645,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Car Friendly: <a href="#" class="font-medium text-gray-900">{{ $animal->car_friendly == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.car_friendly')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->car_friendly == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -651,27 +664,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Can stay alone at home <a href="#" class="font-medium text-gray-900">{{ $animal->home_alone == 1 ? "Ja" : "Nee" }}</a></p>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="relative pb-2">
-                    <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
-                    <div class="relative flex space-x-3">
-                        <div>
-                            <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
-                                    <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
-                                </svg>
-                            </span>
-                        </div>
-                        <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
-                        <div>
-                            <p class="text-sm text-gray-500">Knows basic commands: <a href="#" class="font-medium text-gray-900">{{ $animal->knows_commands == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.home_alone')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->home_alone == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -691,7 +684,27 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Experience required with breed: <a href="#" class="font-medium text-gray-900">{{ $animal->experience_required == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.knows_command')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->knows_commands == 1 ? "Ja" : "Nee" }}</a></p>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="relative pb-2">
+                    <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                    <div class="relative flex space-x-3">
+                        <div>
+                            <span class="h-8 w-8 rounded-full  flex items-center justify-center ring-8 ring-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-rose-700 w-6 h-6">
+                                    <path fill-rule="evenodd" d="M3 6a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V6Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3v2.25a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3V6ZM3 15.75a3 3 0 0 1 3-3h2.25a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-2.25Zm9.75 0a3 3 0 0 1 3-3H18a3 3 0 0 1 3 3V18a3 3 0 0 1-3 3h-2.25a3 3 0 0 1-3-3v-2.25Z" clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                        </div>
+                        <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                        <div>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.experience_required')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->experience_required == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -712,7 +725,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Well Behaved: <a href="#" class="font-medium text-gray-900">{{ $animal->well_behaved == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.well_behaved')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->well_behaved == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -732,7 +745,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Playful: <a href="#" class="font-medium text-gray-900">{{ $animal->playful == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.playful')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->playful == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -752,7 +765,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Everybody Friendly: <a href="#" class="font-medium text-gray-900">{{ $animal->everybody_friendly == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.everybody_friendly')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->everybody_friendly == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>
@@ -773,7 +786,7 @@
                         </div>
                         <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
                         <div>
-                            <p class="text-sm text-gray-500">Affectionate: <a href="#" class="font-medium text-gray-900">{{ $animal->affectionate == 1 ? "Ja" : "Nee" }}</a></p>
+                            <p class="text-sm text-gray-500">{{ __('animals_front.affectionate')}}: <a href="#" class="font-medium text-gray-900">{{ $animal->affectionate == 1 ? "Ja" : "Nee" }}</a></p>
                         </div>
                         </div>
                     </div>

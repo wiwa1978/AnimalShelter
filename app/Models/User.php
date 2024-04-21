@@ -76,6 +76,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     {
         return $this->belongsToMany(Animal::class, 'favorites');
     }
+
  
     public function canAccessTenant(Model $tenant): bool
     {

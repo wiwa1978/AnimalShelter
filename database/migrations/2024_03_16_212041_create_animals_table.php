@@ -20,10 +20,12 @@ return new class extends Migration
             $table->timestamp('date_added')->nullable();
             $table->boolean('published')->default(false);
             $table->boolean('featured')->default(false);
+            $table->string('approval_state')->default('In behandeling');
+            $table->string('published_state')->default('Draft');
             $table->timestamp('published_at')->nullable();
             $table->timestamp('unpublished_at')->nullable();
-            $table->string('approval_state')->default('Wordt beoordeeld');
-            $table->string('published_state')->default('Draft');
+            $table->timestamp('approved_at')->nullable();
+            $table->timestamp('unapproved_at')->nullable();
             $table->string('unpublish_reason', 255)->nullable();
             $table->string('animal_type')->nullable();
             $table->string('current_location')->nullable();
@@ -39,7 +41,7 @@ return new class extends Migration
             $table->string('status');
             $table->string('size');
             $table->string('breed');
-            $table->string('reason_adoption');
+            $table->string('reason_adoption')->nullable();
             $table->boolean('sterilized');
             $table->boolean('chipped');
             $table->boolean('passport');

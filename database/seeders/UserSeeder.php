@@ -21,6 +21,7 @@ class UserSeeder extends Seeder
             'email'             => 'wim-user@test.com',
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
+            'is_shelter'        => 0,
         ])->assignRole('user');
 
         $user2 = User::create([
@@ -28,6 +29,7 @@ class UserSeeder extends Seeder
             'email'             => 'wim-org@test.com',
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
+            'is_shelter'        => 1,
         ])->assignRole('user');
 
         $user3 = User::create([
@@ -35,6 +37,7 @@ class UserSeeder extends Seeder
             'email'             => 'marlinda-user@test.com',
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
+            'is_shelter'        => 0,
         ])->assignRole('user');
 
         $user4 = User::create([
@@ -42,6 +45,7 @@ class UserSeeder extends Seeder
             'email'             => 'marlinda-org@test.com',
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
+            'is_shelter'        => 1,
         ])->assignRole('user');
 
         $user5 = User::create([
@@ -49,6 +53,7 @@ class UserSeeder extends Seeder
             'email'             => 'iris-user@test.com',
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
+            'is_shelter'        => 0,
         ])->assignRole('user');
 
 

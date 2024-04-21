@@ -1,11 +1,11 @@
 
 <div class="mx-auto w-full m-16 px-6 lg:px-8">
     <div class="mx-auto w-full lg:mx-0 text-center">
-    
+  
 
       <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
 
-        @if($animal_type == 'dog')
+         @if($animal_type == 'dog')
             {{ __('animals_front.adopt_dog')}} 
             <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} honden zoeken een nieuwe thuis</p>
          @endif
@@ -16,6 +16,19 @@
          @if($animal_type == 'other')
             {{ __('animals_front.adopt_other')}}
             <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} andere huisdieren zoeken een nieuwe thuis</p>
+         @endif
+
+         @if($animal_type == 'dog-featured')
+            {{ __('animals_front.dogs_in_picture')}} 
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} honden in de kijker</p>
+         @endif
+         @if($animal_type == 'cat-featured')
+            {{ __('animals_front.cats_in_picture')}}
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} katten in de kijker</p>
+         @endif
+         @if($animal_type == 'other-featured')
+            {{ __('animals_front.others_in_picture')}}
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} andere huisdieren in de kijker</p>
          @endif
 
 
@@ -29,7 +42,7 @@
 
     <h2 class="mt-6 text-2xl font-bold text-indigo-900">
 
-          @if($animal_type == 'dog')
+         @if($animal_type == 'dog')
             {{ __('animals_front.all_dogs')}} ({{ $animals_count }})
          @endif
          @if($animal_type == 'cat')

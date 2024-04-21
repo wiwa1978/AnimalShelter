@@ -26,7 +26,7 @@
                     </div>
                 </header>
             @endif
-
+    
             <!-- Page Content -->
             <main class="isolate">
                 @if(request()->routeIs('home'))

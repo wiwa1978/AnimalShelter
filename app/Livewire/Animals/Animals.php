@@ -28,50 +28,50 @@ class Animals extends Component
         if ($this->currentRoute == 'show-dogs') {
        
             return view('components.animals.animals',  [
-                'animals_all' => Animal::dogs()->paginate(self::PER_PAGE),
+                'animals_all' => Animal::dogs()->published()->paginate(self::PER_PAGE),
                 'animal_type' => "dog",
-                'animals_count' => Animal::dogs()->count(),
+                'animals_count' => Animal::dogs()->published()->count(),
                 
             ]);
         }
 
         if ($this->currentRoute == 'show-featured-dogs') {
             return view('components.animals.animals',  [
-                'animals_all' => Animal::dogs()->featured()->paginate(self::PER_PAGE),
+                'animals_all' => Animal::dogs()->published()->featured()->paginate(self::PER_PAGE),
                 'animal_type' => "dog-featured",
-                'animals_count' => Animal::dogs()->featured()->count(),
+                'animals_count' => Animal::dogs()->published()->featured()->count(),
             ]);
         }
 
         if ($this->currentRoute == 'show-cats') {
             return view('components.animals.animals',  [
-                'animals_all' => Animal::cats()->paginate(self::PER_PAGE),
+                'animals_all' => Animal::cats()->published()->paginate(self::PER_PAGE),
                 'animal_type' => "cat",
-                'animals_count' => Animal::cats()->count(),
+                'animals_count' => Animal::cats()->published()->count(),
             ]);
         }
 
         if ($this->currentRoute == 'show-featured-cats') {
             return view('components.animals.animals',  [
-                'animals_all' => Animal::cats()->featured()->paginate(self::PER_PAGE),
+                'animals_all' => Animal::cats()->published()->featured()->paginate(self::PER_PAGE),
                 'animal_type' => "cat-featured",
-                'animals_count' => Animal::cats()->featured()->count(),
+                'animals_count' => Animal::cats()->published()->featured()->count(),
             ]);
         }
 
         if ($this->currentRoute == 'show-others') {
             return view('components.animals.animals',  [
-                'animals_all' => Animal::others()->paginate(self::PER_PAGE),
+                'animals_all' => Animal::others()->published()->paginate(self::PER_PAGE),
                 'animal_type' => "other",
-                'animals_count' => Animal::others()->count(),
+                'animals_count' => Animal::others()->published()->count(),
             ]);
         }
 
         if ($this->currentRoute == 'show-featured-others') {
             return view('components.animals.animals',  [
-                'animals_all' => Animal::others()->featured()->paginate(self::PER_PAGE),
+                'animals_all' => Animal::others()->published()->featured()->paginate(self::PER_PAGE),
                 'animal_type' => "other-featured",
-                'animals_count' => Animal::others()->featured()->count(),
+                'animals_count' => Animal::others()->published()->featured()->count(),
             ]);
         }
 

@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('shelter_website')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
+            $table->boolean('free_forever')->nullable()->default(false);
+
             $table->timestamps();
         });
 

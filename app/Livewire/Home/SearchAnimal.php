@@ -47,19 +47,20 @@ class SearchAnimal extends Component
     public function searchFunction(): void
     {
         $this->animals = Animal::when($this->searchTerm !== '', fn(Builder $query) => $query->where('name', 'like', '%'. $this->searchTerm .'%')) 
-        ->when($this->searchAnimalType !== 'None', fn(Builder $query) => $query->where('animal_type', 'like', $this->searchAnimalType)) 
-        ->when($this->searchAnimalLocation !== 'None', fn(Builder $query) => $query->where('current_location', 'like', $this->searchAnimalLocation)) 
-        ->when($this->searchAnimalAge !== 'None', fn(Builder $query) => $query->where('age', 'like', $this->searchAnimalAge)) 
-        ->when($this->searchAnimalGender !== 'None', fn(Builder $query) => $query->where('gender', 'like', $this->searchAnimalGender)) 
-        //->when($this->searchAnimalOwner !== 'None', fn(Builder $query) => $query->where('is_shelter', 1 )) 
-        ->when($this->searchAnimalOwner !== 'None', function ($query) {
-            $isShelter = $this->searchAnimalOwner === 'Asiel' ? 1 : 0;
-            
-            $query->whereHas('organization', function ($query) use ($isShelter) {
-                $query->where('is_shelter', $isShelter);
-            });
-        })
-        ->get();
+            ->when($this->searchAnimalType !== 'None', fn(Builder $query) => $query->where('animal_type', 'like', $this->searchAnimalType)) 
+            ->when($this->searchAnimalLocation !== 'None', fn(Builder $query) => $query->where('current_location', 'like', $this->searchAnimalLocation)) 
+            ->when($this->searchAnimalAge !== 'None', fn(Builder $query) => $query->where('age', 'like', $this->searchAnimalAge)) 
+            ->when($this->searchAnimalGender !== 'None', fn(Builder $query) => $query->where('gender', 'like', $this->searchAnimalGender)) 
+            //->when($this->searchAnimalOwner !== 'None', fn(Builder $query) => $query->where('is_shelter', 1 )) 
+            ->when($this->searchAnimalOwner !== 'None', function ($query) {
+                $isShelter = $this->searchAnimalOwner === 'Asiel' ? 1 : 0;
+                
+                $query->whereHas('organization', function ($query) use ($isShelter) {
+                    $query->where('is_shelter', $isShelter);
+                });
+            })
+            ->published()
+            ->get();
 
         $this->animals_count = $this->animals->count();
 

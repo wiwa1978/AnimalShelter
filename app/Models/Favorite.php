@@ -18,7 +18,6 @@ class Favorite extends Model
         return $this->belongsTo(User::class);
     }
 
-
     public function animal()
     {
         return $this->belongsTo(Animal::class);

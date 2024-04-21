@@ -19,9 +19,9 @@ class ApplyTenantScopes
      */
     public function handle(Request $request, Closure $next): Response
     {
-        Animal::addGlobalScope(
-            fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant()),
-        );
+        // Animal::addGlobalScope(
+        //     fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant()),
+        // );
 
         // User::addGlobalScope(
         //     fn (Builder $query) => $query->whereBelongsTo(Filament::getTenant()),

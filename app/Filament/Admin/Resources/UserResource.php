@@ -17,7 +17,36 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationGroup = 'User Management';
+
+    public static function getNavigationGroup(): ?string
+    {
+        return __('users_back.user_management');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return  __('users_back.users');
+    }
+
+    public static function getModelLabel(): string
+    {
+        return __('users_back.user');
+    }
+
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('users_back.users');
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+       // return User::count();
+        $userCount = User::count();
+        return $userCount;
+    }
 
     public static function form(Form $form): Form
     {

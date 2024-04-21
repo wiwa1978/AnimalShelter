@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Favorite;
 use App\Enums\AnimalType;
 use App\Enums\AnimalStatus;
 use App\Enums\ApprovalState;
@@ -55,6 +56,10 @@ class Animal extends Model
     public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);
+    }
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'favorites');
     }
 
     public function scopeDogs($query)

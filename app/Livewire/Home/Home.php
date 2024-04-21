@@ -17,12 +17,12 @@ class Home extends Component
 
         return view('components.home.home1',
             [
-                'dogs_featured' => Animal::dogs()->featured()->paginate(4),
-                'cats_featured' => Animal::cats()->featured()->paginate(4),
-                'others_featured' => Animal::others()->featured()->paginate(4),
-                'dogs_featured_count' => Animal::dogs()->featured()->count(),
-                'cats_featured_count' => Animal::cats()->featured()->count(),
-                'others_featured_count' => Animal::others()->featured()->count(),
+                'dogs_featured' => Animal::dogs()->published()->featured()->paginate(4),
+                'cats_featured' => Animal::cats()->published()->featured()->paginate(4),
+                'others_featured' => Animal::others()->published()->featured()->paginate(4),
+                'dogs_featured_count' => Animal::dogs()->published()->featured()->count(),
+                'cats_featured_count' => Animal::cats()->published()->featured()->count(),
+                'others_featured_count' => Animal::others()->published()->featured()->count(),
                 'dogs_count' => Animal::dogs()->count(),
                 'cats_count' => Animal::cats()->count(),
                 'others_count' => Animal::others()->count(),
