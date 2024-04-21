@@ -10,6 +10,8 @@ use Livewire\Component;
 
 class AnimalsByOrganization extends Component
 {
+
+    //test
     public $animals;
     public $organization;
     public $animals_count;
