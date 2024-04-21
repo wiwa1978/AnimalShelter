@@ -43,7 +43,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\AnimalResource\Pages;
 use App\Filament\App\Resources\AnimalResource\RelationManagers;
 
-class AnimalResource1 extends Resource
+class AnimalResource123 extends Resource
 {
     protected static ?string $model = Animal::class;
 
