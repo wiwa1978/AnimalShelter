@@ -149,6 +149,20 @@ return [
     'reserved' => 'Reserved',
     'adoption_fee' => 'Adoption Fee',
 
+    'priceinfo'  => 'Price Information',
+    'priceinfo_subtitle'  => 'Price Information subtitle',
+    'monthly' => 'Monthly',
+    'yearly' => 'Yearly',
+    'month' => 'month',
+    'year' => 'year',
+    'subscribe_plan' => 'Subscribe to this plan',
+    'package_gold' => 'Package Gold',
+    'package_silver' => 'Package Silver',
+    'package_bronze' => 'Package Bronze',
+    'package_gold_subtitle' => 'Package Gold description',
+    'package_silver_subtitle' => 'Package Silver description',
+    'package_bronze_subtitle' => 'Package Bronze description',
+
 ];
 
 

@@ -144,4 +144,17 @@ return [
     'reserved' => 'Gereserveerd',
     'adoption_fee' => 'Adoptiebijdrage',
 
+    'priceinfo'  => 'Prijsinformatie',
+    'priceinfo_subtitle'  => 'Prijsinformatie subtitle',
+    'monthly' => 'Maandelijks',
+    'yearly' => 'Jaarlijks',
+    'month' => 'maand',
+    'year' => 'jaar',
+    'subscribe_plan' => 'Inschrijven op dit plan',
+    'package_gold' => 'Pakket Goud',
+    'package_silver' => 'Pakket Zilver',
+    'package_bronze' => 'Pakket Brons',
+    'package_gold_subtitle' => 'Pakket Goud uitleg',
+    'package_silver_subtitle' => 'Pakket Zilver uitleg',
+    'package_bronze_subtitle' => 'Pakket Brons uitleg',
 ];
