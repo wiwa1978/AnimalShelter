@@ -2,11 +2,15 @@
 
 namespace App\Livewire\Home;
 
+use App\Enums\AnimalAge;
+use App\Enums\AnimalLocation;
 use App\Models\Animal;
 use Livewire\Component;
 use App\Enums\AnimalType;
+use App\Enums\AnimalGender;
 use Livewire\WithPagination;
 use Livewire\Attributes\Title;
+use App\Enums\OrganizationType;
 use Illuminate\Database\Eloquent\Builder;
 
 #[Title('AnimalShelter - Home')]
@@ -25,19 +29,30 @@ class SearchAnimal extends Component
     public $searchAnimalGender='None';
     public $searchAnimalOwner='None';
 
-    public $animaltypes = ['Hond', 'Kat', 'Ander huisdier'];
+    public $animaltypes;
 
-    public $animallocations = ['België', 'Nederland', 'Duitsland', 'Albanië'];
+    public $animallocations;
 
-    public $animalages = ['1-2 jaar', '2-3 jaar', '3-4 jaar', '5-6 jaar'];
+    public $animalages;
 
-    public $animalgenders = ['Mannelijk', 'Vrouwelijk'];
+    public $animalgenders;
 
-    public $animalowners = ['Particulier', 'Asiel'];
 
+    public $animalowners;
+
+    public function mount(): void
+    {   
+        $this->animaltypes = AnimalType::options();
+        $this->animallocations = AnimalLocation::options();
+        $this->animalages =  AnimalAge::options();
+        $this->animalgenders =  AnimalGender::options();
+        $this->animalowners = OrganizationType::options();
+        
+    }
 
     public function updating($key): void
     {
+        
         if ($key === 'searchTerm' || $key === 'searchAnimalType' || $key === 'searchAnimalLocation' || $key === 'searchAnimalAge' || $key === 'searchAnimalGender' || $key === 'searchAnimalOwner') {
             $this->resetPage();
         }
@@ -46,23 +61,41 @@ class SearchAnimal extends Component
 
     public function searchFunction(): void
     {
-        $this->animals = Animal::when($this->searchTerm !== '', fn(Builder $query) => $query->where('name', 'like', '%'. $this->searchTerm .'%')) 
-            ->when($this->searchAnimalType !== 'None', fn(Builder $query) => $query->where('animal_type', 'like', $this->searchAnimalType)) 
-            ->when($this->searchAnimalLocation !== 'None', fn(Builder $query) => $query->where('current_location', 'like', $this->searchAnimalLocation)) 
-            ->when($this->searchAnimalAge !== 'None', fn(Builder $query) => $query->where('age', 'like', $this->searchAnimalAge)) 
-            ->when($this->searchAnimalGender !== 'None', fn(Builder $query) => $query->where('gender', 'like', $this->searchAnimalGender)) 
-            //->when($this->searchAnimalOwner !== 'None', fn(Builder $query) => $query->where('is_shelter', 1 )) 
+
+        $this->animals = 
+        
+        Animal::when($this->searchTerm !== '', fn(Builder $query) => $query->where('name', 'like', '%'. $this->searchTerm .'%')) 
+            ->when($this->searchAnimalType !== 'None', function(Builder $query) {
+                $animalType = $this->searchAnimalType === __('animals_back.dog') ? 'Dog' : ($this->searchAnimalType=== __('animals_back.cat') ? 'Cat' : 'Other');
+                $query->where('animal_type', 'like', $animalType);
+            })
+
+            ->when($this->searchAnimalLocation !== 'None', function(Builder $query) {
+                $currentLocation = $this->searchAnimalLocation === __('animals_back.albania') ? 'Albania' : ($this->searchAnimalLocation=== __('animals_back.netherlands') ? 'Netherlands' : ($this->searchAnimalLocation===__('animals_back.germany') ? 'Germany' : 'Belgium'));
+                $query->where('current_location', 'like', $currentLocation);
+            })
+
+            ->when($this->searchAnimalAge !== 'None', fn(Builder $query) => $query->where('age', 'like', $this->searchAnimalAge))           
+            
+            ->when($this->searchAnimalGender !== 'None', function(Builder $query) {
+                $animalGender = $this->searchAnimalGender === __('animals_back.male') ? 'Male' : 'Female';
+                $query->where('gender', 'like', $animalGender);
+            })
+            
             ->when($this->searchAnimalOwner !== 'None', function ($query) {
-                $isShelter = $this->searchAnimalOwner === 'Asiel' ? 1 : 0;
-                
-                $query->whereHas('organization', function ($query) use ($isShelter) {
-                    $query->where('is_shelter', $isShelter);
+                $organizationType = $this->searchAnimalOwner === __('animals_back.shelter') ? 'Shelter' : ($this->searchAnimalOwner=== __('animals_back.organization') ? 'Organization' : 'Individual');
+
+                $query->whereHas('organization', function ($query) use ($organizationType) {
+                    $query->where('organization_type', 'like', $organizationType);
                 });
             })
+            
             ->published()
             ->get();
-
+           
         $this->animals_count = $this->animals->count();
+  
+        //dd($this->animals_count);
 
     }
     public function hydrate(): void

@@ -6,18 +6,26 @@ use Filament\Support\Contracts\HasLabel;
 
 enum AnimalLocation: string implements HasLabel
 {
-    case Albania = 'Albanië';
-    case Netherlands = 'Nederland';
-    case Germany = 'Duitsland';
-    case Belgium = 'België';
+    case ALBANIA = 'Albania';
+    case NETHERLANDS = 'Netherlands';
+    case GERMANY = 'Germany';
+    case BELGIUM = 'Belgium';
 
-    public function getLabel(): ?string
+
+    public static function options(): array
     {
-        return match ($this) {
-            self::Albania => 'Albanië',
-            self::Netherlands => 'Nederland',
-            self::Germany => 'Duitsland',
-            self::Belgium => 'België',
-        };
+        return [
+            self::ALBANIA->value => __('animals_back.albania'),
+            self::NETHERLANDS->value => __('animals_back.netherlands'),
+            self::GERMANY->value => __('animals_back.germany'),
+            self::BELGIUM->value => __('animals_back.belgium'),
+        ];
     }
+
+    
+    public function getLabel(): string
+    {
+        return self::options()[$this->value];
+    }
+
 }

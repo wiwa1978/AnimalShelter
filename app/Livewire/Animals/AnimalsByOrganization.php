@@ -15,14 +15,18 @@ class AnimalsByOrganization extends Component
     public $animals;
     public $organization;
     public $animals_count;
-    public $isAnimalBelongsToShelter;
+    public $isAnimalBelongsToAsiel;
+    public $isAnimalBelongsToStichting;
+    public $isAnimalBelongsToParticulier;
 
     public function mount(Organization $organization)
     {
        
         $this->organization = $organization;
         $this->animals = Animal::where('organization_id', $organization->id)->get();
-        $this->isAnimalBelongsToShelter = Organization::isShelter($organization->id)->exists();
+        $this->isAnimalBelongsToAsiel = Organization::isAsiel($this->organization->id)->exists();
+        $this->isAnimalBelongsToStichting = Organization::isStichting($this->organization->id)->exists();
+        $this->isAnimalBelongsToParticulier = Organization::isParticulier($this->organization->id)->exists();
         $this->animals_count = $this->animals->count();
         
     }

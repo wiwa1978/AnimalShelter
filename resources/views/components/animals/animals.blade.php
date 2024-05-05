@@ -7,41 +7,34 @@
 
          @if($animal_type == 'dog')
             {{ __('animals_front.adopt_dog')}} 
-            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} honden zoeken een nieuwe thuis</p>
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.dogs_new_home')}}</p>
          @endif
          @if($animal_type == 'cat')
             {{ __('animals_front.adopt_cat')}}
-            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} katten zoeken een nieuwe thuis</p>
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.cats_new_home')}}</p>
          @endif
          @if($animal_type == 'other')
             {{ __('animals_front.adopt_other')}}
-            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} andere huisdieren zoeken een nieuwe thuis</p>
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.others_new_home')}}</p>
          @endif
 
          @if($animal_type == 'dog-featured')
             {{ __('animals_front.dogs_in_picture')}} 
-            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} honden in de kijker</p>
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.dogs_new_home_featured')}}</p>
          @endif
          @if($animal_type == 'cat-featured')
             {{ __('animals_front.cats_in_picture')}}
-            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} katten in de kijker</p>
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.dogs_new_home_featured')}}</p>
          @endif
          @if($animal_type == 'other-featured')
             {{ __('animals_front.others_in_picture')}}
-            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} andere huisdieren in de kijker</p>
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.dogs_new_home_featured')}}</p>
          @endif
 
-
       </h2>
-
-
-      
     </div>
 
-
-
     <h2 class="mt-6 text-2xl font-bold text-indigo-900">
-
          @if($animal_type == 'dog')
             {{ __('animals_front.all_dogs')}} ({{ $animals_count }})
          @endif
@@ -51,9 +44,6 @@
          @if($animal_type == 'other')
             {{ __('animals_front.all_others')}} ({{ $animals_count }})
          @endif
-       
-       
-
     </h2>
     <ul role="list" class="mx-auto mt-6 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-4">
         @foreach($animals_all as $animal)

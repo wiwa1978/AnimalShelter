@@ -17,15 +17,23 @@ class AnimalDetail extends Component
 {
 
     public $isAnimalBelongsToShelter;
+    public $isAnimalBelongsToOrganization;
+    public $isAnimalBelongsToIndividual;
+
     public $days_adoptable;
     public $animal;
     public $photos;
     public $youtube_links;
     public $organization;
+    public $animal_status;
 
     public $photos_http;
     public $photos_media;
 
+    public $animal_adopted = false;
+    public $animal_not_adoptable = false;
+    public $animal_reserved = false;
+    
 
     public function mount(Animal $animal)
     {
@@ -34,9 +42,25 @@ class AnimalDetail extends Component
         
         
         $this->animal = $animal;
+        $this->animal_status = $animal->status->value;
+
+        if ($this->animal_status == 'Adopted') {
+            $this->animal_adopted = true;
+        } elseif ($this->animal_status == 'Not adoptable') {
+            $this->animal_not_adoptable = true;
+        } elseif ($this->animal_status == 'Reserved') {
+            $this->animal_reserved = true;
+        }
+
+
         $this->organization=$animal->organization;
        
         $this->isAnimalBelongsToShelter = Organization::isShelter($this->organization->id)->exists();
+        $this->isAnimalBelongsToOrganization = Organization::isOrganization($this->organization->id)->exists();
+        $this->isAnimalBelongsToIndividual = Organization::isIndividual($this->organization->id)->exists();
+
+        //dd($this->isAnimalBelongsToIndividual);
+
         $this->days_adoptable = (int) $dateAdded->diffInDays($now);
         
         //$this->photos = collect($this->animal->photos_additional)->take(3);

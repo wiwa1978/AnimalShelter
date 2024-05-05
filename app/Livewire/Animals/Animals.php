@@ -24,9 +24,7 @@ class Animals extends Component
 
     public function render()
     {
-        
         if ($this->currentRoute == 'show-dogs') {
-       
             return view('components.animals.animals',  [
                 'animals_all' => Animal::dogs()->published()->paginate(self::PER_PAGE),
                 'animal_type' => "dog",
@@ -81,6 +79,7 @@ class Animals extends Component
     public function showAnimalDetail($id)
     {
         $animal = Animal::find($id);
+
         $this->animal = $animal;
 
         $this->redirect(route('show-animal-detail', ['id' => $animal->id]));

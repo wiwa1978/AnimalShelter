@@ -23,9 +23,9 @@ class Home extends Component
                 'dogs_featured_count' => Animal::dogs()->published()->featured()->count(),
                 'cats_featured_count' => Animal::cats()->published()->featured()->count(),
                 'others_featured_count' => Animal::others()->published()->featured()->count(),
-                'dogs_count' => Animal::dogs()->count(),
-                'cats_count' => Animal::cats()->count(),
-                'others_count' => Animal::others()->count(),
+                'dogs_count' => Animal::dogs()->published()->count(),
+                'cats_count' => Animal::cats()->published()->count(),
+                'others_count' => Animal::others()->published()->count(),
             ]);
     }
 }

@@ -83,8 +83,8 @@ class FavoriteResource extends Resource
                     ->label(__('animals_back.stays_at'))
                     ->sortable(),
                 
-                Tables\Columns\TextColumn::make('animal.organization.shelter_name')
-                    ->label(__('animals_back.shelter_name'))
+                Tables\Columns\TextColumn::make('animal.organization.organization_name')
+                    ->label(__('animals_back.organization_name'))
                     ->placeholder('Not applicable')
                     ->sortable(),
 

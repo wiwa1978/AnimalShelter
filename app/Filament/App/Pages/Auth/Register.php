@@ -2,6 +2,7 @@
 
 namespace App\Filament\App\Pages\Auth;
 
+use App\Enums\OrganizationTypes;
 use Filament\Pages\Page;
 
 use Filament\Forms\Components\Select;
@@ -29,12 +30,13 @@ class Register extends BaseRegister
  
     protected function getRoleFormComponent(): Component
     {
-           return Select::make('is_shelter')
-            ->options([
-                0 => 'Particulier',
-                1 => 'Asiel',
-            ])
-            ->default(0)
+           return Select::make('organization_type')
+            // ->options([
+            //     'Particulier' => 'Particulier',
+            //     'Stichting' => 'Stichting',
+            //     'Asiel' => 'Asiel',
+            // ])
+            ->options(OrganizationTypes::class)
             ->required();
     
     }

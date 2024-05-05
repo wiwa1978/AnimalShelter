@@ -6,6 +6,7 @@ use App\Enums\Country;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
 use App\Models\Organization;
+use App\Enums\OrganizationTypes;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -29,18 +30,23 @@ class EditOrganizationProfile extends EditTenantProfile
 
     public function getTitle(): string | Htmlable
     {
-        $organization_type = auth()->user()->organizations()->first()->is_shelter ? "Asiel" : "Particulier";
+        $organization = auth()->user()->organizations()->first();
+
+        if ($organization->organization_type == OrganizationTypes::Shelter->value) {
+            $organization_type =  __('animals_back.shelter');
+        } elseif ($organization->organization_type == OrganizationTypes::Organization->value) {
+            $organization_type =  __('animals_back.organization');
+        } else {
+            $organization_type =  __('animals_back.individual');
+        }
+
         //return 'Jouw profiel' ;
         return 'Jouw profiel (' . $organization_type . ')';
     }
 
     public function form(Form $form): Form
     {
-        //$organization = auth()->user()->organizations()->first();
-        //$subscription = $organization->subscriptions()->first()->stripe_price;
-        //dd($organization->subscriptions()->first()->stripe_price);
-        $organization = Organization::find(1);
-
+        $organization = auth()->user()->organizations()->first();
         $plan = $organization->getPlan();
 
         $test = $plan->name; // "Free"
@@ -74,7 +80,7 @@ class EditOrganizationProfile extends EditTenantProfile
                                 ->required(),
         
                             Select::make('billing_country')
-                                ->label('Country')
+                                ->label('Land')
                                 ->required()
                                 ->native(false)
                                 ->options(Country::class),
@@ -127,11 +133,11 @@ class EditOrganizationProfile extends EditTenantProfile
                     
                         Section::make('Gegevens betreffende de organisatie')
                         ->schema([
-                            TextInput::make('shelter_name')
+                            TextInput::make('organization_name')
                             ->label('Naam van de organisatie')
                             ->required(),
 
-                            TextInput::make('shelter_website')
+                            TextInput::make('organization_website')
                                 ->label('Website van de organisatie')
                                 ->required(),
 
@@ -152,7 +158,7 @@ class EditOrganizationProfile extends EditTenantProfile
 
 
                         ])
-                        ->visible(fn (): bool => auth()->user()->organizations()->first()->is_shelter)
+                        ->visible(fn (Organization $record): bool => $record->organizationIsShelter() || $record->organizationIsOrganization())
                         ->columnSpan(2),
 
                     

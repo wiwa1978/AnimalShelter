@@ -31,14 +31,10 @@ class RegisterOrganization extends RegisterTenant
             ->schema([
                 Section::make('Information')
                     ->schema([
-                        Toggle::make('is_shelter')
-                            ->label('Asiel')
-                            ->default(false),
                         TextInput::make('name')
                             ->label('Name'),
                     
                     ]),
-                
             ]);
     }
 
@@ -47,7 +43,6 @@ class RegisterOrganization extends RegisterTenant
         $data = [
             'name' =>  $data['name'],
             'slug' => Str::slug( $data['name']),
-            'is_shelter' => $data['is_shelter'],
             
         ];
 

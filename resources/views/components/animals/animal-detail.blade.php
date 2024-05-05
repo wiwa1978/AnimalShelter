@@ -2,6 +2,13 @@
 <div class="mx-auto w-full px-4 sm:px-6 lg:px-8">
     <div class="mx-auto max-w-2xl py-16 sm:py-24 lg:max-w-none lg:py-16">
       <h2 class="text-4xl text-rose-700 font-bold ">{{ $animal->name}} </h2>
+      @if ($animal->status->getLabel() === 'Geadopteerd')
+        <p class="mt-4 text-lg text-gray-500">{{ __('animals_front.adopted')}}</p> 
+      @endif
+
+      @if ($animal->status->getLabel() === 'Gereserveerd')
+        <p class="mt-4 text-lg text-gray-500">{{ __('animals_front.reserved')}}</p> 
+      @endif
 
       
 
@@ -46,14 +53,20 @@
 
                 @if ( $isAnimalBelongsToShelter)
                     <h2 class="text-xl font-medium leading-6 text-indigo-900">{{ __('animals_front.shelter')}}</h2>
-                @else
+                @endif
+
+                @if ( $isAnimalBelongsToIndividual)
                     <h2 class="text-xl font-medium leading-6 text-indigo-900">{{ __('animals_front.privateperson')}}</h2>
+                @endif
+
+                @if ( $isAnimalBelongsToOrganization)
+                    <h2 class="text-xl font-medium leading-6 text-indigo-900">{{ __('animals_front.stichting')}}</h2>
                 @endif
             </div>
 
             
             <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-              <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-5">
+              <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.current_location')}}</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->current_location}}</dd>
@@ -73,6 +86,10 @@
                 <div class="sm:col-span-1">
                   <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.breed')}}</dt>
                   <dd class="mt-1 text-sm text-gray-900">{{ $animal->breed}}</dd>
+                </div>
+                <div class="sm:col-span-1">
+                  <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.adoption_fee')}}</dt>
+                  <dd class="mt-1 text-sm text-gray-900">{{ $animal->adoption_fee}}</dd>
                 </div>
          
               </dl>
@@ -259,26 +276,42 @@
       </div>
 
       <div class="space-y-6 ">
-        @if ( $animal->status->getLabel() === 'Gereserveerd')
+        @if ( $animal_reserved)
         <section  class=" lg:col-span-1 lg:col-start-3">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 text-center">
-                <h2 class="text-lg font-medium text-indigo-900 text-center">Deze {{ strtolower($animal->animal_type->getLabel()) }} is momenteel gereserveerd</h2>
+                <h2 class="text-lg font-medium text-green-700 text-center">{{ __('animals_front.this')}} {{ __('animals_front.animal')}} {{ __('animals_front.is')}} {{ __('animals_front.currently_reserved')}}</h2>
                 
       
             </div>
         </section>
+        @endif 
 
+        @if ( $animal_adopted)
+        <section  class=" lg:col-span-1 lg:col-start-3">
+            <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 text-center">
+                <h2 class="text-lg font-medium text-green-700 text-center">{{ __('animals_front.this_')}} {{ __('animals_front.animal') }} {{ __('animals_front.is')}} {{ strtolower(__('animals_front.adopted'))}}</h2>
+            </div>
+        </section>
+        @endif
+
+        @if ( $animal_not_adoptable)
+        <section  class=" lg:col-span-1 lg:col-start-3">
+            <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 text-center">
+                <h2 class="text-lg font-medium text-rose-700 text-center">{{ __('animals_front.this_')}} {{ __('animals_front.animal') }} {{  __('animals_front.cannot_be_adopted')  }}</h2>
+            </div>
+        </section>
+        @endif
        
 
-        @else
+        @if ( !$animal_adopted && !$animal_reserved && !$animal_not_adoptable)
         <section  class=" lg:col-span-1 lg:col-start-3">
             <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 text-center">
              @if ($animal->animal_type->getLabel() === 'Hond' or $animal->animal_type->getLabel() === 'Kat')
-                <span class="text-lg text-gray-800 text-center">Deze {{ strtolower($animal->animal_type->getLabel()) }} is </span><span class="text-lg text-rose-700 text-center">beschikbaar</span> <span class="text-lg text-gray-800 text-center">voor adoptie en staat al </span><span class="text-lg text-rose-700 text-center"> {{$days_adoptable}} dagen</span><span class="text-lg text-gray-800 text-center">  op deze site.</span>
+                <span class="text-lg text-gray-800 text-center">{{ __('animals_front.this')}}  {{ strtolower($animal->animal_type->getLabel()) }} is </span><span class="text-lg text-rose-700 text-center">beschikbaar</span> <span class="text-lg text-gray-800 text-center">voor adoptie en staat al </span><span class="text-lg text-rose-700 text-center"> {{$days_adoptable}} dagen</span><span class="text-lg text-gray-800 text-center">  op deze site.</span>
                 <span class="text-lg text-gray-800 text-center">Contacteer </span><span class="text-lg text-rose-700 text-center">{{ $organization->name}} </span><span class="text-lg text-gray-800 text-center">voor meer informatie</span>
              @else
-                <span class="text-lg text-gray-800 text-center">Dit huisdier is nog </span><span class="text-lg text-rose-700 text-center">beschikbaar</span> <span class="text-lg text-gray-800 text-center">voor adoptie en staat al </span><span class="text-lg text-rose-700 text-center"> {{$days_adoptable}} dagen</span><span class="text-lg text-gray-800 text-center">  op deze site.</span>
-                <span class="text-lg text-gray-800 text-center">Contacteer </span><span class="text-lg text-rose-700 text-center">{{ $organization->name}} </span><span class="text-lg text-gray-800 text-center">voor meer informatie</span>
+                <span class="text-lg text-gray-800 text-center">{{ __('animals_front.this')}} {{ __('animals_front.pet')}} {{ __('animals_front.is')}}</span><span class="text-lg text-rose-700 text-center"> {{ __('animals_front.available')}}</span> <span class="text-lg text-gray-800 text-center">{{ __('animals_front.for_adoption')}} {{ __('animals_front.and_is')}} </span><span class="text-lg text-rose-700 text-center"> {{$days_adoptable}} {{ __('animals_front.days')}}</span><span class="text-lg text-gray-800 text-center"> {{ __('animals_front.on_site')}}.</span>
+                <span class="text-lg text-gray-800 text-center">{{ __('animals_front.contact')}} </span><span class="text-lg text-rose-700 text-center">{{ $organization->name}} </span><span class="text-lg text-gray-800 text-center">{{ __('animals_front.more_info')}}</span>
              @endif
                
     
@@ -322,9 +355,15 @@
                                 <div>
                                 
                                 @if ($isAnimalBelongsToShelter)
-                                    <span class="font-medium text-sm text-indigo-900">Verblijf (asiel): </span><span class="text-sm text-gray-500"">{{ $organization->shelter_name }}</span>                                    
-                                @else
-                                    <span class="font-medium text-sm text-indigo-900"> Verblijf (particulier): </span><span class="text-sm text-gray-500"">{{ $organization->name }}</span>      
+                                    <span class="font-medium text-sm text-indigo-900">{{ __('animals_front.current_location')}} ({{ strtolower(__('animals_front.shelter')) }}): </span><span class="text-sm text-gray-500"">{{ $organization->organization_name }}</span>       
+                                @endif
+
+                                @if ($isAnimalBelongsToOrganization)
+                                    <span class="font-medium text-sm text-indigo-900"> {{ __('animals_front.current_location')}} ({{ strtolower(__('animals_front.organization')) }}): </span><span class="text-sm text-gray-500"">{{ $organization->organization_name }}</span>      
+                                @endif
+
+                                @if ($isAnimalBelongsToIndividual)
+                                    <span class="font-medium text-sm text-indigo-900"> {{ __('animals_front.current_location')}} ({{ strtolower(__('animals_front.individual')) }}): </span><span class="text-sm text-gray-500"">{{ $organization->name }}</span>      
                                 @endif
 
                                  
@@ -334,21 +373,21 @@
                         <li>
                             <div class="relative flex pb-1 space-x-3">
                                 <div>
-                                    <span class="font-medium text-sm text-indigo-900">Telefoon: </span><span class="text-sm text-gray-500"">{{ $organization->phone }}</span>     
+                                    <span class="font-medium text-sm text-indigo-900">{{ __('animals_front.telephone')}}: </span><span class="text-sm text-gray-500"">{{ $organization->phone }}</span>     
                                 </div>
                             </div>
                         </li>
                         <li>
                             <div class="relative flex pb-1 space-x-3">
                                 <div>
-                                    <span class="font-medium text-sm text-indigo-900">Email: </span><span class="text-sm text-gray-500"">{{ $organization->email }}</span>     
+                                    <span class="font-medium text-sm text-indigo-900">{{ __('animals_front.email')}}: </span><span class="text-sm text-gray-500"">{{ $organization->email }}</span>     
                                 </div>
                             </div>
                         </li>
                         <li>
                             <div class="relative flex pb-1 space-x-3">
                                 <div>
-                                    <p class="font-medium text-sm text-indigo-900">Adres:</p>
+                                    <p class="font-medium text-sm text-indigo-900">{{ __('animals_front.address')}}:</p>
                                     <p class="ml-6 text-sm text-gray-500">{{ $organization->streetname }} {{ $organization->streetnumber }}</p>
                                     <p class="ml-6 text-sm text-gray-500">{{ $organization->zipcode }} {{ $organization->city }}</p>
                                     <p class="ml-6 text-sm text-gray-500">{{ $organization->country }}</p>

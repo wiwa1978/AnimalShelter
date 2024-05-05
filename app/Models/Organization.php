@@ -7,6 +7,8 @@ use Spark\Billable;
 use App\Models\User;
 use App\Models\Animal;
 use Illuminate\Support\Str;
+use App\Enums\OrganizationType;
+use App\Enums\OrganizationTypes;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,19 +22,21 @@ class Organization extends Model
     protected $fillable = [
         'name',
         'slug',
-        'is_shelter',
-        'shelter_name',
-        'shelter_website',
+        'organization_type',
+        'organization_name',
+        'organization_website',
+        'email',
+        'phone',
         'billing_address',
         'billing_address_line_2',
         'billing_city',
         'billing_state',
         'billing_postal_code',
+        'vat_id',
+        'invoice_emails',
         'billing_country',
         'invoice_emails',
-        'email',
-        'phone',
-        'vat_id',
+
     ];
 
     protected $casts = [
@@ -87,16 +91,25 @@ class Organization extends Model
 
     public function organizationIsShelter(): bool
     {
-        return $this->is_shelter == true;
-        //return $query->where('id', $organizationId)->where('is_shelter', true);
+        return $this->organization_type == OrganizationType::SHELTER->name;
     }
 
-    public function isNotShelter(): bool
+    public function organizationIsNotShelter(): bool
     {
-        //dd( $this->is_shelter == false);
-        return $this->is_shelter == false;
-        //return $query->where('id', $organizationId)->where('is_shelter', false);
+        dd($this->organization_type != OrganizationType::SHELTER->name);
+        return $this->organization_type != OrganizationType::SHELTER->name;
     }
+
+    public function organizationIsIndividual(): bool
+    {
+        return $this->organization_type == OrganizationType::INDIVIDUAL->name;
+    }
+
+    public function organizationIsOrganization(): bool
+    {
+        return $this->organization_type == OrganizationType::ORGANIZATION->name;
+    }
+
 
     public function getCurrentTenantLabel(): string
     {
@@ -117,8 +130,20 @@ class Organization extends Model
     {
         return $this->hasMany(Animal::class);
     }
+
+    public function scopeIsIndividual($query, $organizationId)
+    {
+        //dd(OrganizationType::INDIVIDUAL->name);
+        return $query->where('id', $organizationId)->where('organization_type', OrganizationType::INDIVIDUAL->value);
+    }
+
     public function scopeIsShelter($query, $organizationId)
     {
-        return $query->where('id', $organizationId)->where('is_shelter', true);
+        return $query->where('id', $organizationId)->where('organization_type', OrganizationType::SHELTER->value);
+    }
+
+    public function scopeIsOrganization($query, $organizationId)
+    {
+        return $query->where('id', $organizationId)->where('organization_type', OrganizationType::ORGANIZATION->value);
     }
 }

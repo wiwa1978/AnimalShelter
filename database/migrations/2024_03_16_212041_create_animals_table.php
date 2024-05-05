@@ -16,9 +16,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique()->nullable();
+            $table->string('animal_type')->nullable();
             $table->foreignIdFor(Organization::class)->index();
             $table->timestamp('date_added')->nullable();
-            $table->boolean('published')->default(false);
             $table->boolean('featured')->default(false);
             $table->string('approval_state')->default('In behandeling');
             $table->string('published_state')->default('Draft');
@@ -27,7 +27,6 @@ return new class extends Migration
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('unapproved_at')->nullable();
             $table->string('unpublish_reason', 255)->nullable();
-            $table->string('animal_type')->nullable();
             $table->string('current_location')->nullable();
             $table->string('original_location')->nullable();
             $table->boolean('current_kids')->default(false);

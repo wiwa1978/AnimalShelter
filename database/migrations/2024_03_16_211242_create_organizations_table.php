@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
-            $table->boolean('is_shelter')->nullable();
-            $table->string('shelter_name')->nullable();
-            $table->string('shelter_website')->nullable();
+            $table->string('organization_type')->nullable();
+            $table->string('organization_name')->nullable();
+            $table->string('organization_website')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->boolean('free_forever')->nullable()->default(false);

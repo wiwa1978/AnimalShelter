@@ -6,17 +6,39 @@ use Filament\Support\Contracts\HasLabel;
 
 enum AnimalPublishState: string implements HasLabel
 {
-    case Draft = 'Draft';
-    case Published = 'Gepubliceerd';
+    case DRAFT = 'Draft';
+    case PUBLISHED = 'Published';
+    case UNPUBLISHED = 'Unpublished';
 
-    case Unpublished = 'Niet gepubliceerd';
 
-    public function getLabel(): ?string
+    public static function options(): array
     {
-        return match ($this) {
-            self::Draft => 'Draft',
-            self::Published => 'Gepubliceerd',
-            self::Unpublished => 'Niet gepubliceerd',
-        };
+        return [
+            self::DRAFT->value => __('animals_back.draft'),
+            self::PUBLISHED->value => __('animals_back.published'),
+            self::UNPUBLISHED->value => __('animals_back.unpublished'),
+        ];
     }
+    public function getLabel(): string
+    {
+        return self::options()[$this->value];
+    }
+
+    // public function getLabel(): ?string
+    // {
+    //     return match ($this) {
+    //         self::Draft => 'Draft',
+    //         self::Published => 'Gepubliceerd',
+    //         self::Unpublished => 'Niet gepubliceerd',
+    //     };
+    // }
+
+    // public static function toArray(): array
+    // {
+    //     $array = [];
+    //     foreach (self::cases() as $index => $case) {
+    //         $array[$index] = $case->getLabel();
+    //     }
+    //     return $array;
+    // }
 }

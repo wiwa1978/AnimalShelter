@@ -18,6 +18,7 @@ use Illuminate\Support\Str;
 use App\Models\Organization;
 use App\Enums\AnimalLocation;
 use Filament\Facades\Filament;
+use App\Enums\AnimalAdoptionFee;
 use Filament\Resources\Resource;
 use App\Enums\AnimalPublishState;
 use Filament\Forms\Components\Grid;
@@ -185,7 +186,6 @@ class AnimalResource extends Resource
                                             ->label(__('animals_back.size'))
                                             ->required()
                                             ->native(false)
-                                            ->label('Animal Size')
                                             ->options(AnimalSize::class),
 
                                         TextInput::make('breed')
@@ -193,10 +193,15 @@ class AnimalResource extends Resource
                                             ->required()
                                             ->maxLength(255),
 
+                                        Select::make('adoption_fee')
+                                            ->label(__('animals_back.adoption_fee'))
+                                            ->required()
+                                            ->native(false)
+                                            ->options(AnimalAdoptionFee::class),
+
                                         Select::make('status')
                                             ->label(__('animals_back.status'))
                                             ->required()
-                                            ->label('Adoption Status')
                                             ->native(false)
                                             ->preload()
                                             ->options(AnimalStatus::class),
@@ -588,7 +593,7 @@ class AnimalResource extends Resource
                         ->toggleable(isToggledHiddenByDefault: true),
         
                     ]
-            )
+            )->defaultSort('created_at', 'desc') 
             ->filters([
                 Tables\Filters\Filter::make('featured')
                     ->label(__('animals_back.featured'))

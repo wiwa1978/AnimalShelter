@@ -17,50 +17,65 @@ class UserSeeder extends Seeder
     {
 
         $user1 = User::create([
-            'name'              => 'Wim-user',
-            'email'             => 'wim-user@test.com',
+            'name'              => 'Wim-Particulier',
+            'email'             => 'wim-particulier@test.com',
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
-            'is_shelter'        => 0,
+            'organization_type' => 'Individual', // 'Stichting', 'Asiel
         ])->assignRole('user');
 
         $user2 = User::create([
-            'name'              => 'Wim-org',
-            'email'             => 'wim-org@test.com',
+            'name'              => 'Wim-Asiel',
+            'email'             => 'wim-asiel@test.com',
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
-            'is_shelter'        => 1,
+            'organization_type' => 'Shelter',
         ])->assignRole('user');
 
         $user3 = User::create([
-            'name'              => 'Marlinda-user',
-            'email'             => 'marlinda-user@test.com',
+            'name'              => 'Marlinda-Particulier',
+            'email'             => 'marlinda-particulier@test.com',
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
-            'is_shelter'        => 0,
+            'organization_type' => 'Individual',
         ])->assignRole('user');
 
         $user4 = User::create([
-            'name'              => 'Marlinda-org',
-            'email'             => 'marlinda-org@test.com',
+            'name'              => 'Marlinda-Stichting',
+            'email'             => 'marlinda-stichting@test.com',
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
-            'is_shelter'        => 1,
+            'organization_type' => 'Organization',
         ])->assignRole('user');
 
         $user5 = User::create([
-            'name'              => 'Iris-user',
-            'email'             => 'iris-user@test.com',
+            'name'              => 'Marlinda-Asiel',
+            'email'             => 'marlinda-asiel@test.com',
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
-            'is_shelter'        => 0,
+            'organization_type' => 'Shelter',
+        ])->assignRole('user');
+
+        $user6 = User::create([
+            'name'              => 'Iris-Particulier',
+            'email'             => 'iris-particulier@test.com',
+            'email_verified_at' => now(),
+            'password'          => Hash::make('Welcome@1234'),
+            'organization_type' => 'Individual',
+        ])->assignRole('user');
+
+        $user6 = User::create([
+            'name'              => 'Iris-Asiel',
+            'email'             => 'iris-asiel@test.com',
+            'email_verified_at' => now(),
+            'password'          => Hash::make('Welcome@1234'),
+            'organization_type' => 'Shelter',
         ])->assignRole('user');
 
 
         // $organization1 = Organization::create([
         //     'name'          => 'Organisatie Wim-user',
         //     'slug'          => 'organisatie-wim-user',
-        //     'is_shelter'    => false,
         //     'streetname'    => 'Brusselstraat',
         //     'streetnumber'  => '89',
         //     'zipcode'       => '1740',
@@ -74,7 +89,6 @@ class UserSeeder extends Seeder
         // $organization2 = Organization::create([
         //     'name'              => 'Organisatie Wim-org',
         //     'slug'              => 'organisatie-wim-org',
-        //     'is_shelter'        => true,
         //     'shelter_name'      => 'VZW De Helpende Hand',
         //     'shelter_website'   => 'https://www.dehelpendehand.be/',
         //     'streetname'        => 'Dendermondsesteenweg',
@@ -89,7 +103,6 @@ class UserSeeder extends Seeder
         // $organization3 = Organization::create([
         //     'name'              => 'Organisatie Marlinda-user',
         //     'slug'              => 'organisatie-marlinda-user',
-        //     'is_shelter'        => false,
         //     'streetname'        => 'Fuga',
         //     'streetnumber'      => '4',
         //     'zipcode'           => '2925 BZ',
@@ -102,7 +115,6 @@ class UserSeeder extends Seeder
         // $organization4 = Organization::create([
         //     'name'              => 'Organisatie Marlinda-org',
         //     'slug'              => 'organisatie-marlinda-org',
-        //     'is_shelter'        => true,
         //     'shelter_name'      => 'Dierenasiel Alkmaar',
         //     'shelter_website'   => 'https://www.dierenasielalkmaar.nl/',
         //     'streetname'        => 'Alkmaarseweg',

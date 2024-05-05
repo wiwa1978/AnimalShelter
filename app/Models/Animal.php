@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Favorite;
+use App\Enums\AnimalAge;
+use App\Enums\AnimalGender;
+use App\Enums\OrganizationType;
 use App\Enums\AnimalType;
 use App\Enums\AnimalStatus;
-use App\Enums\ApprovalState;
+use App\Enums\AnimalApprovalState;
 use App\Enums\AnimalLocation;
+use App\Enums\AnimalSize;
 use App\Enums\AnimalPublishState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,10 +25,14 @@ class Animal extends Model
 
     protected $casts = [
         'animal_type'           =>  AnimalType::class,
-        'location'              =>  AnimalLocation::class,
+        'current_location'      =>  AnimalLocation::class,
+        'original_location'     =>  AnimalLocation::class,
         'status'                =>  AnimalStatus::class,
-        //'publish_state'         =>  AnimalPublishState::class,
-        //'approval_state'        =>  ApprovalState::class,
+        'published_state'       =>  AnimalPublishState::class,
+        'approval_state'        =>  AnimalApprovalState::class,
+        'age'                   =>  AnimalAge::class,
+        'gender'                =>  AnimalGender::class,
+        'size'                  =>  AnimalSize::class,
         'videos'                =>  'array',
         'photos_additional'     =>  'array',
         'youtube_links'         =>  'array',
@@ -42,6 +49,7 @@ class Animal extends Model
         'cats_friendly'         =>  'boolean',
         'dogs_friendly'         =>  'boolean',
         'well_behaved'          =>  'boolean',
+        'playful'               =>  'boolean',
         'everybody_friendly'    =>  'boolean',
         'affectionate'          =>  'boolean',
         'needs_garden'          =>  'boolean',
@@ -64,32 +72,32 @@ class Animal extends Model
 
     public function scopeDogs($query)
     {
-        return $query->where('animal_type', AnimalType::Dog);
+        return $query->where('animal_type', AnimalType::DOG->value);
     }
 
     public function scopeCats($query)
     {
-        return $query->where('animal_type', AnimalType::Cat);
+        return $query->where('animal_type', AnimalType::CAT);
     }
 
     public function scopeOthers($query)
     {
-        return $query->where('animal_type', AnimalType::Other);
+        return $query->where('animal_type', AnimalType::OTHER);
     }
 
     public function scopeDraft($query)
     {
-        return $query->where('published_state', AnimalPublishState::Draft);
+        return $query->where('published_state', AnimalPublishState::DRAFT);
     }
 
     public function scopePublished($query)
     {
-        return $query->where('published_state', AnimalPublishState::Published);
+        return $query->where('published_state', AnimalPublishState::PUBLISHED);
     }
 
     public function scopeUnPublished($query)
     {
-        return $query->where('published_state', AnimalPublishState::Unpublished);
+        return $query->where('published_state', AnimalPublishState::UNPUBLISHED);
     }
 
     public function scopeFeatured($query)
@@ -97,16 +105,36 @@ class Animal extends Model
         return $query->where('featured', true);
     }
 
+
     public function scopeNotFeatured($query)
     {
         return $query->where('featured', false);
+    }
+    
+    public function scopeNotAdoptable($query)
+    {
+        return $query->where('status', 'like', 'Not Adoptable');
+    }
+
+    public function scopeReserved($query)
+    {
+        return $query->where('status', 'Reserved');
+    }
+
+    public function scopePendingTreatment($query)
+    {
+        return $query->where('status', 'Pending treatment');
     }
 
     public function scopeBelongsToShelter($query)
     {
         return $query->whereHas('organization', function ($query) {
-            $query->where('is_shelter', 1);
+            $query->where('organization_type', OrganizationType::SHELTER);
         });
     }
 
+    public function scopeIsAdopted($query)
+    {
+        return $query->where('status', 'Geadopteerd');
+    }
 }

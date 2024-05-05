@@ -31,7 +31,7 @@ class UserObserver
             // Create a new organization if no user is authenticated
             $organization = new Organization;
             $organization->name = $user->name; // Set the organization name
-            $organization->is_shelter = $user->is_shelter; // Set the organization name
+            $organization->organization_type = $user->organization_type; // Set the organization type
             $organization->save();
             Log::debug("Organization created: {$organization->id}");
 

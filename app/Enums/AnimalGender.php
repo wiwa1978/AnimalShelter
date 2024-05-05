@@ -6,14 +6,39 @@ use Filament\Support\Contracts\HasLabel;
 
 enum AnimalGender: string implements HasLabel
 {
-    case male = 'Mannelijk';
-    case female = 'Vrouwelijk';
+    case MALE = 'Male';
+    case FEMALE = 'Female';
 
-    public function getLabel(): ?string
+
+    public static function options(): array
     {
-        return match ($this) {
-            self::male => 'Mannelijk',
-            self::female => 'Vrouwelijk',
-        };
+        return [
+            self::MALE->value => __('animals_back.male'),
+            self::FEMALE->value => __('animals_back.female'),
+    
+        ];
     }
+
+    
+    public function getLabel(): string
+    {
+        return self::options()[$this->value];
+    }
+
+    // public function getLabel(): ?string
+    // {
+    //     return match ($this) {
+    //         self::male => 'Mannelijk',
+    //         self::female => 'Vrouwelijk',
+    //     };
+    // }
+
+    // public static function toArray(): array
+    // {
+    //     $array = [];
+    //     foreach (self::cases() as $index => $case) {
+    //         $array[$index] = $case->getLabel();
+    //     }
+    //     return $array;
+    // }
 }

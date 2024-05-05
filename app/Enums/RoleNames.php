@@ -6,14 +6,19 @@ use Filament\Support\Contracts\HasLabel;
 
 enum RoleNames: string implements HasLabel
 {
-    case super_admin = 'super_admin';
-    case user = 'user';
+    case SUPERADMIN = 'super_admin';
+    case USER = 'user';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
-        return match ($this) {
-            self::super_admin => 'super_admin',
-            self::user => 'user',
-        };
+        return self::options()[$this->value];
+    }
+
+    public static function options(): array
+    {
+        return [
+            self::SUPERADMIN->value => 'super_admin',
+            self::USER->value => 'user',
+        ];
     }
 }

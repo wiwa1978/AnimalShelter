@@ -86,15 +86,22 @@ class SparkServiceProvider extends ServiceProvider
             $organization = Auth::user()->organizations()->first();
             Log::info($organization);
 
-            if ($plan->name == 'Individual') {
-                $organization->update(['is_shelter' => false]);
-                Log::info('Updated organization {$organization->name} to not be a shelter.');
-            }
+            // if ($plan->name == 'Bronze') {
+            //     $organization->update(['organization_type' => 'Individual']);
+            //     Log::info('Updated organization {$organization->name} to not be a shelter.');
+            // }
 
-            if ($plan->name == 'Organization') {
-                $organization->update(['is_shelter' => true]);
-                Log::info('Updated organization {$organization->name} to be a shelter.');
-            }
+            // if ($plan->name == 'Stichting') {
+            //     //$organization->update(['is_shelter' => true]);
+            //     $organization->update(['organization_type' => 'Stichting']);
+            //     Log::info('Updated organization {$organization->name} to be a shelter.');
+            // }
+
+            // if ($plan->name == 'Asiel') {
+            //     //$organization->update(['is_shelter' => true]);
+            //     $organization->update(['organization_type' => 'Asiel']);
+            //     Log::info('Updated organization {$organization->name} to be a shelter.');
+            // }
 
      
             if ($billable->animals->count() > $plan->options['animals']) {

@@ -6,14 +6,19 @@ use Filament\Support\Contracts\HasLabel;
 
 enum Country: string implements HasLabel
 {
-    case Netherlands = 'NL';
-    case Belgium = 'BE';
+    case NETHERLANDS = 'NL';
+    case BELGIUM = 'BE';
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
-        return match ($this) {
-            self::Netherlands => 'Nederland',
-            self::Belgium => 'Belgie',
-        };
+        return self::options()[$this->value];
+    }
+
+    public static function options(): array
+    {
+        return [
+            self::NETHERLANDS->value => 'NL',
+            self::BELGIUM->value => 'BE',
+        ];
     }
 }

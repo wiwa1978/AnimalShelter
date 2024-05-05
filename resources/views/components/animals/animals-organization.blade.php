@@ -1,32 +1,43 @@
 <div class="mx-auto w-full m-16 px-6 lg:px-8">
     <div class="mb-16 mx-auto w-full lg:mx-0 text-center">
       
-      @if ( $isAnimalBelongsToShelter )
-        <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
-          {{ $organization->shelter_name }}
-        </h2>
-      @else
-        <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
-          {{ $organization->name }}
-        </h2>
-      @endif
 
+    @if ( $isAnimalBelongsToAsiel )
+      <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
+          Alle adoptiedieren van asiel {{ $organization->organization_name }}
+      </h2>
+    @endif
+    @if ( $isAnimalBelongsToStichting )
+      <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
+          Alle adoptiedieren van stichting {{ $organization->organization_name }}
+      </h2>
+    @endif
+    @if( $isAnimalBelongsToParticulier )
+      <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
+          Alle adoptiedieren van {{ $organization->name }}
+      </h2>
+    @endif
 
       <p class="mt-6 text-lg leading-8 text-gray-600"></p>
-      <p class="mt-6 tracking-tight font-bold text-indigo-900 sm:text-xl">Er verblijven momenteel {{ $animals_count}} dieren bij deze organisatie</p>
+      <p class="mt-6 tracking-tight font-bold text-indigo-900 sm:text-xl">Er verblijven momenteel {{ $animals_count}} dieren bij deze organizatie</p>
     </div>
 
 
-    @if ( $isAnimalBelongsToShelter )
+    @if ( $isAnimalBelongsToAsiel )
       <h2 class="text-2xl font-bold text-indigo-900">
-          Alle adoptiedieren van {{ $organization->shelter_name }}
+          Alle adoptiedieren van asiel {{ $organization->organization_name }}
       </h2>
-    @else
+    @endif
+    @if ( $isAnimalBelongsToStichting )
+      <h2 class="text-2xl font-bold text-indigo-900">
+          Alle adoptiedieren van stichting {{ $organization->organization_name }}
+      </h2>
+    @endif
+    @if( $isAnimalBelongsToParticulier )
       <h2 class="text-2xl font-bold text-indigo-900">
           Alle adoptiedieren van {{ $organization->name }}
       </h2>
-    
-      @endif
+    @endif
 
    
 

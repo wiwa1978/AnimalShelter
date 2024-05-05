@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_shelter')->nullable()->after('password')->default(false);
+            $table->string('organization_type')->nullable()->after('password');
         });
     }
 

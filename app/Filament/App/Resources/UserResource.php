@@ -136,40 +136,35 @@ class UserResource extends Resource
                 // TextColumn::make('roles.name')
                 //     ->badge(),
                 
-                TextColumn::make('organizations.name')
-                    //->formatStateUsing(fn (string $state): string => __("{$state}"))
-                    ->label(__('users_back.organization_name'))
-                    ->placeholder('Not applicable')
-                    ->searchable()
-                    ->sortable(),
+                // TextColumn::make('organizations.name')
+                //     //->formatStateUsing(fn (string $state): string => __("{$state}"))
+                //     ->label(__('users_back.organization_name'))
+                //     ->placeholder('Not applicable')
+                //     ->searchable()
+                //     ->sortable(),
 
                 TextColumn::make('organizations.billing_city')
                     ->label(__('users_back.billing_city'))
                     ->searchable(),
 
-                TextColumn::make('organizations.shelter_name')
-                    ->label(__('users_back.shelter_name'))
+                TextColumn::make('organizations.organization_name')
+                    ->label(__('users_back.organization_name'))
                     ->searchable()
-                    ->visible(fn (): bool => Auth::user()->organizations->first()->is_shelter)
+                    ->visible(fn (): bool => Auth::user()->organizations->first()->organization_type == 'Asiel' || Auth::user()->organizations->first()->organization_type == 'Stichting')
                     ->getStateUsing( function (User $record){
-                        return $record->organizations->first()->shelter_name ?? 'NA';
+                        return $record->organizations->first()->organization_name ?? 'NA';
                     }),
 
-                TextColumn::make('organizations.shelter_name')
-                    ->label(__('users_back.shelter_name'))
-                    ->searchable()
-                    ->visible(fn (): bool => Auth::user()->organizations->first()->is_shelter)
-                    ->getStateUsing( function (User $record){
-                        return $record->organizations->first()->shelter_name ?? 'NA';
-                }),
 
                 TextColumn::make('subscription')
                     ->label(__('users_back.current_plan'))
                     ->getStateUsing( function (User $record){
-                        return optional($record->organizations->first()->getPlan())->name ?? 'NA';
+                        //return optional($record->organizations->first()->getPlan())->name ?? 'NA';
+                        return $record->organizations->first()->getPlan()->name == 'fallback' ? 'Geen' : $record->organizations->first()->getPlan()->name;
                     }),
                 
-                
+ 
+                                
                 TextColumn::make('created_at')
                     ->label(__('users_back.created_at'))
                     ->dateTime('d-m-Y H:i')
