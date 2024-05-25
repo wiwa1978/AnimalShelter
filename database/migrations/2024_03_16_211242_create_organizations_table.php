@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->boolean('free_forever')->nullable()->default(false);
+            $table->rememberToken();
 
             $table->timestamps();
         });

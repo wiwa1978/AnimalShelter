@@ -10,24 +10,26 @@ use App\Models\Organization;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Navigation\NavigationItem;
 use App\Filament\App\Pages\Auth\Register;
 use App\Http\Middleware\ApplyTenantScopes;
 use Filament\Http\Middleware\Authenticate;
-use Illuminate\Session\Middleware\StartSession;
 
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Billing\Providers\SparkBillingProvider;
 use App\Http\Middleware\VerifyOrganizationIsBillable;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
 
+use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Filament\App\Pages\Tenancy\EditOrganizationProfile;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use Filament\Navigation\NavigationItem;
+use RalphJSmit\Filament\Notifications\FilamentNotifications;
+
 
 class AppPanelProvider extends PanelProvider
 {
@@ -75,9 +77,9 @@ class AppPanelProvider extends PanelProvider
             ->registration(Register::class) 
             ->passwordReset()
             ->emailVerification()
-            //->spa()
-            ->databaseNotifications(true)
-            ->databaseNotificationsPolling('30s')
+            ->spa()
+            ->databaseNotifications()
+            //->databaseNotificationsPolling('30s')
             ->unsavedChangesAlerts()
             ->databaseTransactions()
             ->colors([
@@ -117,6 +119,7 @@ class AppPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
+
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
@@ -135,6 +138,7 @@ class AppPanelProvider extends PanelProvider
                 VerifyOrganizationIsBillable::class
                 
             ])
+
             ->authMiddleware([
                 Authenticate::class,
             ]);

@@ -6,26 +6,28 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "bezhansalleh/filament-shield": "^3.2",
         "filament/filament": "^3.2",
         "filament/notifications": "^3.2",
         "filament/spark-billing-provider": "^3.2",
         "laravel/framework": "^11.0",
+        "laravel/reverb": "@beta",
         "laravel/spark-stripe": "^5.1",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
-        "mpociot/vat-calculator": "^3.10",
-        "spatie/laravel-markdown": "^2.5",
-        "spatie/laravel-permission": "^6.4"
+        "ralphjsmit/laravel-filament-notifications": "^2.2",
+        "spatie/laravel-activitylog": "^4.8",
+        "spatie/laravel-permission": "^6.7",
+        "z3d0x/filament-logger": "^0.7.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.13",
-        "barryvdh/laravel-ide-helper": "^3.0",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.0",
-        "phpunit/phpunit": "^10.5",
+        "phpunit/phpunit": "^11.0.1",
         "smknstd/fakerphp-picsum-images": "^1.0",
         "spatie/laravel-ignition": "^2.4"
     },
@@ -70,13 +72,18 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "ralphjsmit/packages": true
         }
     },
     "repositories": [
         {
             "type": "composer",
             "url": "https://spark.laravel.com"
+        },
+        {
+            "type": "composer",
+            "url": "https://satis.ralphjsmit.com"
         }
     ],
     "minimum-stability": "stable",

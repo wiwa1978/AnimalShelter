@@ -5,11 +5,13 @@ namespace App\Livewire\Animals;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Animal;
-use App\Models\Organization;
+use App\Models\Message;
 use Livewire\Component;
+use Illuminate\Support\Str;
+use App\Events\MessageEvent;
+use App\Models\Organization;
 use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 
 #[Layout('layouts.app')]
@@ -19,21 +21,32 @@ class AnimalDetail extends Component
     public $isAnimalBelongsToShelter;
     public $isAnimalBelongsToOrganization;
     public $isAnimalBelongsToIndividual;
-
     public $days_adoptable;
     public $animal;
     public $photos;
     public $youtube_links;
     public $organization;
     public $animal_status;
-
     public $photos_http;
     public $photos_media;
-
     public $animal_adopted = false;
     public $animal_not_adoptable = false;
     public $animal_reserved = false;
+
+    public $name;
+    public $email;
+    public $telephone;
+    public $question;
+ 
+    protected $rules = [
+        'name' => 'required|min:6',
+        'email' => 'required|email',
+    ];
     
+    protected $messages = [
+        'email.required' => 'Het email adres is verplicht.',
+        'email.email' => 'Het email adres is ongeldig.',
+    ];
 
     public function mount(Animal $animal)
     {
@@ -87,9 +100,7 @@ class AnimalDetail extends Component
         }
         //dd($this->youtube_links);
 
-
     }
-
 
     public function render()
     {
@@ -101,5 +112,29 @@ class AnimalDetail extends Component
     {
         $this->redirect(route('show-animal-organization', ['organization' => $organizationId]));
     }
+
+    public function sendMessageToOrganization(Animal $animal)
+    {
+        $this->validate();
+        //dd($this->name);
+        //$this->redirect(route('filament.app.resources.animals.index', ['tenant' => $organizationId]));
+        $message = Message::create([
+            'organization_id' => $animal->organization->id,
+            'animal_id' => $animal->id,
+            'name' => $this->name,
+            'email' => $this->email,
+            'telephone' => $this->telephone,
+            'question' => $this->question,
+        ]);
+
+        MessageEvent::dispatch($message);
+
+        $this->dispatch('close-modal');
+
+        session()->flash('message', 'Message successfully sent.');
+ 
+    }
+
+    
 
 }

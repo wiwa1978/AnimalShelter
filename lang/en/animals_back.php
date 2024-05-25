@@ -39,6 +39,7 @@ return [
     'nine_to_ten_years' => '9-10',
     'older_than_ten_years' => '> 10',
     'older_than_fifteen_years' => '> 15',
+    'year' => 'year',
     'yes' => 'Yes',
     'no' => 'No',
     'animal' => 'Animal',

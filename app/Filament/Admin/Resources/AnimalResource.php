@@ -18,8 +18,10 @@ use App\Enums\ApprovalState;
 use App\Models\Organization;
 use App\Enums\AnimalLocation;
 use Filament\Facades\Filament;
+use App\Enums\AnimalAdoptionFee;
 use Filament\Resources\Resource;
 use App\Enums\AnimalPublishState;
+use App\Enums\AnimalApprovalState;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
@@ -84,47 +86,47 @@ class AnimalResource extends Resource
     {
   
         return $form
+        ->schema([
+            Grid::make(4)
             ->schema([
-                Grid::make(4)
+                Section::make(__('animals_back.publish_info'))
                 ->schema([
-                    Section::make(__('animals_back.publish_info'))
-                    ->schema([
-                        // Toggle::make('featured')
-                        //     ->label(__('animals_back.featured'))
-                        //     ->required(),
-                        
-                        Toggle::make('published')
-                            ->label(__('animals_back.published'))
-                            ->disabled()
-                            ->required(),
+                    // Toggle::make('featured')
+                    //     ->label(__('animals_back.featured'))
+                    //     ->required(),
+                    
+                    Toggle::make('published')
+                        ->label(__('animals_back.published'))
+                        ->disabled()
+                        ->required(),
 
-                        Placeholder::make('featured')
-                            ->label(__('animals_back.featured'))
-                            ->content(fn (Animal $record): string => $record->featured == 1 ? __('animals_back.yes') : __('animals_back.no')),
-                        
+                    Placeholder::make('featured')
+                        ->label(__('animals_back.featured'))
+                        ->content(fn (Animal $record): string => $record->featured == 1 ? __('animals_back.yes') : __('animals_back.no')),
+                    
 
-                        Placeholder::make('published')
-                            ->label(__('animals_back.status'))
-                            //->content(fn (Animal $record): string => (string)$record->published),
-                            ->content(fn (Animal $record): string => $record->published == 1 ? __('animals_back.published') : __('animals_back.not_published')),
-                        
-                        Placeholder::make('approval_state')
-                            ->label(__('animals_back.approval_state'))
-                            ->content(fn (Animal $record): string => (string)$record->approval_state),
-                    ])
-                    ->columns(4)
-                    ->columnSpan(4),
+                    Placeholder::make('published')
+                        ->label(__('animals_back.status'))
+                        //->content(fn (Animal $record): string => (string)$record->published),
+                        ->content(fn (Animal $record): string => $record->published == 1 ? __('animals_back.published') : __('animals_back.not_published')),
+                    
+                    Placeholder::make('approval_state')
+                        ->label(__('animals_back.approval_state'))
+                        ->content(fn (Animal $record): string => (string)$record->approval_state->value),
+                ])
+                ->columns(4)
+                ->columnSpan(4),
+        
+            ]) 
+ 
+        ->visible(fn ($context): int => $context === 'edit'),
 
-                ]) 
-     
-            ->visible(fn ($context): int => $context === 'edit'),
-
-                Wizard::make([
-                    Wizard\Step::make(__('animals_back.general_info'))
-                    ->schema([
-                        Grid::make(4)
-                            ->schema([
-                                Section::make(__('animals_back.general_info'))
+            Wizard::make([
+                Wizard\Step::make(__('animals_back.general_info'))
+                ->schema([
+                    Grid::make(4)
+                        ->schema([
+                            Section::make(__('animals_back.general_info'))
                                 ->schema([
                                     TextInput::make('name')
                                         ->label(__('animals_back.name'))
@@ -196,191 +198,184 @@ class AnimalResource extends Resource
                                     Radio::make('age')
                                         ->label(__('animals_back.age'))
                                         ->options([
-                                            '0-1 jaar' => '0-1 jaar',
-                                            '1-2 jaar' => '1-2 jaar',
-                                            '2-3 jaar' => '2-3 jaar',
-                                            '3-4 jaar' => '3-4 jaar',
-                                            '4-5 jaar' => '4-5 jaar',
-                                            '5-6 jaar' => '5-6 jaar',
-                                            '6-7 jaar' => '6-7 jaar',
-                                            '7-8 jaar' => '7-8 jaar',
-                                            '8-9 jaar' => '8-9 jaar',
-                                            '9-10 jaar' => '9-10 jaar',
-                                            'ouder dan 10 jaar' => 'ouder dan 10 jaar',
-                                            'ouder dan 15 jaar' => 'ouder dan 15 jaar',
+                                            '0-1' => __('animals_back.zero_to_one_year') . ' ' . __('animals_back.year'),
+                                            '1-2' => __('animals_back.one_to_two_years'). ' ' . __('animals_back.year'),
+                                            '2-3' => __('animals_back.two_to_three_years'). ' ' . __('animals_back.year'),
+                                            '3-4' => __('animals_back.three_to_four_years'). ' ' . __('animals_back.year'),
+                                            '4-5' => __('animals_back.four_to_five_years'). ' ' . __('animals_back.year'),
+                                            '5-6' => __('animals_back.five_to_six_years'). ' ' . __('animals_back.year'),
+                                            '6-7' => __('animals_back.six_to_seven_years'). ' ' . __('animals_back.year'),
+                                            '7-8' => __('animals_back.seven_to_eight_years'). ' ' . __('animals_back.year'),
+                                            '8-9' => __('animals_back.eight_to_nine_years'). ' ' . __('animals_back.year'),
+                                            '9-10' => __('animals_back.nine_to_ten_years'). ' ' . __('animals_back.year'),
+                                            '> 10' => __('animals_back.older_than_ten_years'). ' ' . __('animals_back.year'),
+                                            '> 15' => __('animals_back.older_than_fifteen_years'). ' ' . __('animals_back.year'),
                                         ])
                                         ->columns(4)
                                         ->columnSpanFull()
                                         //->gridDirection('row')
                                         ->required(),
                                         ]),
-                                    
-
-                            ])
-                     ]),
-            
-
-                    Wizard\Step::make(__('animals_back.medical_social_info'))
-                    ->schema([
-                        Grid::make(4)
-                        ->schema([
-                            Section::make(__('animals_back.medical_social_info'))
-                            ->schema([
-                                Toggle::make('sterilized')
-                                    ->label(__('animals_back.sterilized'))
-                                    ->required(),
-                                Toggle::make('chipped')
-                                    ->label(__('animals_back.chipped'))
-                                    ->required(),
-                                Toggle::make('passport')
-                                    ->label(__('animals_back.passport'))
-                                    ->required(),
-                                Toggle::make('vaccinated')
-                                    ->label(__('animals_back.vaccinated'))
-                                    ->required(),
-                                Toggle::make('rabies')
-                                    ->label(__('animals_back.rabies'))
-                                    ->required(),
-                                Toggle::make('medicins')
-                                    ->label(__('animals_back.medicins'))
-                                    ->required(),
-                                Toggle::make('special_food')
-                                    ->label(__('animals_back.special_food'))
-                                    ->required(),
-                                Toggle::make('behavioural_problem')
-                                    ->label(__('animals_back.behaviour_problem'))
-                                    ->required(),
-                                Toggle::make('kids_friendly_6y')
-                                    ->label(__('animals_back.kids_friendly_6y'))
-                                    ->required(),
-                                Toggle::make('kids_friendly_14y')
-                                    ->label(__('animals_back.kids_friendly_14y'))
-                                    ->required(),
-                                Toggle::make('cats_friendly')
-                                    ->label(__('animals_back.cat_friendly'))
-                                    ->required(),
-                                Toggle::make('dogs_friendly')
-                                    ->label(__('animals_back.dog_friendly'))
-                                    ->required(),
-                                Toggle::make('well_behaved')
-                                    ->label(__('animals_back.well_behaved'))
-                                    ->required(),
-                                Toggle::make('playful')
-                                    ->label(__('animals_back.playful'))
-                                    ->required(),
-                                Toggle::make('everybody_friendly')
-                                    ->label(__('animals_back.everybody_friendly'))
-                                    ->required(),
-                                Toggle::make('affectionate')
-                                    ->label(__('animals_back.affectionate'))
-                                    ->required(),
-                                Toggle::make('needs_garden')
-                                    ->label(__('animals_back.needs_garden'))
-                                    ->required(),
-                                Toggle::make('potty_trained')
-                                    ->label(__('animals_back.potty_trained'))
-                                    ->required(),
-                                Toggle::make('needs_movement')
-                                    ->label(__('animals_back.needs_movement'))
-                                    ->required(),
-                                Toggle::make('car_friendly')
-                                    ->label(__('animals_back.car_friendly'))
-                                    ->required(),
-                                Toggle::make('home_alone')
-                                    ->label(__('animals_back.home_alone'))
-                                    ->required(),
-                                Toggle::make('knows_commands')
-                                    ->label(__('animals_back.knows_command'))
-                                    ->required(),
-                                Toggle::make('experience_required')
-                                    ->label(__('animals_back.experience_required'))
-                                    ->required(),
-    
-                                RichEditor::make('environment')
-                                    ->label(__('animals_back.environment'))
-                                    ->required()
-                                    ->maxLength(65535)
-                                    ->columnSpanFull(),
-                            ])
-                            ->columns(3)
-                            ->columnSpan(4),
-                        ])
-
-                    ]),
-
-
-                    Wizard\Step::make(__('animals_back.media'))
-                    ->schema([
-                        Grid::make(4)
-                        ->schema([   
-                            Section::make(__('animals_back.photo_title'))
-                            ->schema([
-                                FileUpload::make('photo_featured')
-                                    ->label(__('animals_back.photo_featured'))
-                                    ->acceptedFileTypes($types = ['jpg', 'jpeg', 'png'])
-                                    ->image()
-                                    ->maxSize(15000) // Set the maximum size of files that can be uploaded, in kilobytes.
-                                    ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
-                                    ->imageEditor()
-                                    ->columnSpan('full'),
                                 
-                                FileUpload::make('photos_additional')
-                                    ->label(__('animals_back.photos_additional'))
-                                    ->multiple()
-                                    ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
-                                    ->reorderable()
-                                    ->appendFiles()
-                                    ->image()
-                                    ->imageResizeMode('cover')
-                                    ->imageResizeTargetWidth('800')
-                                    ->imageResizeTargetHeight('600')
-                                    ->imageCropAspectRatio('16:9')
-                                    ->maxFiles(20)
-                                    ->columnSpan('full')
-                            ])
-                            ->columnSpan(2),
 
-                            Section::make(__('animals_back.video_title'))
-                            ->schema([               
-                                FileUpload::make('videos')
-                                    ->label(__('animals_back.videos'))
-                                    ->multiple()
-                                    ->maxSize(50000)
-                                    ->maxFiles(4)
-                                    ->acceptedFileTypes($types = ['video/mp4'])
-                                    ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
-                                    ->previewable(true)
-                                    ->columnSpan('full'),
-
-                                Repeater::make('youtube_links')
-                                    ->label(__('animals_back.youtube_links'))
-                                    ->schema([
-                                        TextInput::make('youtube_links')
-                                            ->label(__('animals_back.youtube_link'))
-                            
-                                    ])
-                                    
-                            ])
-                            ->columnSpan(2),
                         ])
-                    ]),
-               
-               
-               
-               
-               ])->columnSpanFull(),
-
-
-
-
-              
-           
-    
-
-
-
+                 ]),
         
-            ]);
+
+                Wizard\Step::make(__('animals_back.medical_social_info'))
+                ->schema([
+                    Grid::make(4)
+                    ->schema([
+                        Section::make(__('animals_back.medical_social_info'))
+                        ->schema([
+                            Toggle::make('sterilized')
+                                ->label(__('animals_back.sterilized'))
+                                ->required(),
+                            Toggle::make('chipped')
+                                ->label(__('animals_back.chipped'))
+                                ->required(),
+                            Toggle::make('passport')
+                                ->label(__('animals_back.passport'))
+                                ->required(),
+                            Toggle::make('vaccinated')
+                                ->label(__('animals_back.vaccinated'))
+                                ->required(),
+                            Toggle::make('rabies')
+                                ->label(__('animals_back.rabies'))
+                                ->required(),
+                            Toggle::make('medicins')
+                                ->label(__('animals_back.medicins'))
+                                ->required(),
+                            Toggle::make('special_food')
+                                ->label(__('animals_back.special_food'))
+                                ->required(),
+                            Toggle::make('behavioural_problem')
+                                ->label(__('animals_back.behaviour_problem'))
+                                ->required(),
+                            Toggle::make('kids_friendly_6y')
+                                ->label(__('animals_back.kids_friendly_6y'))
+                                ->required(),
+                            Toggle::make('kids_friendly_14y')
+                                ->label(__('animals_back.kids_friendly_14y'))
+                                ->required(),
+                            Toggle::make('cats_friendly')
+                                ->label(__('animals_back.cat_friendly'))
+                                ->required(),
+                            Toggle::make('dogs_friendly')
+                                ->label(__('animals_back.dog_friendly'))
+                                ->required(),
+                            Toggle::make('well_behaved')
+                                ->label(__('animals_back.well_behaved'))
+                                ->required(),
+                            Toggle::make('playful')
+                                ->label(__('animals_back.playful'))
+                                ->required(),
+                            Toggle::make('everybody_friendly')
+                                ->label(__('animals_back.everybody_friendly'))
+                                ->required(),
+                            Toggle::make('affectionate')
+                                ->label(__('animals_back.affectionate'))
+                                ->required(),
+                            Toggle::make('needs_garden')
+                                ->label(__('animals_back.needs_garden'))
+                                ->required(),
+                            Toggle::make('potty_trained')
+                                ->label(__('animals_back.potty_trained'))
+                                ->required(),
+                            Toggle::make('needs_movement')
+                                ->label(__('animals_back.needs_movement'))
+                                ->required(),
+                            Toggle::make('car_friendly')
+                                ->label(__('animals_back.car_friendly'))
+                                ->required(),
+                            Toggle::make('home_alone')
+                                ->label(__('animals_back.home_alone'))
+                                ->required(),
+                            Toggle::make('knows_commands')
+                                ->label(__('animals_back.knows_command'))
+                                ->required(),
+                            Toggle::make('experience_required')
+                                ->label(__('animals_back.experience_required'))
+                                ->required(),
+
+                            RichEditor::make('environment')
+                                ->label(__('animals_back.environment'))
+                                ->required()
+                                ->maxLength(65535)
+                                ->columnSpanFull(),
+                        ])
+                        ->columns(3)
+                        ->columnSpan(4),
+                    ])
+
+                ]),
+
+
+                Wizard\Step::make(__('animals_back.media'))
+                ->schema([
+                    Grid::make(4)
+                    ->schema([   
+                        Section::make(__('animals_back.photo_title'))
+                        ->schema([
+                            FileUpload::make('photo_featured')
+                                ->label(__('animals_back.photo_featured'))
+                                ->acceptedFileTypes($types = ['jpg', 'jpeg', 'png'])
+                                ->image()
+                                ->maxSize(15000) // Set the maximum size of files that can be uploaded, in kilobytes.
+                                ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
+                                ->imageEditor()
+                                ->columnSpan('full'),
+                            
+                            FileUpload::make('photos_additional')
+                                ->label(__('animals_back.photos_additional'))
+                                ->multiple()
+                                ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
+                                ->reorderable()
+                                ->appendFiles()
+                                ->image()
+                                ->imageResizeMode('cover')
+                                ->imageResizeTargetWidth('800')
+                                ->imageResizeTargetHeight('600')
+                                ->imageCropAspectRatio('16:9')
+                                ->maxFiles(20)
+                                ->columnSpan('full')
+                        ])
+                        ->columnSpan(2),
+
+                        Section::make(__('animals_back.video_title'))
+                        ->schema([               
+                            FileUpload::make('videos')
+                                ->label(__('animals_back.videos'))
+                                ->multiple()
+                                ->maxSize(50000)
+                                ->maxFiles(4)
+                                ->acceptedFileTypes($types = ['video/mp4'])
+                                ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
+                                ->previewable(true)
+                                ->columnSpan('full'),
+
+                            Repeater::make('youtube_links')
+                                ->label(__('animals_back.youtube_links'))
+                                ->schema([
+                                    TextInput::make('youtube_links')
+                                        ->label(__('animals_back.youtube_link'))
+                        
+                                ])
+                                ->addActionLabel('Add Youtube Link')
+                                ->maxItems(6)
+                                
+                        ])
+                        ->columnSpan(2),
+                    ])
+                ]),
+           
+           
+           
+           
+           ])->columnSpanFull(),
+
+
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -414,10 +409,13 @@ class AnimalResource extends Resource
                     TextColumn::make('published_state')
                         ->label(__('animals_back.published'))
                         ->badge()
-                        ->color(fn (string $state): string => match ($state) {
-                            'Draft' => 'warning',
-                            'Gepubliceerd' => 'success',
-                            'Niet gepubliceerd' => 'danger'
+                        ->color(fn (AnimalPublishState $state): string => match ($state->value) {
+                            AnimalPublishState::DRAFT->value => 'warning',
+                            AnimalPublishState::PUBLISHED->value => 'success',
+                            AnimalPublishState::UNPUBLISHED->value => 'danger',
+                            //'Draft' => 'warning',
+                            //'Published' => 'success',
+                            //'Unpublished' => 'danger'
                         })
                         ->sortable()
                         ->searchable(),
@@ -425,10 +423,10 @@ class AnimalResource extends Resource
                     TextColumn::make('approval_state')
                         ->label(__('animals_back.approved'))
                         ->badge()
-                        ->color(fn (string $state): string => match ($state) {
-                            'In behandeling' => 'warning',
-                            'Goedgekeurd' => 'success',
-                            'Afgekeurd' => 'danger'
+                        ->color(fn (AnimalApprovalState $state): string => match ($state->value) {
+                            AnimalApprovalState::INREVIEW->value => 'warning',
+                            AnimalApprovalState::APPROVED->value => 'success',
+                            AnimalApprovalState::NOTAPPROVED->value => 'danger'
                         })
                         ->sortable()
                         ->searchable(),

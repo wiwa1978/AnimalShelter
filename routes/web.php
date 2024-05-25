@@ -4,10 +4,12 @@ use App\Livewire\Home\Home;
 use App\Livewire\Home\Price;
 use App\Livewire\Animals\Animals;
 use App\Livewire\Home\SearchAnimal;
+use App\Livewire\Home\MessagesComponent;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Animals\AnimalDetail;
 use App\Livewire\Animals\AnimalsByOrganization;
 
+Route::get('/messages', MessagesComponent::class)->name('message');
 Route::get('/', Home::class)->name('home');
 Route::get('/price', Price::class)->name('pricing');
 Route::get('/animals/search', SearchAnimal::class)->name('search-animal');
@@ -30,4 +32,4 @@ Route::get('/register', function () {
     return redirect(route('filament.app.auth.register'));
 })->name('register');
 
-#test
+

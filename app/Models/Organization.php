@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+
 class Organization extends Model 
 {
     use HasFactory, Billable;
@@ -130,6 +131,12 @@ class Organization extends Model
     {
         return $this->hasMany(Animal::class);
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
 
     public function scopeIsIndividual($query, $organizationId)
     {

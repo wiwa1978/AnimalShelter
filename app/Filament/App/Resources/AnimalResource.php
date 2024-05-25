@@ -21,6 +21,7 @@ use Filament\Facades\Filament;
 use App\Enums\AnimalAdoptionFee;
 use Filament\Resources\Resource;
 use App\Enums\AnimalPublishState;
+use App\Enums\AnimalApprovalState;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ImageColumn;
@@ -40,12 +42,8 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
-use Filament\Notifications\Actions\Action;
-use Filament\Tables\Columns\Summarizers\Sum;
-use Filament\Forms\Components\DateTimePicker;
-use Filament\Forms\Components\MarkdownEditor;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\AnimalResource\Pages;
+use Filament\Notifications\Events\DatabaseNotificationsSent;
 use App\Filament\App\Resources\AnimalResource\RelationManagers;
 
 class AnimalResource extends Resource
@@ -123,11 +121,11 @@ class AnimalResource extends Resource
                         
                         Placeholder::make('approval_state')
                             ->label(__('animals_back.approval_state'))
-                            ->content(fn (Animal $record): string => (string)$record->approval_state),
+                            ->content(fn (Animal $record): string => (string)$record->approval_state->value),
                     ])
                     ->columns(4)
                     ->columnSpan(4),
-
+            
                 ]) 
      
             ->visible(fn ($context): int => $context === 'edit'),
@@ -149,7 +147,7 @@ class AnimalResource extends Resource
                                             ->validationAttribute('full name'),
 
                                         Select::make('animal_type')
-                                        ->label(__('animals_back.type'))
+                                            ->label(__('animals_back.type'))
                                             ->options(AnimalType::class)
                                             ->native(false)
                                             ->preload()
@@ -209,18 +207,18 @@ class AnimalResource extends Resource
                                         Radio::make('age')
                                             ->label(__('animals_back.age'))
                                             ->options([
-                                                '0-1 jaar' => '0-1 jaar',
-                                                '1-2 jaar' => '1-2 jaar',
-                                                '2-3 jaar' => '2-3 jaar',
-                                                '3-4 jaar' => '3-4 jaar',
-                                                '4-5 jaar' => '4-5 jaar',
-                                                '5-6 jaar' => '5-6 jaar',
-                                                '6-7 jaar' => '6-7 jaar',
-                                                '7-8 jaar' => '7-8 jaar',
-                                                '8-9 jaar' => '8-9 jaar',
-                                                '9-10 jaar' => '9-10 jaar',
-                                                'ouder dan 10 jaar' => 'ouder dan 10 jaar',
-                                                'ouder dan 15 jaar' => 'ouder dan 15 jaar',
+                                                '0-1' => __('animals_back.zero_to_one_year') . ' ' . __('animals_back.year'),
+                                                '1-2' => __('animals_back.one_to_two_years'). ' ' . __('animals_back.year'),
+                                                '2-3' => __('animals_back.two_to_three_years'). ' ' . __('animals_back.year'),
+                                                '3-4' => __('animals_back.three_to_four_years'). ' ' . __('animals_back.year'),
+                                                '4-5' => __('animals_back.four_to_five_years'). ' ' . __('animals_back.year'),
+                                                '5-6' => __('animals_back.five_to_six_years'). ' ' . __('animals_back.year'),
+                                                '6-7' => __('animals_back.six_to_seven_years'). ' ' . __('animals_back.year'),
+                                                '7-8' => __('animals_back.seven_to_eight_years'). ' ' . __('animals_back.year'),
+                                                '8-9' => __('animals_back.eight_to_nine_years'). ' ' . __('animals_back.year'),
+                                                '9-10' => __('animals_back.nine_to_ten_years'). ' ' . __('animals_back.year'),
+                                                '> 10' => __('animals_back.older_than_ten_years'). ' ' . __('animals_back.year'),
+                                                '> 15' => __('animals_back.older_than_fifteen_years'). ' ' . __('animals_back.year'),
                                             ])
                                             ->columns(4)
                                             ->columnSpanFull()
@@ -427,10 +425,13 @@ class AnimalResource extends Resource
                     TextColumn::make('published_state')
                         ->label(__('animals_back.published'))
                         ->badge()
-                        ->color(fn (string $state): string => match ($state) {
-                            'Draft' => 'warning',
-                            'Gepubliceerd' => 'success',
-                            'Niet gepubliceerd' => 'danger'
+                        ->color(fn (AnimalPublishState $state): string => match ($state->value) {
+                            AnimalPublishState::DRAFT->value => 'warning',
+                            AnimalPublishState::PUBLISHED->value => 'success',
+                            AnimalPublishState::UNPUBLISHED->value => 'danger',
+                            //'Draft' => 'warning',
+                            //'Published' => 'success',
+                            //'Unpublished' => 'danger'
                         })
                         ->sortable()
                         ->searchable(),
@@ -438,10 +439,10 @@ class AnimalResource extends Resource
                     TextColumn::make('approval_state')
                         ->label(__('animals_back.approved'))
                         ->badge()
-                        ->color(fn (string $state): string => match ($state) {
-                            'In behandeling' => 'warning',
-                            'Goedgekeurd' => 'success',
-                            'Afgekeurd' => 'danger'
+                        ->color(fn (AnimalApprovalState $state): string => match ($state->value) {
+                            AnimalApprovalState::INREVIEW->value => 'warning',
+                            AnimalApprovalState::APPROVED->value => 'success',
+                            AnimalApprovalState::NOTAPPROVED->value => 'danger'
                         })
                         ->sortable()
                         ->searchable(),
@@ -683,7 +684,7 @@ class AnimalResource extends Resource
                         ->icon('heroicon-m-pencil-square')
                         ->color('info')
                         ->action(function (Animal $animal, array $data): void {
-                            $animal->published_state = AnimalPublishState::Published;
+                            $animal->published_state = AnimalPublishState::PUBLISHED;
                             $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
                             $animal->save();
 
@@ -694,9 +695,13 @@ class AnimalResource extends Resource
                             //     ->send();
                             
                             $recipient = Auth::user();
-                            // $recipient = User::find(2);
-                            
 
+                            // $recipient->notify(
+                            //     Notification::make()
+                            //         ->title('Saved successfully')
+                            //         ->toDatabase(),
+                            // );
+                           
                             Notification::make()
                                 ->title('Animal published')
                                 ->body('Animal ' . $animal->name . ' published successfully')
@@ -706,10 +711,11 @@ class AnimalResource extends Resource
                                 //         ->markAsRead()     
                                 // ])
                                 ->sendToDatabase($recipient);
-                        })
 
+                            event(new DatabaseNotificationsSent($recipient));
+                        })
                         ->visible(function (Animal $record) {
-                            return $record->published_state == 'Draft' ||  $record->published_state == 'Niet gepubliceerd' ? true : false;
+                            return $record->published_state->value == AnimalPublishState::DRAFT->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false; 
                         }),
 
 

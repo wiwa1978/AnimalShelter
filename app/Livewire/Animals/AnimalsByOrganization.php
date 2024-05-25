@@ -24,9 +24,9 @@ class AnimalsByOrganization extends Component
        
         $this->organization = $organization;
         $this->animals = Animal::where('organization_id', $organization->id)->get();
-        $this->isAnimalBelongsToAsiel = Organization::isAsiel($this->organization->id)->exists();
-        $this->isAnimalBelongsToStichting = Organization::isStichting($this->organization->id)->exists();
-        $this->isAnimalBelongsToParticulier = Organization::isParticulier($this->organization->id)->exists();
+        $this->isAnimalBelongsToAsiel = Organization::isShelter($this->organization->id)->exists();
+        $this->isAnimalBelongsToStichting = Organization::isOrganization($this->organization->id)->exists();
+        $this->isAnimalBelongsToParticulier = Organization::isIndividual($this->organization->id)->exists();
         $this->animals_count = $this->animals->count();
         
     }

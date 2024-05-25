@@ -6,7 +6,7 @@ use App\Enums\Country;
 use Filament\Forms\Get;
 use Filament\Forms\Form;
 use App\Models\Organization;
-use App\Enums\OrganizationTypes;
+use App\Enums\OrganizationType;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -32,9 +32,9 @@ class EditOrganizationProfile extends EditTenantProfile
     {
         $organization = auth()->user()->organizations()->first();
 
-        if ($organization->organization_type == OrganizationTypes::Shelter->value) {
+        if ($organization->organization_type == OrganizationType::SHELTER->value) {
             $organization_type =  __('animals_back.shelter');
-        } elseif ($organization->organization_type == OrganizationTypes::Organization->value) {
+        } elseif ($organization->organization_type == OrganizationType::ORGANIZATION->value) {
             $organization_type =  __('animals_back.organization');
         } else {
             $organization_type =  __('animals_back.individual');

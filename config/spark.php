@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\Organization;
-use App\Models\User;
 use Spark\Features;
+use App\Models\User;
+use App\Models\Organization;
 
 return [
 
@@ -90,7 +90,7 @@ return [
 
     'features' => [
         Features::billingAddressCollection(['required' => true]),
-        //Features::mustAcceptTerms(),
+        // Features::mustAcceptTerms(),
         Features::euVatCollection(['home-country' => 'BE']),
         Features::invoiceEmails(['custom-addresses' => true]),
         Features::paymentNotificationEmails(),
@@ -135,7 +135,7 @@ return [
         'organization' => [
             'model' => Organization::class,
 
-            'trial_days' => 0,
+            'trial_days' => 2,
 
             'default_interval' => 'monthly',
 

@@ -26,6 +26,10 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->id('admin')
+            ->resources([
+                config('filament-logger.activity_resource')
+            ])
+            //->databaseNotifications()
             ->default()
             ->spa()
             ->login()
@@ -49,6 +53,9 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+            ])
+            ->plugins([
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
             ])
             ->middleware([
                 EncryptCookies::class,
