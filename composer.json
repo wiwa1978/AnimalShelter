@@ -15,7 +15,6 @@
         "laravel/spark-stripe": "^5.1",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
-        "ralphjsmit/laravel-filament-notifications": "^2.2",
         "spatie/laravel-activitylog": "^4.8",
         "spatie/laravel-permission": "^6.7",
         "z3d0x/filament-logger": "^0.7.1"
@@ -80,10 +79,6 @@
         {
             "type": "composer",
             "url": "https://spark.laravel.com"
-        },
-        {
-            "type": "composer",
-            "url": "https://satis.ralphjsmit.com"
         }
     ],
     "minimum-stability": "stable",
