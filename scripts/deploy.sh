@@ -39,4 +39,4 @@ php artisan down
 php artisan up
 
 echo "Deployment finished!"
-#change1232ww
+#change1
