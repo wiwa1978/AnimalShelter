@@ -17,6 +17,7 @@ use App\Filament\App\Resources\AnimalResource;
 
 class CreateAnimal extends CreateRecord
 {
+    #test
     protected static string $resource = AnimalResource::class;
 
     protected static bool $canCreateAnother = false;
