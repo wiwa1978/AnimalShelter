@@ -212,7 +212,7 @@
                     <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4">
                         <div class="col-span-2 sm:col-span-4">
                         <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.description')}}</dt>
-                            <div class="prose mt-1 text-sm text-gray-900">
+                            <div class="mt-1 text-sm text-gray-900">
                                 {!! $animal->description !!}
                             </div>
 
@@ -266,7 +266,7 @@
             @if ( $animal_reserved)
             <section  class=" lg:col-span-1 lg:col-start-3">
                 <div class="border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 text-center">
-                    <h2 class="text-lg font-medium text-green-700 text-center">{{ __('animals_front.this')}} {{ __('animals_front.animal')}} {{ __('animals_front.is')}} {{ __('animals_front.currently_reserved')}}</h2>
+                    <h2 class="text-lg font-medium text-green-700 text-center">{{ __('animals_front.this_')}} {{ __('animals_front.animal')}} {{ __('animals_front.is')}} {{ __('animals_front.currently_reserved')}}</h2>
                 </div>
             </section>
             @endif 
