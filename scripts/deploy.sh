@@ -34,9 +34,7 @@ npm run build
 php artisan migrate --force
 #php artisan migrate:fresh --seed
 
-php artisan queue:listen
 
-php artisan reverb:start
 
 # Exit maintenance mode
 php artisan down
