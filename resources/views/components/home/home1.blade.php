@@ -3,8 +3,9 @@
     <img src="{{ asset('storage/images/dog4a.jpg') }}" alt="App screenshot" class="w-full h-auto object-cover object-bottom">
     <div class="absolute bottom-6 left-0 w-full h-3/4 flex items-center justify-center p-6 text-center z-10">
         <div>
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight text-white">{{ __('animals_front.title') }}</h1>
+            <!-- <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight text-white">{{ __('animals_front.title') }}</h1> -->
             <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight text-rose-700">{{ __('animals_front.subtitle') }}</h1>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight text-white">via Lief Dier - Lief Thuis</h1>
         </div>
     </div>
     <div class="text-center absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 flex justify-between space-x-4 px-6 w-full z-20">
