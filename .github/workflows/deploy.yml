@@ -24,5 +24,5 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
-          script: "cd /home/animalshelter/htdocs/animalshelter.wymedia.be && sh scripts/deploy.sh"
+          script: "cd /home/liefdierliefthuis/htdocs/liefdierliefthuis.wymedia.be && sh scripts/deploy.sh"
 #test123a
