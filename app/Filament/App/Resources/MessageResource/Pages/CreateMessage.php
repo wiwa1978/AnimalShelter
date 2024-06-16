@@ -3,6 +3,7 @@
 namespace App\Filament\App\Resources\MessageResource\Pages;
 
 use Filament\Actions;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Notifications\Notification;
@@ -16,6 +17,9 @@ class CreateMessage extends CreateRecord
 
     protected function handleRecordCreation(array $data): Model
     {
+        $data['message']['organization_id'] = Filament::getTenant()->id;
+
+
         $record = static::getModel()::create($data);
         $record->messages()->create($data['message']);
 
@@ -23,11 +27,11 @@ class CreateMessage extends CreateRecord
 
         Notification::make()
             ->title('Connversation published')
-            ->body('Copnversation with subject ' . $record->subject . ' saved successfully')
+            ->body('Conversation with subject ' . $record->subject . ' saved successfully');
 
-            ->sendToDatabase($recipient);
+            //->sendToDatabase($recipient);
 
-        event(new DatabaseNotificationsSent($recipient));
+        //event(new DatabaseNotificationsSent($recipient));
 
         return $record;
     }

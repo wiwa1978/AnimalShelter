@@ -69,7 +69,7 @@ class Organization extends Model
         }
 
         // Fallback to "Individual" plan
-        $plan = Spark::plans('organization')->firstWhere('name', '=', 'fallback');
+        $plan = Spark::plans('organization')->firstWhere('name', '=', 'Free Plan');
         
         return $plan;
     }
@@ -92,23 +92,22 @@ class Organization extends Model
 
     public function organizationIsShelter(): bool
     {
-        return $this->organization_type == OrganizationType::SHELTER->name;
+        return $this->organization_type == OrganizationType::SHELTER->value;
     }
 
     public function organizationIsNotShelter(): bool
     {
-        dd($this->organization_type != OrganizationType::SHELTER->name);
-        return $this->organization_type != OrganizationType::SHELTER->name;
+        return $this->organization_type != OrganizationType::SHELTER->value;
     }
 
     public function organizationIsIndividual(): bool
     {
-        return $this->organization_type == OrganizationType::INDIVIDUAL->name;
+        return $this->organization_type == OrganizationType::INDIVIDUAL->value;
     }
 
     public function organizationIsOrganization(): bool
     {
-        return $this->organization_type == OrganizationType::ORGANIZATION->name;
+        return $this->organization_type == OrganizationType::ORGANIZATION->value;
     }
 
 

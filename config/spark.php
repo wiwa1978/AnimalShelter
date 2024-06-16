@@ -135,77 +135,73 @@ return [
         'organization' => [
             'model' => Organization::class,
 
-            'trial_days' => 2,
+            'trial_days' => 0,
 
             'default_interval' => 'monthly',
 
             'plans' => [
                 [
-                    'name' => 'fallback',
-                    'short_description' => 'This is the fallback plan.',
+                    'name' => 'Free Plan',
+                    'short_description' => 'This is the fallback free plan.',
                     'monthly_id' => 'price_1P5tRP21JyPRVPKfrt4JmGeN',
                     'yearly_id' => 'price_1P5tSI21JyPRVPKfdCqROLI5',
                     'features' => [
                         '1 user in your organization',
                         '1 animal',
-                    ],
-                    'options' => [
-                        'animals' => 0,
-                        'users' => 0
-                    ],
-                    // IMPORTANT
-                    'archived' => true,
-                    
-                ],
-                [
-                    'name' => 'Bronze',
-                    'short_description' => 'This is the bronze plan.',
-                    'monthly_id' => 'price_1P5tRP21JyPRVPKfrt4JmGeN',
-                    'yearly_id' => 'price_1P5tSI21JyPRVPKfdCqROLI5',
-                    'features' => [
-                        '1 user in your organization',
-                        '1 animal',
-                    ],
-                    'options' => [
-                        'animals' => 1,
-                        'users' => 1
-                    ],
-                    // IMPORTANT
-                    'archived' => false,
-                    
-                ],
-                [
-                    'name' => 'Silver',
-                    'short_description' => 'This is the silver plan.',
-                    'monthly_id' => 'price_1P5tUf21JyPRVPKfm5lt38ry',
-                    'yearly_id' => 'price_1P2wlF21JyPRVPKfQofPAXhY',
-                    'features' => [
-                        'Up to 2 users in your organization',
-                        'Up to 3 animals',
-                    ],
-                    'options' => [
-                        'animals' => 3,
-                        'users' => 1
-                    ],
-                    // IMPORTANT
-                    'archived' => false,
-                ],
-                [
-                    'name' => 'Gold',
-                    'short_description' => 'This is the gold plan.',
-                    'monthly_id' => 'price_1P5tW221JyPRVPKfqpeG7sXn',
-                    'yearly_id' => 'price_1P2wmG21JyPRVPKfVzJGtlXw',
-                    'features' => [
-                        'Unlimited users in your organization',
-                        'Upload unlimited animals',
                     ],
                     'options' => [
                         'animals' => 1000,
                         'users' => 1000
                     ],
                     // IMPORTANT
-                    'archived' => false,
+                    'archived' => true,
+                    
                 ],
+                // [
+                //     'name' => 'Bronze',
+                //     'short_description' => 'This is the bronze plan.',
+                //     'monthly_id' => 'price_1P5tRP21JyPRVPKfrt4JmGeN',
+                //     'yearly_id' => 'price_1P5tSI21JyPRVPKfdCqROLI5',
+                //     'features' => [
+                //         '1 user in your organization',
+                //         '1 animal',
+                //     ],
+                //     'options' => [
+                //         'animals' => 1,
+                //         'users' => 1
+                //     ],
+                //     'archived' => false,
+                // ],
+                // [
+                //     'name' => 'Silver',
+                //     'short_description' => 'This is the silver plan.',
+                //     'monthly_id' => 'price_1P5tUf21JyPRVPKfm5lt38ry',
+                //     'yearly_id' => 'price_1P2wlF21JyPRVPKfQofPAXhY',
+                //     'features' => [
+                //         'Up to 2 users in your organization',
+                //         'Up to 3 animals',
+                //     ],
+                //     'options' => [
+                //         'animals' => 3,
+                //         'users' => 1
+                //     ],
+                //     'archived' => false,
+                // ],
+                // [
+                //     'name' => 'Gold',
+                //     'short_description' => 'This is the gold plan.',
+                //     'monthly_id' => 'price_1P5tW221JyPRVPKfqpeG7sXn',
+                //     'yearly_id' => 'price_1P2wmG21JyPRVPKfVzJGtlXw',
+                //     'features' => [
+                //         'Unlimited users in your organization',
+                //         'Upload unlimited animals',
+                //     ],
+                //     'options' => [
+                //         'animals' => 1000,
+                //         'users' => 1000
+                //     ],
+                //     'archived' => false,
+                // ],
             ],
 
         ],

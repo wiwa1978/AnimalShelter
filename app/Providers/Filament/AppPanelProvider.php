@@ -15,13 +15,14 @@ use App\Filament\App\Pages\Auth\Register;
 use App\Http\Middleware\ApplyTenantScopes;
 use Filament\Http\Middleware\Authenticate;
 
+use App\Http\Middleware\CheckBillingEnabled;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Billing\Providers\SparkBillingProvider;
 use App\Http\Middleware\VerifyOrganizationIsBillable;
 use Illuminate\Routing\Middleware\SubstituteBindings;
-use Illuminate\Session\Middleware\AuthenticateSession;
 
+use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -35,6 +36,7 @@ class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+        
         return $panel
             ->id('app')
             ->path('app')
@@ -47,7 +49,8 @@ class AppPanelProvider extends PanelProvider
                 NavigationItem::make('Abonnement')
                     ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
                     ->group('Gebruikersbeheer')
-                    ->icon('heroicon-o-banknotes'),
+                    ->icon('heroicon-o-banknotes')
+                    ->visible(fn() => env('BILLING_ENABLED', true)),
             ])
             ->brandName('Animals')
             ->brandLogo(asset('storage/images/logo3.svg'))
@@ -57,29 +60,19 @@ class AppPanelProvider extends PanelProvider
             ->requiresTenantSubscription()
             ->tenant(Organization::class, ownershipRelationship: 'organizations')
             //->tenantRegistration(RegisterOrganization::class)
+            //->tenantMenu(false)
             ->tenantProfile(EditOrganizationProfile::class)
-            // ->tenantMenuItems([
-            //     MenuItem::make()
-            //     ->label('Settings')
-            //     ->icon('heroicon-m-cog-8-tooth')
-            //     ])
-            // ->tenantMenuItems([
-            //     'billing' => MenuItem::make()->label('Manage subscription'),
-            //     // ...
-            // ])
-            ->tenantMenu(false)
+
             ->tenantMiddleware([
                 //ApplyTenantScopes::class,
-
             ], isPersistent: true)
             ->login()
-            //->registration()
             ->registration(Register::class) 
             ->passwordReset()
             ->emailVerification()
             ->spa()
             ->databaseNotifications()
-            //->databaseNotificationsPolling('30s')
+            ->databaseNotificationsPolling('30s')
             ->unsavedChangesAlerts()
             ->databaseTransactions()
             ->colors([
@@ -107,12 +100,10 @@ class AppPanelProvider extends PanelProvider
                     ->label('Abonnement')
                     ->icon('heroicon-o-banknotes')
                     ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
-                    //->visible(fn() => auth()->user()->organizations()->first()->organizationIsShelter()),
+                    ->visible(fn() => env('BILLING_ENABLED', true)),
                 ])
-            //->tenantRoutePrefix('organization')
-            //->topNavigation()
+
             ->sidebarCollapsibleOnDesktop()
-            //->sidebarFullyCollapsibleOnDesktop()
             ->maxContentWidth(MaxWidth::Full)
             ->discoverResources(in: app_path('Filament/App/Resources'), for: 'App\\Filament\\App\\Resources')
             ->discoverPages(in: app_path('Filament/App/Pages'), for: 'App\\Filament\\App\\Pages')
@@ -135,12 +126,15 @@ class AppPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                VerifyOrganizationIsBillable::class
+                VerifyOrganizationIsBillable::class,
                 
             ])
-
             ->authMiddleware([
                 Authenticate::class,
             ]);
+            //->tenantRoutePrefix('organization')
+            //->topNavigation()
+            //->sidebarFullyCollapsibleOnDesktop()
+
     }
 }

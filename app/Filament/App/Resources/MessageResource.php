@@ -154,67 +154,67 @@ class MessageResource extends Resource
             ]);
     }
 
-    public static function infolist(Infolist $infolist): Infolist
-    {
+    // public static function infolist(Infolist $infolist): Infolist
+    // {
+        
 
-
-        return $infolist
-            ->schema([
-                Actions::make([
-                    Action::make('reply')
-                        ->form([
-                            Textarea::make('content')
-                                ->required(),
-                        ])
-                        ->action(function (Conversation $record, array $data): void {
-                            //dd($record->messages());
-                            $test = $record->messages()->create([
-                                'organization_id' => Filament::getTenant()->id,
-                                'receiver_id' => (auth()->id() === $record->messages()->first()->sender_id) ? $record->messages()->first()->receiver_id : $record->messages()->first()->sender_id,
-                                'sender_id' => auth()->id(),
-                                'content' => $data['content'],
-                            ]);
-
-
-                            // Send notification to the user receiving the message
-                            $recipient = (auth()->id() === $test['sender_id']) ? $test['receiver_id'] : $test['sender_id'];
-                            //dd($receiver);
-
-                            Log::debug('Receiver: ' . $recipient);
+    //     return $infolist
+    //         ->schema([
+    //             Actions::make([
+    //                 Action::make('reply')
+    //                     ->form([
+    //                         Textarea::make('content')
+    //                             ->required(),
+    //                     ])
+    //                     ->action(function (Conversation $record, array $data): void {
                             
-                            Notification::make()
-                                ->title('New Reply To ' . $record->subject)
-                                ->sendToDatabase(User::find($recipient));
+    //                         $test = $record->messages()->create([
+    //                             'organization_id' => Filament::getTenant()->id,
+    //                             'receiver_id' => (auth()->id() === $record->messages()->first()->sender_id) ? $record->messages()->first()->receiver_id : $record->messages()->first()->sender_id,
+    //                             'sender_id' => auth()->id(),
+    //                             'content' => $data['content'],
+    //                         ]);
 
-                            event(new DatabaseNotificationsSent(User::find($recipient)));
-                        })
-                ])
-                ->columnSpanFull(),
 
-                RepeatableEntry::make('messages')
-                    ->hiddenLabel()
-                    ->schema(fn () => [
-                        Grid::make()
-                            ->schema([
-                                TextEntry::make('sender.name')
-                                    ->inlineLabel(),
-                                TextEntry::make('created_at')
-                                    ->inlineLabel()
-                                    ->hiddenLabel()
-                                    ->since()
-                                    ->alignEnd(),
-                            ]),
-                            TextEntry::make('content')
-                                ->hiddenLabel(),
-                            RichEditor::make('content')
-                            ->label(__('animals_back.description'))
-                    ])
-                    ->columnSpanFull(),
+    //                         // Send notification to the user receiving the message
+    //                         $recipient = (auth()->id() === $test['sender_id']) ? $test['receiver_id'] : $test['sender_id'];
+    //                         //dd($receiver);
+
+    //                         Log::debug('Receiver: ' . $recipient);
+                            
+    //                         Notification::make()
+    //                             ->title('New Reply To ' . $record->subject)
+    //                             ->sendToDatabase(User::find($recipient));
+
+    //                         event(new DatabaseNotificationsSent(User::find($recipient)));
+    //                     })
+    //             ])
+    //             ->columnSpanFull(),
+
+    //             RepeatableEntry::make('messages')
+    //                 ->hiddenLabel()
+    //                 ->schema(fn () => [
+    //                     Grid::make()
+    //                         ->schema([
+    //                             TextEntry::make('sender.name')
+    //                                 ->inlineLabel(),
+    //                             TextEntry::make('created_at')
+    //                                 ->inlineLabel()
+    //                                 ->hiddenLabel()
+    //                                 ->since()
+    //                                 ->alignEnd(),
+    //                         ]),
+    //                         TextEntry::make('content')
+    //                             ->hiddenLabel(),
+    //                         RichEditor::make('content')
+    //                         ->label(__('animals_back.description'))
+    //                 ])
+    //                 ->columnSpanFull(),
                     
 
                 
-            ]);
-    }
+    //         ]);
+    // }
 
 
     public static function getRelations(): array

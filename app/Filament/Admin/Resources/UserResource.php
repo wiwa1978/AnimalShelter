@@ -98,7 +98,7 @@ class UserResource extends Resource
                     ->label(__('users_back.current_plan'))
                     ->getStateUsing( function (User $record){
                         //return optional($record->organizations->first()->getPlan())->name ?? 'NA';
-                        return $record->organizations->first()->getPlan()->name == 'fallback' ? 'Geen' : $record->organizations->first()->getPlan()->name;
+                        return $record->organizations->first()->getPlan()->name == 'Free Plan' ? 'Geen' : $record->organizations->first()->getPlan()->name;
                     }),
                 
  

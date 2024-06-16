@@ -47,11 +47,9 @@ class EditOrganizationProfile extends EditTenantProfile
     public function form(Form $form): Form
     {
         $organization = auth()->user()->organizations()->first();
-        $plan = $organization->getPlan();
 
-        $test = $plan->name; // "Free"
-
-       
+        $plan = $organization->getPlan();  
+        
 
         return $form
             ->schema([
@@ -88,50 +86,9 @@ class EditOrganizationProfile extends EditTenantProfile
                         ])
                         ->columnSpan(2),
 
-                    Section::make('Huidig Plan')
-                        ->schema([
-                            DateTimePicker::make('trial_ends_at')
-                                ->label('Proefperiode eindigt op')
-                                 ->native(false)
-                                ->displayFormat('d-m-Y')
-                                ->visible(fn (): bool => auth()->user()->organizations()->first()->trial_ends_at !== null),
-                            
-                            Placeholder::make('Huidig abonnement')
-                                ->content(fn (Organization $record): string => $record->getPlan()->name),
 
-                            Placeholder::make('Details van het abonnement')
-                                //->content(new HtmlString('Aantal gebruikers: ' . $plan->options['users'] . '<br>Aantal dieren: ' . $plan->options['animals'] . '<br>')),
-                                ->content(
-                                    new HtmlString('
-                                        <ul class="list-none list-inside">
-                                            <li>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 inline-block align-text-top"">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                                </svg>
-                                                Aantal gebruikers: ' . $plan->options['users'] . '
-                                            </li>
-                                            <li>
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 inline-block align-text-top"">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
-                                                </svg>
-                                                Aantal dieren: ' . $plan->options['animals'] . '
-                                            </li>
-                                            
-                                        </ul>
-                                    ')),
-                            
-                            
-                             
-                            
-                            // TextInput::make($subscription)
-                            //     ->label('Abonnement')
-                            //     ->readonly(),
-                            
-                            
-                        ])
-                        ->columnSpan(2),
                     
-                        Section::make('Gegevens betreffende de organisatie')
+                    Section::make('Gegevens betreffende de organisatie')
                         ->schema([
                             TextInput::make('organization_name')
                             ->label('Naam van de organisatie')
@@ -161,7 +118,39 @@ class EditOrganizationProfile extends EditTenantProfile
                         ->visible(fn (Organization $record): bool => $record->organizationIsShelter() || $record->organizationIsOrganization())
                         ->columnSpan(2),
 
-                    
+                    // Section::make('Huidig Plan')
+                    //     ->schema([
+                    //         DateTimePicker::make('trial_ends_at')
+                    //             ->label('Proefperiode eindigt op')
+                    //              ->native(false)
+                    //             ->displayFormat('d-m-Y')
+                    //             ->visible(fn (): bool => auth()->user()->organizations()->first()->trial_ends_at !== null),
+                            
+                    //         Placeholder::make('Huidig abonnement')
+                    //             ->content(fn (Organization $record): string => $record->getPlan()->name),
+
+                    //         Placeholder::make('Details van het abonnement')
+                    //             ->content(
+                    //                 new HtmlString('
+                    //                     <ul class="list-none list-inside">
+                    //                         <li>
+                    //                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 inline-block align-text-top"">
+                    //                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                    //                             </svg>
+                    //                             Aantal gebruikers: ' . $plan->options['users'] . '
+                    //                         </li>
+                    //                         <li>
+                    //                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6 inline-block align-text-top"">
+                    //                                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25 21 12m0 0-3.75 3.75M21 12H3" />
+                    //                             </svg>
+                    //                             Aantal dieren: ' . $plan->options['animals'] . '
+                    //                         </li>
+                                            
+                    //                     </ul>
+                    //                 ')),
+
+                    //     ])
+                    //     ->columnSpan(2),
                    
                 ]),
             ]);
