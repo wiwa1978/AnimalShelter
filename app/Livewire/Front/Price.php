@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Home;
+namespace App\Livewire\Front;
 
 use Livewire\Component;
 use Filament\Facades\Filament;
@@ -23,6 +23,6 @@ class Price extends Component
     public function render()
     {   
  
-        return view('components.home.price');
+        return view('components.front.price');
     }
 }

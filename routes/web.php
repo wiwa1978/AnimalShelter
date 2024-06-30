@@ -1,10 +1,10 @@
 <?php
 
-use App\Livewire\Home\Home;
-use App\Livewire\Home\Price;
+use App\Livewire\Front\Home;
+use App\Livewire\Front\Price;
 use App\Livewire\Animals\Animals;
-use App\Livewire\Home\SearchAnimal;
-use App\Livewire\Home\MessagesComponent;
+use App\Livewire\Animals\SearchAnimal;
+use App\Livewire\Front\MessagesComponent;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Animals\AnimalDetail;
 use App\Livewire\Animals\AnimalsByOrganization;

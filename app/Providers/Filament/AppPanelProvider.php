@@ -5,25 +5,30 @@ namespace App\Providers\Filament;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
+use Widgets\StatsOverview;
 use Filament\PanelProvider;
 use App\Models\Organization;
+use Filament\Pages\Dashboard;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
+use Filament\Widgets\AccountWidget;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Navigation\NavigationItem;
+
+use Filament\Widgets\FilamentInfoWidget;
 use App\Filament\App\Pages\Auth\Register;
 use App\Http\Middleware\ApplyTenantScopes;
 use Filament\Http\Middleware\Authenticate;
-
 use App\Http\Middleware\CheckBillingEnabled;
 use Illuminate\Session\Middleware\StartSession;
+
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Filament\Billing\Providers\SparkBillingProvider;
 use App\Http\Middleware\VerifyOrganizationIsBillable;
 use Illuminate\Routing\Middleware\SubstituteBindings;
-
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Filament\App\Pages\Tenancy\RegisterOrganization;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -40,7 +45,7 @@ class AppPanelProvider extends PanelProvider
         return $panel
             ->id('app')
             ->path('app')
-            ->darkMode(false)
+            ->darkMode(true)
             ->navigationItems([
                 NavigationItem::make('Profiel')
                     ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile')
@@ -60,9 +65,8 @@ class AppPanelProvider extends PanelProvider
             ->requiresTenantSubscription()
             ->tenant(Organization::class, ownershipRelationship: 'organizations')
             //->tenantRegistration(RegisterOrganization::class)
-            //->tenantMenu(false)
+            ->tenantMenu(false)
             ->tenantProfile(EditOrganizationProfile::class)
-
             ->tenantMiddleware([
                 //ApplyTenantScopes::class,
             ], isPersistent: true)
@@ -115,6 +119,7 @@ class AppPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -141,7 +141,7 @@ return [
 
             'plans' => [
                 [
-                    'name' => 'Free Plan',
+                    'name' => 'Gratis Plan',
                     'short_description' => 'This is the fallback free plan.',
                     'monthly_id' => 'price_1P5tRP21JyPRVPKfrt4JmGeN',
                     'yearly_id' => 'price_1P5tSI21JyPRVPKfdCqROLI5',
@@ -158,7 +158,7 @@ return [
                     
                 ],
                 // [
-                //     'name' => 'Bronze',
+                //     'name' => 'Brons',
                 //     'short_description' => 'This is the bronze plan.',
                 //     'monthly_id' => 'price_1P5tRP21JyPRVPKfrt4JmGeN',
                 //     'yearly_id' => 'price_1P5tSI21JyPRVPKfdCqROLI5',
@@ -173,7 +173,7 @@ return [
                 //     'archived' => false,
                 // ],
                 // [
-                //     'name' => 'Silver',
+                //     'name' => 'Zilver',
                 //     'short_description' => 'This is the silver plan.',
                 //     'monthly_id' => 'price_1P5tUf21JyPRVPKfm5lt38ry',
                 //     'yearly_id' => 'price_1P2wlF21JyPRVPKfQofPAXhY',
@@ -188,7 +188,7 @@ return [
                 //     'archived' => false,
                 // ],
                 // [
-                //     'name' => 'Gold',
+                //     'name' => 'Goud',
                 //     'short_description' => 'This is the gold plan.',
                 //     'monthly_id' => 'price_1P5tW221JyPRVPKfqpeG7sXn',
                 //     'yearly_id' => 'price_1P2wmG21JyPRVPKfVzJGtlXw',

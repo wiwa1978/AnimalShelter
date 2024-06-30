@@ -69,7 +69,7 @@ class Organization extends Model
         }
 
         // Fallback to "Individual" plan
-        $plan = Spark::plans('organization')->firstWhere('name', '=', 'Free Plan');
+        $plan = Spark::plans('organization')->firstWhere('name', '=', 'Gratis Plan');
         
         return $plan;
     }

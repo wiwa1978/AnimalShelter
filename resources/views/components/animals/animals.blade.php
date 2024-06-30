@@ -4,44 +4,66 @@
   
 
       <h2 class="text-3xl font-bold tracking-tight text-rose-700 sm:text-4xl">
-
-         @if($animal_type == 'dog')
+         
+         @if($animal_type == 'dog' && $animals_count > 0)
             {{ __('animals_front.adopt_dog')}} 
             <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.dogs_new_home')}}</p>
+         @elseif($animal_type == 'dog' && $animals_count == 0)
+            {{ __('animals_front.adopt_dog')}} 
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ __('animals_front.no_dogs_yet')}}</p>
          @endif
-         @if($animal_type == 'cat')
+         @if($animal_type == 'cat' && $animals_count > 0)
             {{ __('animals_front.adopt_cat')}}
             <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.cats_new_home')}}</p>
+         @elseif($animal_type == 'cat' && $animals_count == 0)
+            {{ __('animals_front.adopt_cat')}} 
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ __('animals_front.no_cats_yet')}}</p>
          @endif
-         @if($animal_type == 'other')
+         @if($animal_type == 'other' && $animals_count > 0)
             {{ __('animals_front.adopt_other')}}
             <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.others_new_home')}}</p>
+         @elseif($animal_type == 'other' && $animals_count == 0)
+            {{ __('animals_front.adopt_other')}}
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ __('animals_front.no_others_yet')}}</p>
          @endif
 
-         @if($animal_type == 'dog-featured')
+         @if($animal_type == 'dog-featured' && $animals_count > 0)
             {{ __('animals_front.dogs_in_picture')}} 
             <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.dogs_new_home_featured')}}</p>
+         @elseif($animal_type == 'dog-featured' && $animals_count == 0)
+            {{ __('animals_front.dogs_in_picture')}} 
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ __('animals_front.no_dogs_yet')}}</p>
          @endif
-         @if($animal_type == 'cat-featured')
+         
+         @if($animal_type == 'cat-featured' && $animals_count > 0)
             {{ __('animals_front.cats_in_picture')}}
             <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.dogs_new_home_featured')}}</p>
+         @elseif($animal_type == 'cat-featured' && $animals_count == 0)
+            {{ __('animals_front.cats_in_picture')}} 
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ __('animals_front.no_cats_yet')}}</p>
+         @else
+         
          @endif
-         @if($animal_type == 'other-featured')
+         
+         @if($animal_type == 'other-featured' && $animals_count > 0)
             {{ __('animals_front.others_in_picture')}}
             <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.dogs_new_home_featured')}}</p>
+         @elseif($animal_type == 'other-featured' && $animals_count == 0)
+            {{ __('animals_front.others_in_picture')}}
+            <p class="mt-6 tracking-tight font-medium text-indigo-900 sm:text-xl">{{ $animals_count }} {{ __('animals_front.no_others_yet')}}</p>
          @endif
 
       </h2>
     </div>
 
     <h2 class="mt-6 text-2xl font-bold text-indigo-900">
-         @if($animal_type == 'dog')
+         @if($animal_type == 'dog' && $animals_count > 0)
             {{ __('animals_front.all_dogs')}} ({{ $animals_count }})
          @endif
-         @if($animal_type == 'cat')
+         @if($animal_type == 'cat' && $animals_count > 0)
             {{ __('animals_front.all_cats')}} ({{ $animals_count }})
          @endif
-         @if($animal_type == 'other')
+         @if($animal_type == 'other' && $animals_count > 0)
             {{ __('animals_front.all_others')}} ({{ $animals_count }})
          @endif
     </h2>

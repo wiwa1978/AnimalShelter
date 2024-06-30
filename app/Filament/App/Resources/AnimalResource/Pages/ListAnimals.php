@@ -2,6 +2,7 @@
 
 namespace App\Filament\App\Resources\AnimalResource\Pages;
 
+use App\Filament\App\Resources\AnimalResource\Widgets\StatsOverview;
 use Filament\Actions;
 use App\Models\Animal;
 use App\Enums\AnimalSize;
@@ -24,6 +25,7 @@ class ListAnimals extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
 
     public function getTabs(): array
     {

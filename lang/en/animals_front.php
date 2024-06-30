@@ -162,6 +162,9 @@ return [
     'package_gold_subtitle' => 'Package Gold description',
     'package_silver_subtitle' => 'Package Silver description',
     'package_bronze_subtitle' => 'Package Bronze description',
+    'no_dogs_yet' => 'No dogs available yet',
+    'no_cats_yet' => 'No cats available yet',
+    'no_others_yet' => 'No other animals available yet',
 
 ];
 

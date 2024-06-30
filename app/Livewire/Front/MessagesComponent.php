@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Home;
+namespace App\Livewire\Front;
 
 use Livewire\Component;
 use Livewire\Attributes\On;

@@ -157,4 +157,7 @@ return [
     'package_gold_subtitle' => 'Pakket Goud uitleg',
     'package_silver_subtitle' => 'Pakket Zilver uitleg',
     'package_bronze_subtitle' => 'Pakket Brons uitleg',
+    'no_dogs_yet' => 'Er zijn nog geen honden beschikbaar',
+    'no_cats_yet' => 'Er zijn nog geen katten beschikbaar',
+    'no_others_yet' => 'Er zijn nog geen andere dieren beschikbaar',    
 ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Home;
+namespace App\Livewire\Animals;
 
 use App\Enums\AnimalAge;
 use App\Enums\AnimalLocation;
@@ -117,7 +117,7 @@ class SearchAnimal extends Component
     {  
         $this->searchFunction();
 
-        return view('components.home.search-animal', [
+        return view('components.animals.search-animal', [
             'animals_all' => $this->animals,
             'animals_count' => $this->animals_count
         ]);

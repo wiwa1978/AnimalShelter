@@ -70,6 +70,7 @@
 
     </div>
 
+  
     <h2 class="pt-12 text-2xl font-bold text-indigo-900">
     {{__('animals_front.all_animals')}} <span wire:model.live="animals_count"=>({{ $animals_count}})</span> 
     </h2>
@@ -83,6 +84,7 @@
 
 
     </ul>
+   
     {{--
     <div class="mt-10 ">
       {{ $animals_all->links() }}

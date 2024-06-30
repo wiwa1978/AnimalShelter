@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Home;
+namespace App\Livewire\Front;
 
 use App\Models\Animal;
 use Livewire\Component;
@@ -15,7 +15,7 @@ class Home extends Component
     public function render()
     {
 
-        return view('components.home.home1',
+        return view('components.front.home',
             [
                 'dogs_featured' => Animal::dogs()->published()->featured()->paginate(4),
                 'cats_featured' => Animal::cats()->published()->featured()->paginate(4),

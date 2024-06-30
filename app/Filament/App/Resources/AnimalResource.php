@@ -42,6 +42,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
+use App\Filament\App\Widgets\StatsOverview;
 use App\Filament\App\Resources\AnimalResource\Pages;
 use Filament\Notifications\Events\DatabaseNotificationsSent;
 use App\Filament\App\Resources\AnimalResource\RelationManagers;
@@ -77,6 +78,12 @@ class AnimalResource extends Resource
 
     }
 
+    public static function getWidgets(): array
+    {
+        return [
+            StatsOverview::class,
+        ];
+    }
 
 
     public static function getPluralModelLabel(): string
@@ -762,6 +769,7 @@ class AnimalResource extends Resource
             //
         ];
     }
+
 
     public static function getPages(): array
     {
