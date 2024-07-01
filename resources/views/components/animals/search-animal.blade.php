@@ -5,8 +5,11 @@
         {{__('animals_front.search_title')}}
       </h2>
 
+      @if($animals_count == 1)
+      <p class="mt-6 tracking-tight font-bold text-indigo-900 sm:text-xl">{{ $animals_count}} {{__('animals_front.search_subtitle_singular')}}</p>
+      @else
       <p class="mt-6 tracking-tight font-bold text-indigo-900 sm:text-xl">{{ $animals_count}} {{__('animals_front.search_subtitle')}}</p>
-
+      @endif
       <div class="mt-6 bg-white sm:rounded-lg" style="display: flex; justify-content: center; align-items: center; ">
         <div class="px-4 py-5 sm:p-6">
           <h3 class="text-base font-semibold leading-6 text-gray-900">{{__('animals_front.search_animal')}}</h3>

@@ -29,7 +29,6 @@ class ListAnimals extends ListRecords
 
     public function getTabs(): array
     {
-        $animal_sizes = AnimalSize::cases();
         $animal_types = AnimalType::cases();
         $animal_publish_state = AnimalPublishState::cases();
 
@@ -49,11 +48,6 @@ class ListAnimals extends ListRecords
         }
 
 
-        foreach ($animal_sizes as $size) {
-            $tabs[Str::headline($size->value)] = Tab::make()
-                ->badge((string)Animal::query()->where('size', $size)->count())
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('size', $size));
-        }
 
         foreach ($animal_types as $type) {
             $tabs[Str::headline($type->value)] = Tab::make()

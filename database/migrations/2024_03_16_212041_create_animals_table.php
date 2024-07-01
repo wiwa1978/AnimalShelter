@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(Organization::class)->index();
             $table->timestamp('date_added')->nullable();
             $table->boolean('featured')->default(false);
-            $table->string('approval_state')->default('In behandeling');
+            $table->string('approval_state')->default('InReview');
             $table->string('published_state')->default('Draft');
             $table->timestamp('published_at')->nullable();
             $table->timestamp('unpublished_at')->nullable();

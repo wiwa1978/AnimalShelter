@@ -14,7 +14,6 @@ use App\Enums\AnimalGender;
 use App\Enums\AnimalStatus;
 use Filament\Support\RawJs;
 use Illuminate\Support\Str;
-use App\Enums\ApprovalState;
 use App\Models\Organization;
 use App\Enums\AnimalLocation;
 use Filament\Facades\Filament;
@@ -413,9 +412,7 @@ class AnimalResource extends Resource
                             AnimalPublishState::DRAFT->value => 'warning',
                             AnimalPublishState::PUBLISHED->value => 'success',
                             AnimalPublishState::UNPUBLISHED->value => 'danger',
-                            //'Draft' => 'warning',
-                            //'Published' => 'success',
-                            //'Unpublished' => 'danger'
+
                         })
                         ->sortable()
                         ->searchable(),
@@ -667,23 +664,25 @@ class AnimalResource extends Resource
                     
                     Tables\Actions\Action::make('Publish')
                         ->requiresConfirmation()
+                        ->label(__('animals_back.publish'))
                         ->icon('heroicon-o-eye')
                         ->color('info')
                         ->action(function (Animal $animal, array $data): void {
-                            $animal->published_state = AnimalPublishState::Published;
+                            $animal->published_state = AnimalPublishState::PUBLISHED->value;
                             $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
                             $animal->save();
 
                             Notification::make()
-                                ->title('Success')
+                                ->title(__('animals_back.success_published'))
                                 ->success('')
-                                ->body('Animal published successfully')
+                                ->body($animal->name . ' ' . __('animals_back.publish_success'))
                                 ->send();
 
                         })
 
                         ->visible(function (Animal $record) {
-                            return $record->published_state == 'Draft' ? true : false;
+                            return $record->approval_state == AnimalPublishState::DRAFT || $record->approval_state == AnimalPublishState::UNPUBLISHED ? true : false;
+                          
                         }),
 
 
@@ -709,50 +708,61 @@ class AnimalResource extends Resource
                         ->visible(function (Animal $record) {
                             return $record->published_state == 'Gepubliceerd' ? true : false;
                         }),
-
+                        
                         // Action Menu item for Approval;
                         Tables\Actions\Action::make('Approve')
                             ->requiresConfirmation()
                             ->icon('heroicon-o-hand-thumb-up')
+                            ->label(__('animals_back.approve'))
                             ->color('info')
                             ->action(function (Animal $animal, array $data): void {
-                                $animal->approval_state = ApprovalState::Approved;
+                                $animal->approval_state = AnimalApprovalState::APPROVED->value;
                                 $animal->approved_at = Carbon::now()->format('Y-m-d H:i:s');
-                                $animal->published_state = AnimalPublishState::Published;
+                                $animal->published_state = AnimalPublishState::PUBLISHED->value;
                                 $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
                                 $animal->save();
 
                                 Notification::make()
-                                    ->title('Success')
+                                    ->title(__('animals_back.success_approved'))
                                     ->success('')
-                                    ->body('Animal approved successfully')
+                                    ->body( $animal->name . ' ' . __('animals_back.approved_success') )
                                     ->send();
                             })
+                            
                             ->visible(function (Animal $record) {
-                                return $record->approval_state == 'In behandeling' || $record->approval_state == 'Afgekeurd' ? true : false;
+                                return $record->approval_state == AnimalApprovalState::INREVIEW || $record->approval_state == AnimalApprovalState::NOTAPPROVED ? true : false;
                             }),
 
 
                         // Action Menu item for Approval;
                         Tables\Actions\Action::make('Unapprove')
                             ->requiresConfirmation()
+                            ->label(__('animals_back.unapprove'))
                             ->icon('heroicon-o-hand-thumb-down')
                             ->color('info')
                             ->action(function (Animal $animal, array $data): void {
-                                $animal->approval_state = ApprovalState::NotApproved;
+                                $animal->approval_state = AnimalApprovalState::NOTAPPROVED->value;
                                 $animal->unapproved_at = Carbon::now()->format('Y-m-d H:i:s');
-                                $animal->published_state = AnimalPublishState::Unpublished;
+                                $animal->published_state = AnimalPublishState::UNPUBLISHED->value;
                                 $animal->unpublished_at = Carbon::now()->format('Y-m-d H:i:s');
                                 $animal->save();
 
                                 Notification::make()
-                                    ->title('Success')
+                                    ->title(__('animals_back.success_unapproved'))
                                     ->success('')
-                                    ->body('Animal unapproved successfully')
+                                    ->body($animal->name  . ' ' . __('animals_back.unapproved_success') )
                                     ->send();
+                                
+                                // $recipient = Auth::user();
+                           
+                                // Notification::make()
+                                //     ->title('Animal published')
+                                //     ->body('Animal ' . $animal->name . ' published successfully')
+                                //     ->sendToDatabase($recipient);
                             })
+                            
                             ->visible(function (Animal $record) {
-                                return $record->approval_state == 'Goedgekeurd' ? true : false;
+                                return $record->approval_state == AnimalApprovalState::APPROVED ? true : false;
                             }),
 
                 ])

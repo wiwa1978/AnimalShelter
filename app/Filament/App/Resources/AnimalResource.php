@@ -5,6 +5,7 @@ namespace App\Filament\App\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use App\Models\User;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Tables;
 use App\Models\Animal;
 use Filament\Forms\Form;
@@ -314,11 +315,13 @@ class AnimalResource extends Resource
                                     ->label(__('animals_back.experience_required'))
                                     ->required(),
     
-                                RichEditor::make('environment')
+                                MarkdownEditor::make('environment')
                                     ->label(__('animals_back.environment'))
                                     ->required()
                                     ->maxLength(65535)
                                     ->columnSpanFull(),
+
+
                             ])
                             ->columns(3)
                             ->columnSpan(4),
@@ -686,6 +689,7 @@ class AnimalResource extends Resource
                         ->icon('heroicon-o-trash')
                         ->action(fn (Animal $record) => $record->delete())
                         ->requiresConfirmation(),
+                    
                     Tables\Actions\Action::make('Publish')
                         ->requiresConfirmation()
                         ->icon('heroicon-m-pencil-square')
@@ -694,20 +698,8 @@ class AnimalResource extends Resource
                             $animal->published_state = AnimalPublishState::PUBLISHED;
                             $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
                             $animal->save();
-
-                            // Notification::make()
-                            //     ->title('Success')
-                            //     ->success('')
-                            //     ->body('Animal published successfully')
-                            //     ->send();
                             
                             $recipient = Auth::user();
-
-                            // $recipient->notify(
-                            //     Notification::make()
-                            //         ->title('Saved successfully')
-                            //         ->toDatabase(),
-                            // );
                            
                             Notification::make()
                                 ->title('Animal published')
@@ -722,7 +714,7 @@ class AnimalResource extends Resource
                             event(new DatabaseNotificationsSent($recipient));
                         })
                         ->visible(function (Animal $record) {
-                            return $record->published_state->value == AnimalPublishState::DRAFT->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false; 
+                            return $record->approval_state->value == AnimalApprovalState::APPROVED->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false; 
                         }),
 
 

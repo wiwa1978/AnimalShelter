@@ -6,6 +6,8 @@ namespace App\Filament\App\Resources\AnimalResource\Pages;
 
 use App\Models\Animal;
 
+
+use Carbon\Carbon;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Log;
 use Filament\Notifications\Notification;
@@ -30,6 +32,8 @@ class CreateAnimal extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
+        $data['data_added'] = Carbon::now()->format('Y-m-d H:i:s');
+
         foreach ($data['youtube_links'] as $key => $value) {
             $data['youtube_links'][$key] = str_replace('watch?v=', 'embed/', $value);
         }

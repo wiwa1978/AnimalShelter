@@ -18,7 +18,11 @@
             <p class="mt-6 text-sm hidden sm:block inline-block">{{ __('animals_front.no_dogs_yet') }}</p>
         @else
             <h2 class="inline-block font-bold text-rose-700 ">{{ __('animals_front.view_all_dogs') }}</h2>
-            <p class="mt-6 text-sm hidden sm:block inline-block" >{{ $dogs_count }} {{ __('animals_front.dogs_waiting') }}</p>
+            @if($dogs_count == 1)
+                <p class="mt-6 text-sm hidden sm:block inline-block" >{{ $dogs_count }} {{ __('animals_front.dog_waiting') }}</p>
+            @else
+                <p class="mt-6 text-sm hidden sm:block inline-block" >{{ $dogs_count }} {{ __('animals_front.dogs_waiting') }}</p>
+            @endif
         @endif
     </a>
 

@@ -1,9 +1,11 @@
 <div class="relative">
   <a wire-navigate href="{{ route('show-animal-detail', [$animal->id])  }}">
     <li class="border rounded-2xl" wire:key="{{ $animal->id }}">
-      <img class="aspect-[3/2] w-full rounded-t-2xl object-cover" src="{{ $animal->photo_featured}}" alt="">
+      
+      <img class="aspect-[3/2] w-full rounded-t-2xl object-cover" src="{{ asset('storage/' . $animal->photo_featured) }}" alt="{{ $animal->name }}">
 
- 
+
+
 
       <div class="p-6">
         <div class="flex justify-between items-center">
@@ -33,7 +35,21 @@
 
         </div>
         <div class="flex justify-between">
-          <p class="text-base leading-7 text-gray-600">{{ $animal->current_location }}</p> 
+          
+          @if($animal->current_location->value == 'Netherlands')
+            <p class="text-base leading-7 text-gray-600">{{ __('animals_front.netherlands')}}</p> 
+          @endif
+          @if($animal->current_location->value == 'Albania')
+            <p class="text-base leading-7 text-gray-600">{{ __('animals_front.albania')}}</p> 
+          @endif
+          @if($animal->current_location->value == 'Belgium')
+            <p class="text-base leading-7 text-gray-600">{{ __('animals_front.belgium')}}</p> 
+          @endif
+          @if($animal->current_location->value == 'Albania')
+            <p class="text-base leading-7 text-gray-600">{{ __('animals_front.albania')}}</p> 
+          @endif
+
+          
           {{--<p class="text-base leading-7 text-gray-600">{{ \Carbon\Carbon::parse($animal->date_added)->format('d-m-Y') }}</p>--}}
         </div>
 

@@ -113,5 +113,16 @@ return [
     'approved'  => 'Approved',
     'inreview'  => 'In review',
     'notapproved'  => 'Not approved',
+    'approved_success' => 'successfully approved',
+    'success_approved' => 'Approved successfully',
+    'unapproved_success' => 'successfully unapproved',
+    'success_unapproved' => 'Unapproved successfully',
+    'approve' => 'Approve',
+    'unapprove' => 'Unapprove',
+    'publish' => 'Publish',
+    'unpublish' => 'Unpublish',
+    'success_published' => 'Published successfully',
+    'publish_success' => 'Successfully published',
+
 
 ];

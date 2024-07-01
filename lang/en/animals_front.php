@@ -23,18 +23,27 @@ return [
     'view_all_cats' => 'View all cats',
     'view_all_other' => 'View all other animals',
     'dogs_waiting' => 'dogs are currently waiting for a new home',
+    'dog_waiting' => 'dog is currently waiting for a new home',
     'also' => 'Also',
     'cats_waiting' => 'cats are waiting for a new family',
+    'cat_waiting' => 'cat is currently waiting for a new home',
     'others_waiting' => 'other animals are also waiting for a new home',
+    'other_waiting' => 'other animal is currently waiting for a new home',
     'view_all_featured_dogs' => 'View all featured dogs',
     'view_all_featured_cats' => 'View all featured cats',
     'view_all_featured_others' => 'View all featured other animals',
     'dogs_new_home' => 'dogs are waiting for a new home',
+    'dog_new_home' => 'dog is waiting for a new home',
     'cats_new_home' => 'cats are waiting for a new home',
-    'others_new_home' => 'other pets are waiting for a new home',    
+    'cat_new_home' => 'cat is waiting for a new home',
+    'others_new_home' => 'other pets are waiting for a new home',
+    'other_new_home' => 'other pet is waiting for a new home',    
     'dogs_new_home_featured' => 'featured dogs are waiting for a new home',
+    'dog_new_home_featured' => 'featured dog is waiting for a new home',
     'cats_new_home_featured' => 'featured cats are waiting for a new home',
+    'cat_new_home_featured' => 'featured cat is waiting for a new home',
     'others_new_home_featured' => 'featured other pets are waiting for a new home', 
+    'other_new_home_featured' => 'featured other pet is waiting for a new home', 
     'current_location' => 'Current location',
     'telephone' => 'Telephone',
     'email' => 'Email',
@@ -63,12 +72,6 @@ return [
     'more_info' => 'for more information',
     'animal' => 'animal',
     'cannot_be_adopted' => 'cannot be adopted',
-    
-    
-
-
-
-
     'all_animals' => 'All animals',
     'our_animals' => 'Our animals',
     'our_way_working' => 'Our method',
@@ -90,7 +93,6 @@ return [
     'medical_info' => 'Medical info',
     'contact_info' => 'Contact info',
     'description' => 'Description',
-
     'origin' => 'Origin',
     'age' => 'Age',
     'gender'   => 'Gender',
@@ -145,10 +147,8 @@ return [
     'published_from' => 'Published from',
     'published_to' => 'Published to',
     'approval_state' => 'Status',
-
     'reserved' => 'Reserved',
     'adoption_fee' => 'Adoption Fee',
-
     'priceinfo'  => 'Price Information',
     'priceinfo_subtitle'  => 'Price Information subtitle',
     'monthly' => 'Monthly',
@@ -165,6 +165,12 @@ return [
     'no_dogs_yet' => 'No dogs available yet',
     'no_cats_yet' => 'No cats available yet',
     'no_others_yet' => 'No other animals available yet',
+    'albania' => 'Albania',
+    'netherlands' => 'The Netherlands',
+    'germany' => 'Germany',
+    'belgium' => 'Belgium',
+    'male' => 'Male',
+    'female' => 'Female'
 
 ];
 

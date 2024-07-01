@@ -62,19 +62,52 @@
                     <dl class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-6">
                         <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.current_location')}}</dt>
-                        <dd class="mt-1 text-sm text-gray-900">{{ $animal->current_location}}</dd>
+                        @if($animal->current_location->value == 'Netherlands')
+                            <dd class="mt-1 text-sm text-gray-900">{{ __('animals_front.netherlands')}}</dd>
+                        @endif
+                        @if($animal->current_location->value == 'Albania')
+                            <dd class="mt-1 text-sm text-gray-900">{{ __('animals_front.albania')}}</dd>
+                        @endif
+                        @if($animal->current_location->value == 'Belgium')
+                            <dd class="mt-1 text-sm text-gray-900">{{ __('animals_front.belgium')}}</dd>
+                        @endif
+                        @if($animal->current_location->value == 'Germany')
+                            <dd class="mt-1 text-sm text-gray-900">{{ __('animals_front.germany')}}</dd>    
+                        @endif
                         </div>
                         <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.origin')}}</dt>
-                        <dd class="mt-1 text-sm text-gray-900">{{ $animal->original_location}}</dd>
+                        @if($animal->original_location->value == 'Netherlands')
+                            <dd class="mt-1 text-sm text-gray-900">{{ __('animals_front.netherlands')}}</dd>
+                        @endif
+                        @if($animal->original_location->value == 'Albania')
+                            <dd class="mt-1 text-sm text-gray-900">{{ __('animals_front.albania')}}</dd>
+                        @endif
+                        @if($animal->original_location->value == 'Belgium')
+                            <dd class="mt-1 text-sm text-gray-900">{{ __('animals_front.belgium')}}</dd>
+                        @endif
+                        @if($animal->original_location->value == 'Germany')
+                            <dd class="mt-1 text-sm text-gray-900">{{ __('animals_front.germany')}}</dd>    
+                        @endif
+
+
+                        
                         </div>
                         <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.age')}}</dt>
-                        <dd class="mt-1 text-sm text-gray-900">{{ $animal->age}}</dd>
+                        <dd class="mt-1 text-sm text-gray-900">{{ $animal->age}} {{ __('animals_front.year')}}</dd>
                         </div>
                         <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.gender')}}</dt>
-                        <dd class="mt-1 text-sm text-gray-900">{{ $animal->gender}}</dd>
+                        
+                        @if($animal->gender->value == 'Male')
+                            <dd class="mt-1 text-sm text-gray-900">{{ __('animals_front.male')}}</dd>    
+                        @endif
+                        @if($animal->gender->value == 'Female')
+                            <dd class="mt-1 text-sm text-gray-900">{{ __('animals_front.female')}}</dd> 
+                        @endif
+
+                        
                         </div>
                         <div class="sm:col-span-1">
                         <dt class="text-sm font-medium text-indigo-900">{{ __('animals_front.breed')}}</dt>
