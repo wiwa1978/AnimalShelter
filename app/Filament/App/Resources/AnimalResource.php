@@ -736,15 +736,15 @@ class AnimalResource extends Resource
                            
                             Notification::make()
                                 ->title('Animal published')
-                                ->body('Animal ' . $animal->name . ' published successfully')
+                                ->body('Animal ' . $animal->name . ' published successfully');
                                 // ->actions([
                                 //     Action::make('Mark As Read')
                                 //         ->button()
                                 //         ->markAsRead()     
                                 // ])
-                                ->sendToDatabase($recipient);
+                                //->sendToDatabase($recipient);
 
-                            event(new DatabaseNotificationsSent($recipient));
+                            //event(new DatabaseNotificationsSent($recipient));
                         })
                         ->visible(function (Animal $record) {
                             return $record->published_state->value == AnimalPublishState::DRAFT->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false; 
