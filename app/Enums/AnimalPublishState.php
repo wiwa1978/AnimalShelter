@@ -9,6 +9,7 @@ enum AnimalPublishState: string implements HasLabel
     case DRAFT = 'Draft';
     case PUBLISHED = 'Published';
     case UNPUBLISHED = 'Unpublished';
+    case REQUESTPENDING = 'Request Pending';
 
 
     public static function options(): array
@@ -17,6 +18,7 @@ enum AnimalPublishState: string implements HasLabel
             self::DRAFT->value => __('animals_back.draft'),
             self::PUBLISHED->value => __('animals_back.published'),
             self::UNPUBLISHED->value => __('animals_back.unpublished'),
+            self::REQUESTPENDING->value => __('animals_back.request_pending'),
         ];
     }
     public function getLabel(): string

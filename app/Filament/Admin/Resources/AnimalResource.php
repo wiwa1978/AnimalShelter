@@ -412,6 +412,7 @@ class AnimalResource extends Resource
                             AnimalPublishState::DRAFT->value => 'warning',
                             AnimalPublishState::PUBLISHED->value => 'success',
                             AnimalPublishState::UNPUBLISHED->value => 'danger',
+                            AnimalPublishState::REQUESTPENDING->value => 'info',
 
                         })
                         ->sortable()
@@ -421,9 +422,10 @@ class AnimalResource extends Resource
                         ->label(__('animals_back.approved'))
                         ->badge()
                         ->color(fn (AnimalApprovalState $state): string => match ($state->value) {
-                            AnimalApprovalState::INREVIEW->value => 'warning',
+                            AnimalApprovalState::INREVIEW->value => 'info',
                             AnimalApprovalState::APPROVED->value => 'success',
-                            AnimalApprovalState::NOTAPPROVED->value => 'danger'
+                            AnimalApprovalState::NOTAPPROVED->value => 'danger',
+                             AnimalApprovalState::NOTAPPLICABLE->value => 'warning'
                         })
                         ->sortable()
                         ->searchable(),
@@ -712,6 +714,9 @@ class AnimalResource extends Resource
                         // Action Menu item for Approval;
                         Tables\Actions\Action::make('Approve')
                             ->requiresConfirmation()
+                            ->modalHeading('Aanvraag tot publicatie goedkeuren')
+                            ->modalDescription('Het dier zal onmiddellijk worden gepubliceerd. De gebruiker krijgt hiervan een melding.')
+                            ->modalSubmitActionLabel('Aanvraag goedkeuren')
                             ->icon('heroicon-o-hand-thumb-up')
                             ->label(__('animals_back.approve'))
                             ->color('info')
@@ -725,7 +730,7 @@ class AnimalResource extends Resource
                                 Notification::make()
                                     ->title(__('animals_back.success_approved'))
                                     ->success('')
-                                    ->body( $animal->name . ' ' . __('animals_back.approved_success') )
+                                    ->body(' Dier met naam ' . $animal->name . ' ' . __('animals_back.approved_success') )
                                     ->send();
                             })
                             
@@ -737,14 +742,23 @@ class AnimalResource extends Resource
                         // Action Menu item for Approval;
                         Tables\Actions\Action::make('Unapprove')
                             ->requiresConfirmation()
+                            ->modalHeading('Aanvraag tot publicatie afkeuren')
+                            ->modalDescription('Het dier zal niet worden gepubliceerd. De gebruiker krijgt een melding en dient eerst aanpassingen te doen alvorens een nieuwe aanvraag tot publicatie te doen.')
+                            ->modalSubmitActionLabel('Aanvraag afkeuren')
                             ->label(__('animals_back.unapprove'))
                             ->icon('heroicon-o-hand-thumb-down')
                             ->color('info')
+                            ->form([
+                                Forms\Components\Textarea::make('unapprove_reason')
+                                ->label(__('animals_back.reason_unapprove'))
+                                ->maxLength(255)
+                                ->required()
+                            ])
                             ->action(function (Animal $animal, array $data): void {
                                 $animal->approval_state = AnimalApprovalState::NOTAPPROVED->value;
+                                $animal->unapprove_reason = $data['unapprove_reason'];
                                 $animal->unapproved_at = Carbon::now()->format('Y-m-d H:i:s');
-                                $animal->published_state = AnimalPublishState::UNPUBLISHED->value;
-                                $animal->unpublished_at = Carbon::now()->format('Y-m-d H:i:s');
+                                $animal->published_state = AnimalPublishState::DRAFT->value;
                                 $animal->save();
 
                                 Notification::make()
@@ -762,7 +776,8 @@ class AnimalResource extends Resource
                             })
                             
                             ->visible(function (Animal $record) {
-                                return $record->approval_state == AnimalApprovalState::APPROVED ? true : false;
+                                
+                                return $record->approval_state->value == AnimalApprovalState::APPROVED->value ||  $record->approval_state->value == AnimalApprovalState::INREVIEW->value ? true : false; 
                             }),
 
                 ])

@@ -5,7 +5,6 @@ namespace App\Filament\App\Resources;
 use Carbon\Carbon;
 use Filament\Forms;
 use App\Models\User;
-use Filament\Forms\Components\MarkdownEditor;
 use Filament\Tables;
 use App\Models\Animal;
 use Filament\Forms\Form;
@@ -23,6 +22,7 @@ use App\Enums\AnimalAdoptionFee;
 use Filament\Resources\Resource;
 use App\Enums\AnimalPublishState;
 use App\Enums\AnimalApprovalState;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
@@ -34,8 +34,8 @@ use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
 
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ImageColumn;
@@ -44,6 +44,7 @@ use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use App\Filament\App\Widgets\StatsOverview;
+use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\App\Resources\AnimalResource\Pages;
 use Filament\Notifications\Events\DatabaseNotificationsSent;
 use App\Filament\App\Resources\AnimalResource\RelationManagers;
@@ -99,6 +100,7 @@ class AnimalResource extends Resource
   
     }
 
+
     public static function form(Form $form): Form
     {
   
@@ -108,28 +110,42 @@ class AnimalResource extends Resource
                 ->schema([
                     Section::make(__('animals_back.publish_info'))
                     ->schema([
-                        // Toggle::make('featured')
-                        //     ->label(__('animals_back.featured'))
-                        //     ->required(),
-                        
-                        Toggle::make('published')
-                            ->label(__('animals_back.published'))
-                            ->disabled()
-                            ->required(),
+                   
+                        Placeholder::make('published')
+                        ->label(__('animals_back.published'))
+                        ->content(fn (Animal $record): string => $record->published_state == AnimalPublishState::UNPUBLISHED ? __('animals_back.yes') : __('animals_back.no') . ' - ' . $record->published_state->value),
+                    
 
                         Placeholder::make('featured')
                             ->label(__('animals_back.featured'))
                             ->content(fn (Animal $record): string => $record->featured == 1 ? __('animals_back.yes') : __('animals_back.no')),
                         
 
-                        Placeholder::make('published')
-                            ->label(__('animals_back.status'))
-                            //->content(fn (Animal $record): string => (string)$record->published),
-                            ->content(fn (Animal $record): string => $record->published == 1 ? __('animals_back.published') : __('animals_back.not_published')),
                         
                         Placeholder::make('approval_state')
                             ->label(__('animals_back.approval_state'))
-                            ->content(fn (Animal $record): string => (string)$record->approval_state->value),
+                            ->content(fn (Animal $record): HtmlString => new HtmlString(
+                                $record->approval_state->value == AnimalApprovalState::INREVIEW->value ? __('animals_back.in_review') : 
+                                ($record->approval_state->value == AnimalApprovalState::APPROVED->value ? __('animals_back.approved') : 
+                                ($record->approval_state->value == AnimalApprovalState::NOTAPPROVED->value ? __('animals_back.notapproved') : __('animals_back.notapplicable')))
+                            )),
+
+                        Placeholder::make('unapprove_reason')
+                            ->label('Reden:')
+                            ->content(fn (Animal $record): string => $record->unapprove_reason != null ? $record->unapprove_reason : '')
+                            ->visible(fn (Animal $record): bool => $record->unapprove_reason != null),
+
+                        Placeholder::make('notapplicable_reason')
+                            ->label('Reden:')
+                            ->content(fn (Animal $record): string => $record->unapprove_reason != null ? $record->unapprove_reason : '')
+                            ->visible(fn (Animal $record): bool => $record->approval_state->value == AnimalApprovalState::NOTAPPLICABLE->value),
+
+                        Placeholder::make('inreview_reason')
+                            ->label('Reden:')
+                            ->content(fn (Animal $record): string => __('animals_back.request_pending'))
+                            ->visible(fn (Animal $record): bool => $record->approval_state->value == AnimalApprovalState::INREVIEW->value),
+
+
                     ])
                     ->columns(4)
                     ->columnSpan(4),
@@ -408,6 +424,7 @@ class AnimalResource extends Resource
 
     public static function table(Table $table): Table
     {
+        
         return $table
             ->columns(
                 [
@@ -439,6 +456,7 @@ class AnimalResource extends Resource
                             AnimalPublishState::DRAFT->value => 'warning',
                             AnimalPublishState::PUBLISHED->value => 'success',
                             AnimalPublishState::UNPUBLISHED->value => 'danger',
+                            AnimalPublishState::REQUESTPENDING->value => 'info',
                             //'Draft' => 'warning',
                             //'Published' => 'success',
                             //'Unpublished' => 'danger'
@@ -447,12 +465,21 @@ class AnimalResource extends Resource
                         ->searchable(),
         
                     TextColumn::make('approval_state')
-                        ->label(__('animals_back.approved'))
+                        ->label(__('animals_back.status'))
+                        //->tooltip(fn (Animal $record): string => $record->approval_state->value == AnimalApprovalState::INREVIEW->value ? $record->unapprove_reason->value : '')
+                        
+                        ->tooltip(fn (Animal $record): string => 
+                        $record->approval_state->value == AnimalApprovalState::NOTAPPROVED->value 
+                        ? (is_null($record->unapprove_reason) ? '' : 'Opmerking van de administrator: ' . $record->unapprove_reason)
+                        : ''
+                    )
+                           
                         ->badge()
                         ->color(fn (AnimalApprovalState $state): string => match ($state->value) {
-                            AnimalApprovalState::INREVIEW->value => 'warning',
+                            AnimalApprovalState::INREVIEW->value => 'info',
                             AnimalApprovalState::APPROVED->value => 'success',
-                            AnimalApprovalState::NOTAPPROVED->value => 'danger'
+                            AnimalApprovalState::NOTAPPROVED->value => 'danger',
+                            AnimalApprovalState::NOTAPPLICABLE->value => 'warning'
                         })
                         ->sortable()
                         ->searchable(),
@@ -691,43 +718,56 @@ class AnimalResource extends Resource
                         ->requiresConfirmation(),
                     
                     Tables\Actions\Action::make('Publish')
+                        ->label(__('animals_back.publish_request'))
                         ->requiresConfirmation()
+                        ->modalHeading('Aanvraag tot publicatie')
+                        ->modalDescription('Ons team zal de geleverde informatie even controleren en u op de hoogte brengen van de status. Indien er nog aanpassingen dienen te gebeuren hoort u dat eveneens van ons')
+                        ->modalSubmitActionLabel('Verstuur aanvraag')
                         ->icon('heroicon-m-pencil-square')
                         ->color('info')
                         ->action(function (Animal $animal, array $data): void {
-                            $animal->published_state = AnimalPublishState::PUBLISHED;
+                            $animal->published_state = AnimalPublishState::REQUESTPENDING;
+                            $animal->approval_state = AnimalApprovalState::INREVIEW;
                             $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
+                            $animal->unapprove_reason = null;
                             $animal->save();
                             
                             $recipient = Auth::user();
                            
                             Notification::make()
                                 ->title('Animal published')
-                                ->body('Animal ' . $animal->name . ' published successfully')
+                                ->body('Animal ' . $animal->name . ' published successfully');
                                 // ->actions([
                                 //     Action::make('Mark As Read')
                                 //         ->button()
                                 //         ->markAsRead()     
                                 // ])
-                                ->sendToDatabase($recipient);
+                                //->sendToDatabase($recipient);
 
-                            event(new DatabaseNotificationsSent($recipient));
+                            //event(new DatabaseNotificationsSent($recipient));
                         })
                         ->visible(function (Animal $record) {
-                            return $record->approval_state->value == AnimalApprovalState::APPROVED->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false; 
+                            return $record->published_state->value == AnimalPublishState::DRAFT->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false; 
                         }),
 
 
                     Tables\Actions\Action::make('Unpublish')
                         ->icon('heroicon-m-pencil-square')
+                        ->label(__('animals_back.unpublish'))
+                        ->requiresConfirmation()
+                        //->modalHeading('Aanvraag tot publicatie')
+                        //->modalDescription('Ons team zal de geleverde informatie even controleren en u op de hoogte brengen van de status. Indien er nog aanpassingen dienen te gebeuren hoort u dat eveneens van ons')
+                        //->modalSubmitActionLabel('Publiceer')
                         ->color('info')
                         ->form([
                             Forms\Components\TextInput::make('unpublish_reason')
-                                ->label('Reason')
+                                ->label(__('animals_back.reason_unpublish'))
+                                ->maxLength(255)
                                 ->required()
                         ])
                         ->action(function (Animal $animal, array $data): void {
-                            $animal->published_state = AnimalPublishState::Draft;
+                            $animal->published_state = AnimalPublishState::DRAFT;
+                            $animal->approval_state = AnimalApprovalState::NOTAPPLICABLE;;
                             $animal->unpublished_at = Carbon::now()->format('Y-m-d H:i:s');
                             $animal->unpublish_reason = $data['unpublish_reason'];
                             $animal->save();
@@ -738,9 +778,33 @@ class AnimalResource extends Resource
                                 ->send();
                         })
                         ->visible(function (Animal $record) {
-                            return $record->published_state == 'Gepubliceerd' ? true : false;
+                            return $record->published_state->value == AnimalPublishState::PUBLISHED->value ? true : false;
                         }),
-                ])
+                
+                        Tables\Actions\Action::make('Retrieve')
+                        ->icon('heroicon-m-pencil-square')
+                        ->label(__('animals_back.retrieve'))
+                        ->requiresConfirmation()
+                        //->modalHeading('Aanvraag tot publicatie')
+                        //->modalDescription('Ons team zal de geleverde informatie even controleren en u op de hoogte brengen van de status. Indien er nog aanpassingen dienen te gebeuren hoort u dat eveneens van ons')
+                        //->modalSubmitActionLabel('Publiceer')
+                        ->color('info')
+                        ->action(function (Animal $animal, array $data): void {
+                            $animal->published_state = AnimalPublishState::DRAFT;
+                            $animal->approval_state = AnimalApprovalState::NOTAPPLICABLE;
+                            $animal->save();
+                            Notification::make()
+                                ->title('Success')
+                                ->success('')
+                                ->body('Animal unpublished successfully')
+                                ->send();
+                        })
+                        ->visible(function (Animal $record) {
+                            return $record->published_state->value == AnimalPublishState::REQUESTPENDING->value ? true : false;
+                        }),
+                
+                
+                 ])
                 ->iconButton()
                 ->button()
                 ->label('Actions')

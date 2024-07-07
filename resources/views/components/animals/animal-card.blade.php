@@ -2,10 +2,11 @@
   <a wire-navigate href="{{ route('show-animal-detail', [$animal->id])  }}">
     <li class="border rounded-2xl" wire:key="{{ $animal->id }}">
       
+    @if(Str::startsWith($animal->photo_featured, 'https') )
+      <img class="aspect-[3/2] w-full rounded-t-2xl object-cover" src="{{ asset($animal->photo_featured) }}" alt="{{ $animal->name }}">
+    @else
       <img class="aspect-[3/2] w-full rounded-t-2xl object-cover" src="{{ asset('storage/' . $animal->photo_featured) }}" alt="{{ $animal->name }}">
-
-
-
+    @endif
 
       <div class="p-6">
         <div class="flex justify-between items-center">

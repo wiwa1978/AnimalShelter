@@ -10,6 +10,8 @@ enum AnimalApprovalState: string implements HasLabel
     case INREVIEW = 'InReview';
     case NOTAPPROVED = 'NotApproved';
 
+    case NOTAPPLICABLE = 'NotApplicable';
+
     
     public function getLabel(): string
     {
@@ -22,6 +24,7 @@ enum AnimalApprovalState: string implements HasLabel
             self::APPROVED->value => __('animals_back.approved'),
             self::INREVIEW->value => __('animals_back.inreview'),
             self::NOTAPPROVED->value => __('animals_back.notapproved'),
+            self::NOTAPPLICABLE->value => __('animals_back.notapplicable'),
         ];
     }
 

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->timestamp('approved_at')->nullable();
             $table->timestamp('unapproved_at')->nullable();
             $table->string('unpublish_reason', 255)->nullable();
+            $table->string('unapprove_reason', 255)->nullable();
             $table->string('current_location')->nullable();
             $table->string('original_location')->nullable();
             $table->boolean('current_kids')->default(false);
