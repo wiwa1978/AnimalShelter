@@ -48,7 +48,7 @@ class AnimalFactory extends Factory
             'featured'              =>      fake()->boolean(),
             'published_at'          =>      $published_state == 'Gepubliceerd' ? fake()->dateTimeBetween('-1 Week', '-1 Day') :  null,
             'unpublished_at'        =>      $published_state == 'Niet gepubliceerd' ? fake()->dateTimeBetween('-1 Week', '-1 Day') :  null,
-            'approval_state'        =>      $approval_state//fake()->randomElement(AnimalApprovalState::cases()),
+            'approval_state'        =>      $approval_state,//fake()->randomElement(AnimalApprovalState::cases()),
             'published_state'       =>      $published_state,
             'unpublish_reason'      =>      $published_state == 'Niet gepubliceerd' ?  fake()->words(3, asText: true) :  null,
             'current_location'      =>      fake()->randomElement(AnimalLocation::cases()),
