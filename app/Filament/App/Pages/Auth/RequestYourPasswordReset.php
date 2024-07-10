@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Filament\App\Pages\Auth;
+
 
 
 use Filament\Facades\Filament;
@@ -10,7 +12,7 @@ use App\Notifications\ResetPasswordNotification;
 use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
 use Filament\Pages\Auth\PasswordReset\RequestPasswordReset as BaseRequestPasswordReset;
  
-class RequestPasswordReset extends BaseRequestPasswordReset
+class RequestYourPasswordReset extends BaseRequestPasswordReset
 {
     public function request(): void
     {

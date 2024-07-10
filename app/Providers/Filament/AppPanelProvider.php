@@ -5,7 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
-use App\Filament\Pages\Auth\RequestPasswordReset;
+use App\Filament\App\Pages\Auth\RequestYourPasswordReset;
 use Widgets\StatsOverview;
 use Filament\PanelProvider;
 use App\Models\Organization;
@@ -73,7 +73,7 @@ class AppPanelProvider extends PanelProvider
             ], isPersistent: true)
             ->login()
             ->registration(Register::class) 
-            ->passwordReset(RequestPasswordReset::class)
+            ->passwordReset(RequestYourPasswordReset::class)
             ->emailVerification()
             ->spa()
             ->databaseNotifications()
