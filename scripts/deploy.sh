@@ -34,8 +34,6 @@ npm run build
 php artisan migrate --force
 #php artisan migrate:fresh --seed
 
-composer dump-autoload
-
 # Exit maintenance mode
 php artisan down
 php artisan up
