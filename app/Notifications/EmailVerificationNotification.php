@@ -3,20 +3,18 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Filament\Facades\Filament;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class ResetPasswordNotification extends Notification
+class EmailVerificationNotification extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(private readonly string $token)
+    public function __construct()
     {
         //
     }
@@ -37,17 +35,8 @@ class ResetPasswordNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject(__('animals_back.pw_title'))
-            ->greeting(Lang::get('animals_back.hello') . " {$notifiable->name},")
-            ->line(__('animals_back.pw_reset_line_1'))
-            ->action(__('animals_back.reset_pw'), $this->resetUrl($notifiable))
-            ->line(__('animals_back.pw_reset_line_2', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
-            ->line(__('animals_back.pw_reset_line_3'));
-    }
-
-    protected function resetUrl(mixed $notifiable): string
-    {
-        return Filament::getResetPasswordUrl($this->token, $notifiable);
+        ->subject('Test Emailverificatie')
+        ->greeting(__('animals_back.hello') . " {$notifiable->name},");
     }
 
     /**

@@ -131,6 +131,13 @@ return [
     'totalclicks' => 'Total Clicks',
     'total_favorited' => 'Times as favorite',
     'actions' => 'Actions',
-
-
+    'pw_title' => 'Request to reset your password',
+    'pw_reset_line_1' => 'You are receiving this email because we received a password reset request for your account.',
+    'pw_reset_line_2' => 'This link will expire in :count minutes.',
+    'pw_reset_line_3' => 'If you did not request a password reset, no further action is required.',
+    'hello' => 'Hello',
+    'reset_pw' => 'Reset Password',
+    'Regards' => 'Regards',
 ];
+
+

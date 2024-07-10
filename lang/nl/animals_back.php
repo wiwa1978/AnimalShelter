@@ -131,4 +131,12 @@ return [
     'totalclicks' => 'Aantal kliks',
     'total_favorited' => 'Aantal favoriet',
     'actions' => 'Acties',
+    'pw_title' => 'Aanvraag tot resetten van je paswoord',
+    'pw_reset_line_1' => 'Je ontvangt deze email omdat we een aanvraag kregen om het paswoord van je account te resetten.',
+    'pw_reset_line_2' => 'Deze link zal vervallen binnen :count minuten.',
+    'pw_reset_line_3' => 'Indien je geen aanvraag gedaan hebt om het paswoord te resetten, hoef je verder niets te doen.',
+    'hello' => 'Hallo',
+    'reset_pw' => 'Paswoord resetten',
+    'Regards' => 'Met vriendelijke groeten',
+    
 ];

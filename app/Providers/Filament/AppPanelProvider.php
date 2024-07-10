@@ -2,10 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\App\Pages\Auth\EmailVerification;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
-use App\Filament\App\Pages\Auth\RequestYourPasswordReset;
 use Widgets\StatsOverview;
 use Filament\PanelProvider;
 use App\Models\Organization;
@@ -15,15 +15,16 @@ use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Navigation\NavigationItem;
-
 use Filament\Widgets\FilamentInfoWidget;
+
 use App\Filament\App\Pages\Auth\Register;
 use App\Http\Middleware\ApplyTenantScopes;
 use Filament\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckBillingEnabled;
 use Illuminate\Session\Middleware\StartSession;
-
 use Illuminate\Cookie\Middleware\EncryptCookies;
+
+use App\Notifications\EmailVerificationNotification;
 use Filament\Billing\Providers\SparkBillingProvider;
 use App\Http\Middleware\VerifyOrganizationIsBillable;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -31,6 +32,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\App\Pages\Tenancy\RegisterOrganization;
 use Filament\Http\Middleware\DisableBladeIconComponents;
+use App\Filament\App\Pages\Auth\RequestYourPasswordReset;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Filament\App\Pages\Tenancy\EditOrganizationProfile;
@@ -52,11 +54,11 @@ class AppPanelProvider extends PanelProvider
                     ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile')
                     ->group('Gebruikersbeheer')
                     ->icon('heroicon-o-user-circle'),
-                NavigationItem::make('Abonnement')
-                    ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
-                    ->group('Gebruikersbeheer')
-                    ->icon('heroicon-o-banknotes')
-                    ->visible(fn() => env('BILLING_ENABLED', true)),
+                // NavigationItem::make('Abonnement')
+                //     ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
+                //     ->group('Gebruikersbeheer')
+                //     ->icon('heroicon-o-banknotes')
+                //     ->visible(fn() => env('BILLING_ENABLED', true)),
             ])
             ->brandName('Animals')
             ->brandLogo(asset('storage/images/logo3.svg'))
@@ -74,7 +76,7 @@ class AppPanelProvider extends PanelProvider
             ->login()
             ->registration(Register::class) 
             ->passwordReset(RequestYourPasswordReset::class)
-            ->emailVerification()
+            ->emailVerification(EmailVerification::class)
             ->spa()
             ->databaseNotifications()
             ->databaseNotificationsPolling('10s')
@@ -101,11 +103,11 @@ class AppPanelProvider extends PanelProvider
                     ->label('Profiel')
                     ->icon('heroicon-o-user-circle')
                     ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile'),
-                MenuItem::make()
-                    ->label('Abonnement')
-                    ->icon('heroicon-o-banknotes')
-                    ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
-                    ->visible(fn() => env('BILLING_ENABLED', true)),
+                // MenuItem::make()
+                //     ->label('Abonnement')
+                //     ->icon('heroicon-o-banknotes')
+                //     ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
+                //     ->visible(fn() => env('BILLING_ENABLED', true)),
                 ])
 
             ->sidebarCollapsibleOnDesktop()
