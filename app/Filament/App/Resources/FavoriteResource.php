@@ -76,6 +76,7 @@ class FavoriteResource extends Resource
                         ->circular(),
                         
                 Tables\Columns\TextColumn::make('animal.name')
+                    ->label(__('animals_back.animal'))
                     ->sortable(),
 
 
@@ -84,7 +85,7 @@ class FavoriteResource extends Resource
                     ->sortable(),
                 
                 Tables\Columns\TextColumn::make('animal.organization.organization_name')
-                    ->label(__('animals_back.organization_name'))
+                    ->label(__('animals_back.organization'))
                     ->placeholder('Not applicable')
                     ->sortable(),
 

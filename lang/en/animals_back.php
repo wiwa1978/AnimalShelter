@@ -94,7 +94,8 @@ return [
     'youtube_link' => 'Youtube Link',
     'photo_title' => 'Photos',
     'video_title' => 'Videos',
-    'photo' => 'Photos',
+    'photo' => 'Photo',
+    'photos' => 'Photos',
     'created_at' => 'Created at',
     'updated_at' => 'Updated at',
     'published_from' => 'Published from',
@@ -108,9 +109,6 @@ return [
     'shelter_name' => 'Organization Name',
     'needs_movement' => 'Needs movement',
     'adoption_fee' => 'Adoption Fee',
-    'shelter'   => 'Shelter',
-    'organization' => 'Organization',
-    'individual' => 'Individual',
     'approved'  => 'Approved',
     'inreview'  => 'In review',
     'notapproved'  => 'Not approved',
@@ -130,6 +128,9 @@ return [
     'reason_unapprove' => 'Reason for not approving',
     'retrieve' => 'Retrieve request',
     'in_review' => 'In review',
+    'totalclicks' => 'Total Clicks',
+    'total_favorited' => 'Times as favorite',
+    'actions' => 'Actions',
 
 
 ];

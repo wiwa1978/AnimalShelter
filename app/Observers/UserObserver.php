@@ -38,6 +38,9 @@ class UserObserver
             // Add the user to the new organization
             $user->organizations()->attach($organization->id);
             Log::debug("Attaching user {$user->id} to organization {$organization->id}" );
+            $user->assignRole('user');
+            Log::debug("Attaching role 'user' to organization {$user->id}" );
+
         }
     }
 

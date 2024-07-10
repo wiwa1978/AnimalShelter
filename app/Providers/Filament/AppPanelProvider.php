@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
+use RequestPasswordReset;
 use Widgets\StatsOverview;
 use Filament\PanelProvider;
 use App\Models\Organization;
@@ -72,11 +73,11 @@ class AppPanelProvider extends PanelProvider
             ], isPersistent: true)
             ->login()
             ->registration(Register::class) 
-            ->passwordReset()
+            ->passwordReset(RequestPasswordReset::class)
             ->emailVerification()
             ->spa()
             ->databaseNotifications()
-            ->databaseNotificationsPolling('30s')
+            ->databaseNotificationsPolling('10s')
             ->unsavedChangesAlerts()
             ->databaseTransactions()
             ->colors([

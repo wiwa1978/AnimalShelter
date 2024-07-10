@@ -2,7 +2,7 @@
 
 namespace App\Filament\App\Pages\Auth;
 
-use App\Enums\OrganizationTypes;
+use App\Enums\OrganizationType;
 use Filament\Pages\Page;
 
 use Filament\Forms\Components\Select;
@@ -36,7 +36,7 @@ class Register extends BaseRegister
             //     'Stichting' => 'Stichting',
             //     'Asiel' => 'Asiel',
             // ])
-            ->options(OrganizationTypes::class)
+            ->options(OrganizationType::class)
             ->required();
     
     }

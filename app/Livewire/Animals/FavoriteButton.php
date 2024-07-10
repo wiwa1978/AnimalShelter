@@ -19,6 +19,7 @@ class FavoriteButton extends Component
     public function toggleFavorite($animal)
     {   
         $animal = Animal::findOrFail($animal);
+        $animal->increment('total_favorited');
         Auth::user()->favorites()->toggle($animal->id);
         $this->mount($animal);
     }

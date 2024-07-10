@@ -113,7 +113,7 @@ class AnimalResource extends Resource
                    
                         Placeholder::make('published')
                         ->label(__('animals_back.published'))
-                        ->content(fn (Animal $record): string => $record->published_state == AnimalPublishState::UNPUBLISHED ? __('animals_back.yes') : __('animals_back.no') . ' - ' . $record->published_state->value),
+                        ->content(fn (Animal $record): string => $record->published_state == AnimalPublishState::PUBLISHED ? __('animals_back.yes') : __('animals_back.no') . ' - ' . AnimalPublishState::option($record->published_state->value)),
                     
 
                         Placeholder::make('featured')
@@ -442,6 +442,21 @@ class AnimalResource extends Resource
                         ->label(__('animals_back.name'))
                         ->sortable()
                         ->searchable(isIndividual: false, isGlobal: true),
+
+                    TextColumn::make('total_clicks')
+                        ->label(__('animals_back.totalclicks'))
+                        ->badge()
+                        ->color('info')
+                        ->alignCenter()
+                        ->sortable(),
+
+                    TextColumn::make('total_favorited')
+                        ->label(__('animals_back.total_favorited'))
+                        ->badge()
+                        ->color('info')
+                        ->alignCenter()
+                        ->sortable(),
+        
         
                     IconColumn::make('featured')
                         ->label(__('animals_back.featured'))
@@ -505,6 +520,7 @@ class AnimalResource extends Resource
                    
                     TextColumn::make('current_location')
                         ->label(__('animals_back.current_location'))
+                        ->toggleable(isToggledHiddenByDefault: true)
                         ->sortable()
                         ->searchable(),
         
@@ -735,16 +751,11 @@ class AnimalResource extends Resource
                             $recipient = Auth::user();
                            
                             Notification::make()
-                                ->title('Animal published')
-                                ->body('Animal ' . $animal->name . ' published successfully');
-                                // ->actions([
-                                //     Action::make('Mark As Read')
-                                //         ->button()
-                                //         ->markAsRead()     
-                                // ])
-                                //->sendToDatabase($recipient);
+                                ->title('Dier publicatie aangevraagd')
+                                ->body('Dier met naam ' . $animal->name . ' succesvol aangevraagd voor publicatie')
+                                ->sendToDatabase($recipient);
 
-                            //event(new DatabaseNotificationsSent($recipient));
+                           event(new DatabaseNotificationsSent($recipient));
                         })
                         ->visible(function (Animal $record) {
                             return $record->published_state->value == AnimalPublishState::DRAFT->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false; 
@@ -771,17 +782,21 @@ class AnimalResource extends Resource
                             $animal->unpublished_at = Carbon::now()->format('Y-m-d H:i:s');
                             $animal->unpublish_reason = $data['unpublish_reason'];
                             $animal->save();
+
+                            $recipient = Auth::user();
+                           
                             Notification::make()
-                                ->title('Success')
-                                ->success('')
-                                ->body('Animal unpublished successfully')
-                                ->send();
+                                ->title('Dier niet langer gepubliceerd')
+                                ->body('Dier met naam ' . $animal->name . ' wordt niet langer gepubliceerd op onze website')
+                                ->sendToDatabase($recipient);
+    
+                            event(new DatabaseNotificationsSent($recipient));
                         })
                         ->visible(function (Animal $record) {
                             return $record->published_state->value == AnimalPublishState::PUBLISHED->value ? true : false;
                         }),
                 
-                        Tables\Actions\Action::make('Retrieve')
+                    Tables\Actions\Action::make('Retrieve')
                         ->icon('heroicon-m-pencil-square')
                         ->label(__('animals_back.retrieve'))
                         ->requiresConfirmation()
@@ -793,11 +808,15 @@ class AnimalResource extends Resource
                             $animal->published_state = AnimalPublishState::DRAFT;
                             $animal->approval_state = AnimalApprovalState::NOTAPPLICABLE;
                             $animal->save();
+
+                            $recipient = Auth::user();
+
                             Notification::make()
-                                ->title('Success')
-                                ->success('')
-                                ->body('Animal unpublished successfully')
-                                ->send();
+                            ->title('Aanvraag teruggetrokken')
+                            ->body('Aanvraag voor dier met naam ' . $animal->name . ' wordt teruggetrokken')
+                            ->sendToDatabase($recipient);
+
+                        event(new DatabaseNotificationsSent($recipient));
                         })
                         ->visible(function (Animal $record) {
                             return $record->published_state->value == AnimalPublishState::REQUESTPENDING->value ? true : false;
@@ -806,8 +825,8 @@ class AnimalResource extends Resource
                 
                  ])
                 ->iconButton()
+                ->label( __('animals_back.actions'))
                 ->button()
-                ->label('Actions')
                 ->icon('heroicon-m-ellipsis-horizontal')
                 ->color('primary'),
                 

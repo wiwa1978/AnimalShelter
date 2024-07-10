@@ -56,6 +56,7 @@ class AnimalDetail extends Component
         
         $this->animal = $animal;
         $this->animal_status = $animal->status->value;
+        $this->animal_status = $animal->increment('total_clicks');
 
         if ($this->animal_status == 'Adopted') {
             $this->animal_adopted = true;

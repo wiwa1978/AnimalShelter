@@ -21,6 +21,13 @@ enum AnimalPublishState: string implements HasLabel
             self::REQUESTPENDING->value => __('animals_back.request_pending'),
         ];
     }
+
+
+    public static function option(string $test): string
+    {
+        return self::options()[$test];
+    }
+
     public function getLabel(): string
     {
         return self::options()[$this->value];

@@ -42,6 +42,8 @@ class AnimalFactory extends Factory
             'name'                  =>      $type . '-' . fake()->numberBetween(1, 50),
             'slug'                  =>      fake()->slug(3),
             'animal_type'           =>      $type == 'Hond' ? 'Dog' :  ($type == 'Kat' ? 'Cat' : 'Other'),
+            'total_clicks'          =>      0,
+            'total_favorited'       =>      0,
             //'animal_type'           =>      $type == 'Dog' ? 'Dog' :  ($type == 'Cat' ? 'Cat' : 'Other'),
             'organization_id'       =>      Organization::query()->inRandomOrder()->first()?->id ?? Organization::factory(),
             'date_added'            =>      fake()->dateTimeBetween('-3 Months', '-1 Week'),

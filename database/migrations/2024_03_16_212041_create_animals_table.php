@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug')->unique()->nullable();
             $table->string('animal_type')->nullable();
+            $table->string('total_clicks')->default(0);
+            $table->string('total_favorited')->default(0);
             $table->foreignIdFor(Organization::class)->index();
             $table->timestamp('date_added')->nullable();
             $table->boolean('featured')->default(false);
