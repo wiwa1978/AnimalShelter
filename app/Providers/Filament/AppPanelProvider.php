@@ -5,7 +5,7 @@ namespace App\Providers\Filament;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
-use RequestPasswordReset;
+use App\Filament\Pages\Auth\RequestPasswordReset;
 use Widgets\StatsOverview;
 use Filament\PanelProvider;
 use App\Models\Organization;
