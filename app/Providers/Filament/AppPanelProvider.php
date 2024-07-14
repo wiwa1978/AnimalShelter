@@ -52,7 +52,7 @@ class AppPanelProvider extends PanelProvider
             ->path('app')
             ->darkMode(true)
             ->navigationItems([
-                NavigationItem::make('Gegevens')
+                NavigationItem::make('Mijn gegevens')
                     ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile')
                     ->group('Gebruikersbeheer')
                     ->icon('heroicon-o-user-circle'),
@@ -102,11 +102,11 @@ class AppPanelProvider extends PanelProvider
                     ->url('/admin')
                     ->visible(fn () => auth()->user()->isSuperAdmin()),
                 MenuItem::make()
-                    ->label('Profiel')
+                    ->label('Mijn gegevens')
                     ->icon('heroicon-o-user-circle')
                     ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile'),
-                'profile' => MenuItem::make()
-                    ->label(fn() => auth()->user()->name)
+                MenuItem::make()
+                    ->label(fn() => 'Mijn profiel')
                     ->url(fn (): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle'),
                     //If you are using tenancy need to check with the visible method where ->company() is the relation between the user and tenancy model as you called

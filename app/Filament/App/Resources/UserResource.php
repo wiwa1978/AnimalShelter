@@ -35,6 +35,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?int $navigationSort = 1;
+
     protected static ?string $tenantOwnershipRelationshipName = 'organizations';
 
 
@@ -46,14 +48,13 @@ class UserResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return  __('users_back.users');
+        return  __('users_back.users_overview');
     }
 
     public static function getModelLabel(): string
     {
         return __('users_back.user');
     }
-
 
     public static function getPluralModelLabel(): string
     {

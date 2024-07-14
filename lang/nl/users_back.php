@@ -4,7 +4,7 @@
 
 return [
     'user' => 'Gebruiker',
-    'users' => 'Gebruikers',
+    'users' => 'Overzicht Gebruikers',
     'user_management' => 'Gebruikersbeheer',
     'name' => 'Naam',
     'email' => 'E-mail',
@@ -15,8 +15,9 @@ return [
     'created_at' => 'Aangemaakt op',
     'updated_at' => 'Bijgewerkt op',
     'current_plan' => 'Huidig abonnement',
-    'user_profile' => 'Gebruikersprofiel',
+    'user_profile' => 'Mijn profiel',
     'my_user_profile' => 'Mijn profiel',
+    'users_overview' => 'Overzicht teamleden',
 
 
 

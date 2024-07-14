@@ -23,6 +23,8 @@ use Filament\Pages\Tenancy\EditTenantProfile;
 
 class EditOrganizationProfile extends EditTenantProfile
 {
+    protected static ?int $navigationSort = 2;
+    
     public static function getLabel(): string
     {
         return 'Test';

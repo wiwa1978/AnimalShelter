@@ -3,11 +3,12 @@
 // lang/en/messages.php
 
 return [
-    'user' => 'Gebruiker',
+    'user' => 'User',
     'users' => 'Users',
     'user_management' => 'User Management',
     'user_profile' => 'User Profile',
     'my_user_profile' => 'My Profile',
+    'users_overview' => 'Overview teammembers',
 ];
 
 

@@ -89,15 +89,15 @@ class AdminPanelProvider extends PanelProvider
                         ->canAccess(fn() => auth()->user()->id === 1)
                         ->setSort(3)
                         ->setIcon('heroicon-o-cog')
-                        ->setNavigationGroup('Administratie')
-                        ->setTitle('General Settings')
-                        ->setNavigationLabel('Algemene Settings'),
+                        ->setNavigationGroup('Gebruikersbeheer')
+                        ->setTitle('Algemene Instellingen')
+                        ->setNavigationLabel('Algemene Instellingen'),
                     \Tapp\FilamentMailLog\FilamentMailLogPlugin::make(),
                     \Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin::make()
-                         ->slug('my-profile')
-                         ->setTitle('My Profile')
-                        ->setNavigationLabel('My Profile')
-                        ->setNavigationGroup('Administratie')
+                        ->slug('my-profile')
+                        ->setTitle(__('users_back.my_user_profile'))
+                        ->setNavigationLabel(__('users_back.user_profile'))
+                        ->setNavigationGroup(__('users_back.user_management'))
                         ->setIcon('heroicon-o-user')
                         // ->setSort(10)
                         // ->canAccess(fn () => auth()->user()->id === 1)
