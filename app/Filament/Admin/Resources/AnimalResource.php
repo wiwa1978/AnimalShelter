@@ -15,6 +15,7 @@ use App\Enums\AnimalStatus;
 use Filament\Support\RawJs;
 use Illuminate\Support\Str;
 use App\Models\Organization;
+use Filament\Actions\Action;
 use App\Enums\AnimalLocation;
 use Filament\Facades\Filament;
 use App\Enums\AnimalAdoptionFee;
@@ -31,8 +32,8 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\IconColumn;
+//use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ImageColumn;
@@ -44,12 +45,20 @@ use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+
 use App\Filament\Admin\Resources\AnimalResource\Pages;
+use AymanAlhattami\FilamentContextMenu\ContextMenuDivider;
+use Rmsramos\Activitylog\Actions\ActivityLogTimelineAction;
+use App\Filament\Admin\Resources\UserResource\Pages\CreateUser;
+use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
 use App\Filament\Admin\Resources\AnimalResource\RelationManagers;
+use AymanAlhattami\FilamentContextMenu\Traits\PageHasContextMenu;
+use Schmeits\FilamentCharacterCounter\Forms\Components\TextInput;
+use App\Filament\Admin\Resources\AnimalResource\Pages\CreateAnimal;
 
 class AnimalResource extends Resource
 {
-   
+    use PageHasContextMenu;
 
     protected static ?string $model = Animal::class;
 
@@ -57,6 +66,7 @@ class AnimalResource extends Resource
 
     protected static ?string $tenantOwnershipRelationshipName = 'organization';
 
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function getModelLabel(): string
     {
@@ -79,6 +89,17 @@ class AnimalResource extends Resource
     {
         return false;
     
+    }
+
+    public function getContextMenuActions(): array
+    {
+        return [
+            Action::make('Create user')
+                ->url(CreateAnimal::getUrl()),
+            ContextMenuDivider::make(),
+            Action::make('Trashed user')
+     
+        ];
     }
 
     public static function form(Form $form): Form
@@ -131,6 +152,7 @@ class AnimalResource extends Resource
                                         ->label(__('animals_back.name'))
                                         ->minLength(2)
                                         ->maxLength(100)
+                                        //->characterLimit(100)
                                         ->required()
                                         ->live(onBlur: true)
                                         ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state)))
@@ -655,6 +677,8 @@ class AnimalResource extends Resource
 
             ])
             ->actions([
+                //\Mansoor\FilamentVersionable\Table\RevisionsAction::make(),
+
                 ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
                     Tables\Actions\EditAction::make(),
@@ -662,7 +686,7 @@ class AnimalResource extends Resource
                         ->icon('heroicon-o-trash')
                         ->action(fn (Animal $record) => $record->delete())
                         ->requiresConfirmation(),
-                    
+                    ActivityLogTimelineAction::make('Activities'),
                     
                     Tables\Actions\Action::make('Publish')
                         ->requiresConfirmation()
@@ -795,10 +819,11 @@ class AnimalResource extends Resource
             ]);
     }
 
+
     public static function getRelations(): array
     {
         return [
-            //
+          \Rmsramos\Activitylog\RelationManagers\ActivitylogRelationManager::class,
         ];
     }
 

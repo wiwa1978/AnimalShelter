@@ -9,6 +9,8 @@ use App\Models\Animal;
 use Illuminate\Support\Str;
 use App\Enums\OrganizationType;
 use App\Enums\OrganizationTypes;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,7 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Organization extends Model 
 {
-    use HasFactory, Billable;
+    use HasFactory, Billable, LogsActivity;
 
     protected $fillable = [
         'name',
@@ -44,6 +46,12 @@ class Organization extends Model
         'trial_ends_at' => 'datetime',
     ];
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+        //->logOnly(['name', 'text']);
+    }
+    
     public function stripeEmail(): string|null
     {
         return $this->email;

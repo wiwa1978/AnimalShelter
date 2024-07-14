@@ -2,7 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\App\Pages\Auth\EmailVerification;
+
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -23,9 +23,9 @@ use Filament\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckBillingEnabled;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-
-use App\Notifications\EmailVerificationNotification;
+use App\Filament\App\Pages\Auth\EmailVerification;
 use Filament\Billing\Providers\SparkBillingProvider;
+
 use App\Http\Middleware\VerifyOrganizationIsBillable;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
@@ -33,11 +33,13 @@ use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Filament\App\Pages\Tenancy\RegisterOrganization;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use App\Filament\App\Pages\Auth\RequestYourPasswordReset;
+
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Filament\App\Pages\Tenancy\EditOrganizationProfile;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use RalphJSmit\Filament\Notifications\FilamentNotifications;
+use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 
 
 class AppPanelProvider extends PanelProvider
@@ -50,7 +52,7 @@ class AppPanelProvider extends PanelProvider
             ->path('app')
             ->darkMode(true)
             ->navigationItems([
-                NavigationItem::make('Profiel')
+                NavigationItem::make('Gegevens')
                     ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile')
                     ->group('Gebruikersbeheer')
                     ->icon('heroicon-o-user-circle'),
@@ -91,9 +93,9 @@ class AppPanelProvider extends PanelProvider
             ])
             ->userMenuItems([
                 MenuItem::make()
-                ->label('Back to website')
-                ->icon('heroicon-o-link')
-                ->url('/'),
+                    ->label('Back to website')
+                    ->icon('heroicon-o-link')
+                    ->url('/'),
                 MenuItem::make()
                     ->label('Admin Panel')
                     ->icon('heroicon-o-link')
@@ -103,6 +105,14 @@ class AppPanelProvider extends PanelProvider
                     ->label('Profiel')
                     ->icon('heroicon-o-user-circle')
                     ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile'),
+                'profile' => MenuItem::make()
+                    ->label(fn() => auth()->user()->name)
+                    ->url(fn (): string => EditProfilePage::getUrl())
+                    ->icon('heroicon-m-user-circle'),
+                    //If you are using tenancy need to check with the visible method where ->company() is the relation between the user and tenancy model as you called
+                    // ->visible(function (): bool {
+                    //     return auth()->user()->organisations()->first()->exists();
+                    // }),
                 // MenuItem::make()
                 //     ->label('Abonnement')
                 //     ->icon('heroicon-o-banknotes')
@@ -123,6 +133,27 @@ class AppPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
                 
+            ])
+            ->plugins([
+                \Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin::make()
+                    ->color('#BE123C'),
+                \Kenepa\Banner\BannerPlugin::make()
+                    ->persistsBannersInDatabase()
+                    ->disableBannerManager(),
+                    \MarcoGermani87\FilamentCookieConsent\FilamentCookieConsent::make(),
+                    \Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin::make()
+                        ->slug('my-profile')
+                        ->setTitle(__('users_back.my_user_profile'))
+                        ->setNavigationLabel(__('users_back.user_profile'))
+                        ->setNavigationGroup(__('users_back.user_management'))
+                        ->setIcon('heroicon-o-user')
+                        // ->setSort(10)
+                        // ->canAccess(fn () => auth()->user()->id === 1)
+                        //->shouldRegisterNavigation(false)
+                        ->shouldShowDeleteAccountForm(true)
+                        //->shouldShowSanctumTokens()
+                        ->shouldShowBrowserSessionsForm()
+                        //->shouldShowAvatarForm()
             ])
             ->middleware([
                 EncryptCookies::class,

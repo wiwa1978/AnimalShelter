@@ -370,14 +370,29 @@
             <div x-on:close-modal="showModal = false" x-data="{ isModalOpen: false }">
                 <div class="grid grid-cols-2 gap-3 border border-gray-200 bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6 text-center">
                     <!-- Contacteer Ons -->
+
                     <div>
-                        <button x-on:click="isModalOpen = true" type="button" class="inline-flex items-center gap-x-2 rounded-md bg-rose-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                        @if(!Auth::check())
+                            
+                        <button x-on:click="isModalOpen = true" type="button"  class="inline-flex items-center gap-x-2 rounded-md bg-rose-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                             </svg>
                             Contacteer ons
                         </button>
+
+                        @else
+
+                        <button wire:click.prevent="redirectLogin()" type="button"  class="inline-flex items-center gap-x-2 rounded-md bg-rose-900 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+                            </svg>
+                            Contacteer ons
+                        </button>
+
+                        @endif
                     </div>
+                    
                     
                     <!-- Bekijk dieren -->
                     <div>
@@ -390,106 +405,63 @@
                         </button>
                     </div>
                 </div>
-                                    <!-- Message modal -->
-                                    <div x-show="isModalOpen" 
-                                x-transition:enter="ease-out duration-300" 
-                                x-transition:enter-start="opacity-0" 
-                                x-transition:enter-end="opacity-100" 
-                                x-transition:leave="ease-in duration-200" 
-                                x-transition:leave-start="opacity-100" 
-                                x-transition:leave-end="opacity-0" 
-                                class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
-                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-
-                        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-                            <div 
-                                x-transition:enter="opacity-0 ease-out duration-300" 
-                                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" 
-                                x-transition:leave="ease-in duration-200" 
-                                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" 
-                                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" 
-                                class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                            
-                                <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
-                                
-                                <div class="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
-                                    <button x-on:click="isModalOpen = false" type="button" class="rounded-md bg-white text-gray-400 hover:text-gray-500">
-                                    <span class="sr-only">Close</span>
-                                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                    </button>
-                                </div>
-
-                                <div class="pr-12 sm:flex sm:items-start">
-                                    <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                                    <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                                    </svg>
-                                    </div>
-                                    <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                                        <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Contact the owner of this animal</h3>
-
-                                        <div class="mt-2">
-                                            <p class="text-sm text-gray-500">Send your message and the owner of this animal will answer you as soon as possible</p>
-
-                                            @if ($errors->any())
-                                            <div class="mt-6 rounded-md bg-red-50 p-4">
-                                                <div class="flex">
-                                                    <div class="flex-shrink-0">
-                                                    <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
-                                                    </svg>
-                                                    </div>
-                                                    <div class="ml-3">
-                                                    <h3 class="text-sm font-medium text-red-800">There were 2 errors with your submission</h3>
-                                                    <div class="mt-2 text-sm text-red-700">
-                                                        <ul role="list" class="list-disc space-y-1 pl-5">
-                                                            @error('name') <li>{{ $message }}</li>@enderror
-                                                            @error('email')  <li>{{ $message }} @enderror
-                                                            @error('telephone') <li>{{ $message }} @enderror
-                                                            @error('question') <li>{{ $message }} @enderror
-                                                        </ul>
-                                                    </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endif
+  
 
 
-                                            <div class="mt-6">
-                                                <input wire:model="name" name="name" id="name" class="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-900 sm:text-sm sm:leading-6" placeholder="Naam">
-                                            </div>
+                <!--  Test -->
 
-                                            <div class="mt-6"> 
-                                                <input wire:model="email" type="email" name="email" id="email" class="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-900 sm:text-sm sm:leading-6" placeholder="Email">
-                                            </div>
+                <div  x-show="isModalOpen" x-transition:enter="ease-out duration-300" 
+                    x-transition:enter-start="opacity-0" 
+                    x-transition:enter-end="opacity-100" 
+                    x-transition:leave="ease-in duration-200" 
+                    x-transition:leave-start="opacity-100" 
+                    x-transition:leave-end="opacity-0" 
+                    class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
 
-                                            <div class="mt-6">
-                                                <input wire:model="telephone" name="telephone" id="telephone" class="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-900 sm:text-sm sm:leading-6" placeholder="Telephone" >
-                                            </div>
+                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
-                                            <div class="mt-6">
-                                                <textarea wire:model="question" type="question" name="question" id="question" rows="5" class="pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-pink-900 sm:text-sm sm:leading-6" placeholder="Uw vraag"> 
-                                                </textarea>
-                                            </div>
-                                        </div>
-                            
-                                    </div>
-                                </div>
-
-                                <!-- pl-4 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 sm:text-sm sm:leading-6 -->
-
-                                <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
-                                    <button @close-modal.window="isModalOpen = false" wire:click.prevent="sendMessageToOrganization({{ $animal }})" type="button" class="inline-flex w-full justify-center rounded-md bg-pink-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Verzend</button>
-                                    <button x-on:click="isModalOpen = false" type="button" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
-                                </div>
-                                </div>
+                    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                    <div 
+                        x-transition:enter="opacity-0 ease-out duration-300" 
+                        x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" 
+                        x-transition:leave="ease-in duration-200" 
+                        x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" 
+                        x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" 
+                    
+                        class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    
+                        <div class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">
+                        <div class="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+                            <button x-on:click="isModalOpen = false" type="button" class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                            </button>
+                        </div>
+                        <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                            </svg>
+                            </div>
+                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                            <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Bericht versturen voor {{ $animal->name }}</h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">Om een bericht te versturen, hebt u een account nodig. Indien u reeds een account heeft kunt u gewoon inloggen via 'Login'. Indien u nog geen account hebt kan u een aanmaken via de knop 'Registreren'</p>
+                            </div>
                             </div>
                         </div>
+                        <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse"> 
+                           <button type="button" wire:click.prevent="redirectRegister()" class="inline-flex w-full justify-center rounded-md bg-rose-900 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-900 sm:ml-3 sm:w-auto">Registreer</button>
+                        </div>
+                        </div>
                     </div>
+                    </div>
+                </div>
+
             </div>
 
         

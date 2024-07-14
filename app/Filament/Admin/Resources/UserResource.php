@@ -14,7 +14,9 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Admin\Resources\UserResource\Pages;
+use Rmsramos\Activitylog\Actions\ActivityLogTimelineAction;
 use App\Filament\Admin\Resources\UserResource\RelationManagers;
+use Tapp\FilamentAuthenticationLog\RelationManagers\AuthenticationLogsRelationManager;
 
 class UserResource extends Resource
 {
@@ -120,6 +122,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                ActivityLogTimelineAction::make('Activities'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -131,7 +134,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            //AuthenticationLogsRelationManager::class,
         ];
     }
 

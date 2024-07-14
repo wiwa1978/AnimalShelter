@@ -40,7 +40,7 @@ class ResetPasswordNotification extends Notification
             ->subject(__('animals_back.pw_title'))
             ->greeting(Lang::get('animals_back.hello') . " {$notifiable->name},")
             ->line(__('animals_back.pw_reset_line_1'))
-            ->action(__('animals_back.reset_pw'), $this->resetUrl($notifiable))
+            ->action(__('animals_back.reset_pw_action'), $this->resetUrl($notifiable))
             ->line(__('animals_back.pw_reset_line_2', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
             ->line(__('animals_back.pw_reset_line_3'));
     }

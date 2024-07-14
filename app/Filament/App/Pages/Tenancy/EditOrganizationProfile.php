@@ -25,7 +25,7 @@ class EditOrganizationProfile extends EditTenantProfile
 {
     public static function getLabel(): string
     {
-        return 'Jouw profiel';
+        return 'Test';
     }
 
     public function getTitle(): string | Htmlable
@@ -41,7 +41,7 @@ class EditOrganizationProfile extends EditTenantProfile
         }
 
         //return 'Jouw profiel' ;
-        return 'Jouw profiel (' . $organization_type . ')';
+        return 'Jouw gegevens (' . $organization_type . ')';
     }
 
     public function form(Form $form): Form
@@ -58,7 +58,7 @@ class EditOrganizationProfile extends EditTenantProfile
                     Section::make('Adresgegevens')
                         ->schema([
                             TextInput::make('name')
-                            ->label('Name')
+                            ->label('Naam')
                             ->required(),
                         
                             TextInput::make('billing_address')

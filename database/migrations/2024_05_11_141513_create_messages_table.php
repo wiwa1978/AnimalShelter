@@ -26,8 +26,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('conversation_id')->constrained()->onDelete('cascade');
             $table->foreignId('organization_id')->constrained()->onDelete('cascade');
-            $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
+            $table->string('sender_email')->nullable();
+            //$table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
+            $table->string('receiver_email');
+            $table->foreignId('animal_id')->constrained('animals')->onDelete('cascade');
             $table->timestamp('read_at')->nullable();
             $table->text('content');
             $table->timestamps();

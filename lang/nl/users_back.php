@@ -15,6 +15,8 @@ return [
     'created_at' => 'Aangemaakt op',
     'updated_at' => 'Bijgewerkt op',
     'current_plan' => 'Huidig abonnement',
+    'user_profile' => 'Gebruikersprofiel',
+    'my_user_profile' => 'Mijn profiel',
 
 
 

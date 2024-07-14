@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Animals;
 
+use App\Models\Conversation;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Animal;
@@ -34,6 +35,8 @@ class AnimalDetail extends Component
     public $animal_reserved = false;
 
     public $name;
+
+    public $subject;
     public $email;
     public $telephone;
     public $question;
@@ -41,11 +44,13 @@ class AnimalDetail extends Component
     protected $rules = [
         'name' => 'required|min:6',
         'email' => 'required|email',
+        'subject' => 'required',
     ];
     
     protected $messages = [
         'email.required' => 'Het email adres is verplicht.',
         'email.email' => 'Het email adres is ongeldig.',
+        'subject.required' => 'HHet onderwerp is verplicht.',
     ];
 
     public function mount(Animal $animal)
@@ -114,25 +119,47 @@ class AnimalDetail extends Component
         $this->redirect(route('show-animal-organization', ['organization' => $organizationId]));
     }
 
+    public function redirectLogin()
+    {
+        $this->redirectRoute('filament.app.resources.messages.create', ['tenant' => Auth::user()->id]);
+    }
+
+    public function redirectRegister()
+    {
+        $this->redirectRoute('filament.app.auth.register');
+    }
+
     public function sendMessageToOrganization(Animal $animal)
     {
-        $this->validate();
-        //dd($this->name);
-        //$this->redirect(route('filament.app.resources.animals.index', ['tenant' => $organizationId]));
-        $message = Message::create([
-            'organization_id' => $animal->organization->id,
-            'animal_id' => $animal->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'telephone' => $this->telephone,
-            'question' => $this->question,
-        ]);
+     
+            $this->validate();
 
-        MessageEvent::dispatch($message);
+            $conversation =Conversation::create([
+                'subject' => $this->subject,
+            ]); 
 
-        $this->dispatch('close-modal');
-
-        session()->flash('message', 'Message successfully sent.');
+            $message = Message::create([
+                'organization_id' => $animal->organization->id,
+                'conversation_id' => $conversation->id,
+                'animal_id' => $animal->id,
+                //'sender_id' => Auth::user() ? Auth()->id(): null,
+                'sender_email' =>  $this->email,
+                'receiver_email' => $animal->organization->users()->first()->email,
+                'name' => $this->name,
+                'email' => $this->email,
+                'telephone' => $this->telephone,
+                'content' => $this->question,
+            ]);
+            
+            $conversation->messages()->save($message);
+    
+            MessageEvent::dispatch($message);
+    
+            $this->dispatch('close-modal');
+    
+            session()->flash('message', 'Message successfully sent.');
+     
+        
  
     }
 

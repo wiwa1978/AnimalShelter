@@ -25,20 +25,20 @@ class ListMessages extends ListRecords
 
 
         $tabs = [
-            'All Messages' => Tab::make()
-                ->badge((string)Message::query()->count()),
+            // 'All Messages' => Tab::make()
+            //     ->badge((string)Message::query()->count()),
 
             'Inbox' => Tab::make()
                 ->badge(
                     Message::query()
-                        ->where('receiver_id', auth()->id())
+                        ->where('receiver_email', auth()->user()->email)
                         ->count()
                     ),
 
             'Outbox' => Tab::make()
             ->badge(
                 Message::query()
-                    ->where('sender_id', auth()->id())
+                    ->where('sender_email', auth()->user()->email)
                     ->count()
                 ),
 

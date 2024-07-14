@@ -31,7 +31,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'nav.group' => 'Gebruikersbeheer',
+    'nav.group' => 'Administratie',
     'nav.role.label' => 'Rollen',
     'nav.role.icon' => 'heroicon-o-shield-check',
     'resource.label.role' => 'Rol',

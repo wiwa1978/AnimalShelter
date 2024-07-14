@@ -116,11 +116,13 @@ class AnimalResource extends Resource
                         ->content(fn (Animal $record): string => $record->published_state == AnimalPublishState::PUBLISHED ? __('animals_back.yes') : __('animals_back.no') . ' - ' . AnimalPublishState::option($record->published_state->value)),
                     
 
-                        Placeholder::make('featured')
-                            ->label(__('animals_back.featured'))
-                            ->content(fn (Animal $record): string => $record->featured == 1 ? __('animals_back.yes') : __('animals_back.no')),
+                        // Placeholder::make('featured')
+                        //     ->label(__('animals_back.featured'))
+                        //     ->content(fn (Animal $record): string => $record->featured == 1 ? __('animals_back.yes') : __('animals_back.no')),
                         
-
+                        Toggle::make('featured')
+                            ->label(__('animals_back.featured'))
+                        ,
                         
                         Placeholder::make('approval_state')
                             ->label(__('animals_back.approval_state'))

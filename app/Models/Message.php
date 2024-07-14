@@ -2,18 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Message extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     //public $table = 'messages';
-    protected $fillable = ['id', 'organization_id', 'conversation_id', 'sender_id', 'receiver_id', 'content', 'read_by'];
+    protected $fillable = ['id', 'organization_id', 'conversation_id', 'sender_email', 'receiver_email', 'animal_id', 'content', 'read_by'];
 
-
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+        //->logOnly(['name', 'text']);
+    }
     public function sender(): BelongsTo {
         return $this->belongsTo(User::class, 'sender_id', 'id');
     }

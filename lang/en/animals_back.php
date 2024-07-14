@@ -136,8 +136,13 @@ return [
     'pw_reset_line_2' => 'This link will expire in :count minutes.',
     'pw_reset_line_3' => 'If you did not request a password reset, no further action is required.',
     'hello' => 'Hello',
-    'reset_pw' => 'Reset Password',
+    'reset_pw_action' => 'Reset Password',
     'Regards' => 'Regards',
+    'emailverification_line_1' => 'Please click the button below to verify your email address.',
+    'emailverification_line_2' => 'If you did not create an account, no further action is required.',
+    'verifyemail_title' => 'Verify your email address',
+    'verifyemail_action' => 'Verify email',
+
 ];
 
 

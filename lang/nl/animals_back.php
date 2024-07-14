@@ -136,7 +136,12 @@ return [
     'pw_reset_line_2' => 'Deze link zal vervallen binnen :count minuten.',
     'pw_reset_line_3' => 'Indien je geen aanvraag gedaan hebt om het paswoord te resetten, hoef je verder niets te doen.',
     'hello' => 'Hallo',
-    'reset_pw' => 'Paswoord resetten',
+    'reset_pw_action' => 'Paswoord resetten',
     'Regards' => 'Met vriendelijke groeten',
+    'emailverification_line_1' => 'Gelieve op de knop hieronder te klikken om je emailadres te verifiëren.',
+    'emailverification_line_2' => 'Indien je geen account hebt aangemaakt, hoef je verder niets te doen.',
+    'verifyemail_title' => 'Verifieer je emailadres',
+    'verifyemail_action' => 'Verifieer emailadres',
+
     
 ];

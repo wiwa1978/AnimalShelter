@@ -17,7 +17,7 @@ class CustomLoginResponse extends \Filament\Http\Responses\Auth\LoginResponse
         if (Filament::getCurrentPanel()->getId() === 'app') {
 
             if ($this->checkProfile()) {
-                return redirect()->to('/app');
+                return redirect()->to('/');
             }
             else {
                 Notification::make()

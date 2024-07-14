@@ -26,11 +26,13 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->id('admin')
-            ->resources([
-                config('filament-logger.activity_resource')
-            ])
-            //->databaseNotifications()
+            //  ->resources([
+            //      config('filament-logger.activity_resource')
+            //  ])
+             ->databaseNotifications()
             ->default()
+            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->brandName('Lief Dier - Lief Thuis')
             ->spa()
             ->login()
             ->path('admin')
@@ -55,8 +57,60 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->plugins([
-                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
-            ])
+                \Rmsramos\Activitylog\ActivitylogPlugin::make()
+                    ->label('Activiteiten Log')
+                    ->pluralLabel('Activiteiten Logs (Ramos)')
+                    ->navigationGroup('Logs')
+                    ->authorize(
+                        fn () => auth()->user()->id === 1
+                    ) 
+                ,
+                \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
+                \Howdu\FilamentRecordSwitcher\FilamentRecordSwitcherPlugin::make(),
+                \Joaopaulolndev\FilamentEditEnv\FilamentEditEnvPlugin::make()
+                    ->showButton(fn () => auth()->user()->id === 1)
+                    ->setIcon('heroicon-o-cog'),
+                \Joaopaulolndev\FilamentCheckSslWidget\FilamentCheckSslWidgetPlugin::make()
+                    ->domains([
+                        'wymedia.be',
+
+                    ])
+                    ->setTitle('Certificates') 
+                    ->setDescription('SSL certificate detail'), 
+                    //->setColumnSpan('full')
+                    \Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin::make(),
+                    \Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin::make()->color('#BE123C'),
+                    \Kenepa\Banner\BannerPlugin::make()
+                        ->persistsBannersInDatabase()
+                        ->navigationIcon('heroicon-o-megaphone')
+                        ->navigationLabel('Banners')
+                        ->navigationGroup('Marketing'),
+                    \Joaopaulolndev\FilamentGeneralSettings\FilamentGeneralSettingsPlugin::make()
+                        ->canAccess(fn() => auth()->user()->id === 1)
+                        ->setSort(3)
+                        ->setIcon('heroicon-o-cog')
+                        ->setNavigationGroup('Administratie')
+                        ->setTitle('General Settings')
+                        ->setNavigationLabel('Algemene Settings'),
+                    \Tapp\FilamentMailLog\FilamentMailLogPlugin::make(),
+                    \Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin::make()
+                         ->slug('my-profile')
+                         ->setTitle('My Profile')
+                        ->setNavigationLabel('My Profile')
+                        ->setNavigationGroup('Administratie')
+                        ->setIcon('heroicon-o-user')
+                        // ->setSort(10)
+                        // ->canAccess(fn () => auth()->user()->id === 1)
+                        //->shouldRegisterNavigation(false)
+                        ->shouldShowDeleteAccountForm(false)
+                        //->shouldShowSanctumTokens()
+                        ->shouldShowBrowserSessionsForm(),
+                        //->shouldShowAvatarForm()
+
+                        \Amendozaaguiar\FilamentRouteStatistics\FilamentRouteStatisticsPlugin::make(),
+                        \Brickx\MaintenanceSwitch\MaintenanceSwitchPlugin::make(),
+                    ])
+                
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

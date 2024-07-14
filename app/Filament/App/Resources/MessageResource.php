@@ -5,6 +5,7 @@ namespace App\Filament\App\Resources;
 use Filament\Forms;
 use App\Models\User;
 use Filament\Tables;
+use App\Models\Animal;
 use App\Models\Message;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
@@ -47,6 +48,8 @@ class MessageResource extends Resource
 
     protected static ?string $tenantRelationshipName = 'users';
 
+
+
     protected static ?string $modelLabel = 'Message';
  
     protected static ?string $navigationLabel = 'Inbox';
@@ -56,8 +59,8 @@ class MessageResource extends Resource
         //return Conversation::query();
         return Conversation::query()
         ->whereHas('messages', function (Builder $query) {
-            $query->where('sender_id', auth()->id())
-                  ->orWhere('receiver_id', auth()->id());
+            $query->where('sender_email', auth()->user()->email)
+                  ->orWhere('receiver_email', auth()->user()->email);
         });
     }
 
@@ -78,6 +81,13 @@ class MessageResource extends Resource
 
                 TextInput::make('subject'),
 
+                Select::make('message.animal_id')
+                    ->label('Animal')
+                    ->options(Animal::all()->pluck('name', 'id')->toArray())
+                    ->required(),
+
+       
+
                 Hidden::make('message.organization_id'),
 
                 // Select::make('message.sender_id')
@@ -85,7 +95,7 @@ class MessageResource extends Resource
                 //     ->options(User::all()->pluck('name', 'id')->toArray())
                 //     ->required(),
         
-                Select::make('message.receiver_id')
+                Select::make('message.receiver_email')
                     ->label('Send to')
                     ->options(User::all()->pluck('name', 'id')->toArray())
                     ->required(),
@@ -110,9 +120,9 @@ class MessageResource extends Resource
        
         $conversation = Conversation::find($conversationId); 
         
-        $participant1 = $conversation->messages()->first()->sender_id;
-        $participant2 = $conversation->messages()->first()->receiver_id;
-        $currentUserId = Auth::user()->id;
+        $participant1 = $conversation->messages()->first()->sender_email;
+        $participant2 = $conversation->messages()->first()->receiver_email;
+        $currentUserId = Auth::user()->email;
         $otherParticipant = $currentUserId == $participant1 ? $participant2 : $participant1;
         return $otherParticipant;
     }
@@ -121,19 +131,34 @@ class MessageResource extends Resource
 
     public static function table(Table $table): Table
     {
+        
+
+// Use the Animal model to find the animal by ID and get the name
+
         return $table
             ->columns([
-                TextColumn::make('sender_id')
+                TextColumn::make('sender_email')
                     ->getStateUsing( function (Model $record){
-                        return $record->messages()->first()?->sender->name;
+                        return $record->messages()->first()?->sender_email;
+       
                     })
-                    ->label('Initiated by'),
+                    ->label('From'),
 
-                 TextColumn::make('receiver_id')
+                 TextColumn::make('receiver_email')
                     ->getStateUsing( function (Model $record){
-                        return $record->messages()->first()?->receiver->name;
+                        return $record->messages()->first()?->receiver_email;
+                       
                     })
-                    ->label('Receiver'),
+                    ->label('To'),
+
+                TextColumn::make('animal_id')
+                    ->getStateUsing( function (Model $record){
+                        $animalId = $record->messages()->first()?->animal_id;
+                        $animalName = Animal::find($animalId)?->name;
+                        return $animalName;
+                    
+                    })
+                    ->label('Animal'),
 
                 TextColumn::make('subject')
                     ->label('Conversation Subject'),
@@ -154,67 +179,68 @@ class MessageResource extends Resource
             ]);
     }
 
-    // public static function infolist(Infolist $infolist): Infolist
-    // {
+    public static function infolist(Infolist $infolist): Infolist
+    {
         
 
-    //     return $infolist
-    //         ->schema([
-    //             Actions::make([
-    //                 Action::make('reply')
-    //                     ->form([
-    //                         Textarea::make('content')
-    //                             ->required(),
-    //                     ])
-    //                     ->action(function (Conversation $record, array $data): void {
+        return $infolist
+            ->schema([
+                Actions::make([
+                    Action::make('reply')
+                        ->form([
+                            Textarea::make('content')
+                                ->required(),
+                        ])
+                        ->action(function (Conversation $record, array $data): void {
                             
-    //                         $test = $record->messages()->create([
-    //                             'organization_id' => Filament::getTenant()->id,
-    //                             'receiver_id' => (auth()->id() === $record->messages()->first()->sender_id) ? $record->messages()->first()->receiver_id : $record->messages()->first()->sender_id,
-    //                             'sender_id' => auth()->id(),
-    //                             'content' => $data['content'],
-    //                         ]);
+                            $test = $record->messages()->create([
+                                'organization_id' => Filament::getTenant()->id,
+                                'receiver_email' => (auth()->user()->email === $record->messages()->first()->sender_email) ? $record->messages()->first()->receiver_email : $record->messages()->first()->sender_email,
+                                'sender_email' => auth()->user()->email,
+                                'animal_id' => $record->messages()->first()->animal_id,
+                                'content' => $data['content'],
+                            ]);
 
 
-    //                         // Send notification to the user receiving the message
-    //                         $recipient = (auth()->id() === $test['sender_id']) ? $test['receiver_id'] : $test['sender_id'];
-    //                         //dd($receiver);
+                            // Send notification to the user receiving the message
+                            //$recipient = (auth()->user()->email === $test['sender_email']) ? $test['receiver_email'] : $test['sender_email'];
 
-    //                         Log::debug('Receiver: ' . $recipient);
+                            //Log::debug('Receiver: ' . $recipient);
                             
-    //                         Notification::make()
-    //                             ->title('New Reply To ' . $record->subject)
-    //                             ->sendToDatabase(User::find($recipient));
+                            //Notification::make()
+                            //    ->title('New Reply To ' . $record->subject)
+                            //    ->sendToDatabase(User::find($recipient));
 
-    //                         event(new DatabaseNotificationsSent(User::find($recipient)));
-    //                     })
-    //             ])
-    //             ->columnSpanFull(),
+                            //event(new DatabaseNotificationsSent(User::find($recipient)));
+                        })
+                ])
+                ->columnSpanFull(),
 
-    //             RepeatableEntry::make('messages')
-    //                 ->hiddenLabel()
-    //                 ->schema(fn () => [
-    //                     Grid::make()
-    //                         ->schema([
-    //                             TextEntry::make('sender.name')
-    //                                 ->inlineLabel(),
-    //                             TextEntry::make('created_at')
-    //                                 ->inlineLabel()
-    //                                 ->hiddenLabel()
-    //                                 ->since()
-    //                                 ->alignEnd(),
-    //                         ]),
-    //                         TextEntry::make('content')
-    //                             ->hiddenLabel(),
-    //                         RichEditor::make('content')
-    //                         ->label(__('animals_back.description'))
-    //                 ])
-    //                 ->columnSpanFull(),
+                RepeatableEntry::make('messages')
+                    ->hiddenLabel()
+                    ->schema(fn () => [
+                        Grid::make()
+                            ->schema([
+                                TextEntry::make('sender_email')
+                                    ->label('From:')
+                                    ->inlineLabel(),
+
+                                TextEntry::make('created_at')
+                                    ->inlineLabel()
+                                    ->hiddenLabel()
+                                    ->since()
+                                    ->alignEnd(),
+                            ]),
+                            TextEntry::make('content')
+                                ->hiddenLabel(),
+               
+                    ])
+                    ->columnSpanFull(),
                     
 
                 
-    //         ]);
-    // }
+            ]);
+    }
 
 
     public static function getRelations(): array

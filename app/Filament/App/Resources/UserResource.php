@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Tables\Actions\DeleteBulkAction;
+use Tapp\FilamentInvite\Actions\InviteAction;
 use App\Filament\App\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\UserResource\Pages\EditUser;
@@ -36,7 +37,7 @@ class UserResource extends Resource
 
     protected static ?string $tenantOwnershipRelationshipName = 'organizations';
 
-    protected static ?string $navigationGroup = 'User Management';
+
 
     public static function getNavigationGroup(): ?string
     {
@@ -182,6 +183,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                \Tapp\FilamentInvite\Tables\InviteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -197,6 +199,12 @@ class UserResource extends Resource
         ];
     }
 
+    protected function getHeaderActions(): array
+    {
+        return [
+            InviteAction::make(),
+        ];
+    }
     public static function getPages(): array
     {
         return [

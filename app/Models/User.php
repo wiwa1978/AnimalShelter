@@ -7,21 +7,25 @@ use Filament\Panel;
 use App\Models\Animal;
 use App\Models\Organization;
 use Illuminate\Support\Collection;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Models\Contracts\FilamentUser;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Edwink\FilamentUserActivity\Traits\UserActivityTrait;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use RalphJSmit\Filament\Notifications\Concerns\FilamentNotifiable;
+use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 
 
 class User extends Authenticatable implements FilamentUser, HasTenants, MustVerifyEmail 
 {
-    use HasFactory, Notifiable, HasRoles ;
+    use HasFactory, Notifiable, HasRoles, AuthenticationLoggable, LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -58,6 +62,11 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
         ];
     }
 
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'email', 'organization_type', 'password']);
+    }
     public function messages()
     {
         return $this->hasMany(Message::class);

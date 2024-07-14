@@ -12,7 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        //$middleware->append(\Edwink\FilamentUserActivity\Http\Middleware\RecordUserActivity::class);
+        $middleware->append(\Bilfeldt\LaravelRouteStatistics\Http\Middleware\RouteStatisticsMiddleware::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
