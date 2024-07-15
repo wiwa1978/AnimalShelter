@@ -21,9 +21,11 @@ class VerifyOrganizationIsBillable extends VerifySparkBillableIsSubscribed
     protected function shouldRedirectToBilling($organization, $request): bool
     {
 
-        return $organization
-            && $organization->isBillable() 
-            && $organization->organizationIsShelter()
-            && ! $organization->isOnTrialOrSubscribed();
+        // return $organization
+        //     && $organization->isBillable() 
+        //     && $organization->organizationIsShelter()
+        //     && ! $organization->isOnTrialOrSubscribed();
+        return false;
+            
     }
 }

@@ -109,6 +109,12 @@ class AdminPanelProvider extends PanelProvider
 
                         \Amendozaaguiar\FilamentRouteStatistics\FilamentRouteStatisticsPlugin::make(),
                         \Brickx\MaintenanceSwitch\MaintenanceSwitchPlugin::make(),
+                        \Saade\FilamentLaravelLog\FilamentLaravelLogPlugin::make()
+                            ->navigationGroup('System Tools')
+                            ->navigationLabel('Logs')
+                            ->navigationIcon('heroicon-o-bug-ant')
+                            ->navigationSort(1)
+                            ->slug('logs')
                     ])
                 
             ->middleware([

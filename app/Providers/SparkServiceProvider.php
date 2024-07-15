@@ -31,6 +31,7 @@ class SparkServiceProvider extends ServiceProvider
 
         Spark::billable(Organization::class)->resolve(function (Request $request) {
             return $request->user()->organizations->first();
+            //return true;
         });
 
         Spark::paymentMethodSessionOptions('user', function ($billable) {
@@ -41,6 +42,7 @@ class SparkServiceProvider extends ServiceProvider
 
         Spark::billable(Organization::class)->authorize(function (Organization $billable, Request $request) {
             return $request->user() && $request->user()->organizations->contains($billable->id);
+           
         });
 
 
