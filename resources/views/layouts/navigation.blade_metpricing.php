@@ -42,7 +42,9 @@
               </div>
 
               <a wire:click="$refresh" wire:navigate class="rounded-md text-rose-700 px-3 py-2 text-xl font-medium hover:bg-rose-700 hover:text-white" href="#">{{ ucfirst(__('animals_front.our_way_working')) }}</a>
- 
+              <!-- 
+              <a wire:click="$refresh" wire:navigate href="{{ route('pricing') }}" class="rounded-md text-rose-700 px-3 py-2 text-xl font-medium hover:bg-rose-700 hover:text-white" >{{ ucfirst(__('animals_front.prices')) }}</a>
+              -->
 
 
           
@@ -106,7 +108,10 @@
       <a href="{{ route('show-others') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-700 hover:bg-gray-900 hover:text-white">{{ ucfirst(__('animals_front.others'))}}</a>
       <a href="{{ route('show-featured-others') }}" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-700 hover:bg-gray-900 hover:text-white" >{{ ucfirst(__('animals_front.others_in_picture')) }}</a>
       <a href="#" wire:click="$refresh" wire:navigate class="block rounded-md px-3 py-2 text-base font-medium text-rose-700 hover:bg-gray-900 hover:text-white">{{ ucfirst(__('animals_front.our_way_working')) }}</a>
-
+      
+      <!-- 
+      <a href="{{ route('pricing') }}" wire:click="$refresh" wire:navigate  class="block rounded-md px-3 py-2 text-base font-medium text-rose-700 hover:bg-gray-900 hover:text-white" >{{ ucfirst(__('animals_front.prices')) }}</a>
+      -->      
 
 
     

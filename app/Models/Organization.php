@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use Spark\Spark;
-use Spark\Billable;
+//use Spark\Spark;
+//use Spark\Billable;
 use App\Models\User;
 use App\Models\Animal;
 use Illuminate\Support\Str;
 use App\Enums\OrganizationType;
-use App\Enums\OrganizationTypes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,7 +18,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Organization extends Model 
 {
-    use HasFactory, Billable, LogsActivity;
+    use HasFactory;
+    use LogsActivity;
+    ///use Billable;
 
     protected $fillable = [
         'name',
@@ -68,35 +68,35 @@ class Organization extends Model
 
     }
     
-    public function getPlan()
-    {
-        $plan = $this->sparkPlan();
+    // public function getPlan()
+    // {
+    //     $plan = $this->sparkPlan();
 
-        if ($plan !== null) {
-            return $plan;
-        }
+    //     if ($plan !== null) {
+    //         return $plan;
+    //     }
 
-        // Fallback to "Individual" plan
-        $plan = Spark::plans('organization')->firstWhere('name', '=', 'Gratis Plan');
+    //     // Fallback to "Individual" plan
+    //     $plan = Spark::plans('organization')->firstWhere('name', '=', 'Gratis Plan');
         
-        return $plan;
-    }
+    //     return $plan;
+    // }
     
-    public function isBillable(): bool
-    {
-        return ! $this->free_forever;
-    }
+    // public function isBillable(): bool
+    // {
+    //     return ! $this->free_forever;
+    // }
 
     
-    public function isFreeForever(): bool
-    {
-        return $this->free_forever;
-    }
+    // public function isFreeForever(): bool
+    // {
+    //     return $this->free_forever;
+    // }
 
-    public function isOnTrialOrSubscribed(): bool
-    {
-        return $this->onTrial() || $this->subscribed();
-    }
+    // public function isOnTrialOrSubscribed(): bool
+    // {
+    //     return $this->onTrial() || $this->subscribed();
+    // }
 
     public function organizationIsShelter(): bool
     {

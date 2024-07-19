@@ -24,7 +24,6 @@ class UserFactory extends Factory
     public function definition(): array
     {
         
-        $organization = fake()->boolean();
 
         return [
             'name' => fake()->name(),
@@ -32,9 +31,8 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            // 'organization' => $organization ,
-            // 'organization_name' => $organization  == true ? fake()->company() :  null,
-            // 'website' => $organization  == true ? fake()->url() :  null,
+            'invited' => false,
+            'invited_at' => null,
         ];
     }
 

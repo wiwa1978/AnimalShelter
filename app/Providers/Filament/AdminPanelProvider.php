@@ -26,10 +26,7 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
             ->id('admin')
-            //  ->resources([
-            //      config('filament-logger.activity_resource')
-            //  ])
-             ->databaseNotifications()
+            ->databaseNotifications()
             ->default()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->brandName('Lief Dier - Lief Thuis')
@@ -130,6 +127,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                //RedirectIfNotFilamentAuthenticated::class,
             ]);
     }
 }

@@ -35,8 +35,11 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     protected $fillable = [
         'name',
         'email',
+        'email_verified_at',
         'password',
-        'organization_type'
+        'organization_type',
+        'invited',
+        'invited_at',
     ];
 
     /**
@@ -81,7 +84,21 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
 
    public function canAccessPanel(Panel $panel): bool
    {
-        return true;
+    
+        if ($panel->getId() === 'admin') {
+            if ($this->isSuperAdmin()) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        if ($panel->getId() === 'app') {
+            return true;
+        }
+
+        return false;
    }
  
     public function getTenants(Panel $panel): Collection

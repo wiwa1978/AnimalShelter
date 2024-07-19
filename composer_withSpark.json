@@ -13,6 +13,7 @@
         "brickx/maintenance-switch": "^1.0",
         "filament/filament": "^3.2",
         "filament/notifications": "^3.2",
+        -----> "filament/spark-billing-provider",
         "howdu/filament-record-switcher": "^1.0",
         "joaopaulolndev/filament-check-ssl-widget": "^1.0",
         "joaopaulolndev/filament-edit-env": "^1.0",
@@ -20,6 +21,7 @@
         "joaopaulolndev/filament-general-settings": "^1.0",
         "kenepa/banner": "^0.0.5",
         "laravel/framework": "^11.0",
+        ----->"laravel/spark-stripe": "^5.1",
         "laravel/tinker": "^2.9",
         "livewire/livewire": "^3.4",
         "mansoor/filament-versionable": "^0.0.8",
@@ -91,7 +93,7 @@
             "ralphjsmit/packages": true
         }
     },
-    "repositories": [
+    -----> "repositories": [
         {
             "type": "composer",
             "url": "https://spark.laravel.com"

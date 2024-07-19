@@ -184,7 +184,7 @@ class UserResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                \Tapp\FilamentInvite\Tables\InviteAction::make(),
+           
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -200,12 +200,6 @@ class UserResource extends Resource
         ];
     }
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            InviteAction::make(),
-        ];
-    }
     public static function getPages(): array
     {
         return [

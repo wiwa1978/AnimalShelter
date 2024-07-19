@@ -6,39 +6,28 @@ namespace App\Providers\Filament;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
-use Widgets\StatsOverview;
 use Filament\PanelProvider;
 use App\Models\Organization;
-use Filament\Pages\Dashboard;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
-use Filament\Widgets\AccountWidget;
 use Filament\Support\Enums\MaxWidth;
 use Filament\Navigation\NavigationItem;
-use Filament\Widgets\FilamentInfoWidget;
-
 use App\Filament\App\Pages\Auth\Register;
-use App\Http\Middleware\ApplyTenantScopes;
 use Filament\Http\Middleware\Authenticate;
-use App\Http\Middleware\CheckBillingEnabled;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use App\Filament\App\Pages\Auth\EmailVerification;
-use Filament\Billing\Providers\SparkBillingProvider;
-
-use App\Http\Middleware\VerifyOrganizationIsBillable;
+//use Filament\Billing\Providers\SparkBillingProvider;
+//use App\Http\Middleware\VerifyOrganizationIsBillable;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use App\Filament\App\Pages\Tenancy\RegisterOrganization;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use App\Filament\App\Pages\Auth\RequestYourPasswordReset;
-
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use App\Filament\App\Pages\Tenancy\EditOrganizationProfile;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
-use RalphJSmit\Filament\Notifications\FilamentNotifications;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 
 
@@ -50,6 +39,7 @@ class AppPanelProvider extends PanelProvider
         return $panel
             ->id('app')
             ->path('app')
+        
             ->darkMode(true)
             ->navigationItems([
                 NavigationItem::make('Mijn gegevens')
@@ -65,9 +55,9 @@ class AppPanelProvider extends PanelProvider
             ->brandName('Animals')
             ->brandLogo(asset('storage/images/logo3.svg'))
             ->favicon(asset('storage/images/logo3.svg'))
-            ->tenantBillingProvider(new SparkBillingProvider())
-            ->tenantBillingRouteSlug('billing')
-            ->requiresTenantSubscription()
+            //->tenantBillingProvider(new SparkBillingProvider())
+            //->tenantBillingRouteSlug('billing')
+            //->requiresTenantSubscription()
             ->tenant(Organization::class, ownershipRelationship: 'organizations')
             //->tenantRegistration(RegisterOrganization::class)
             ->tenantMenu(false)
@@ -107,17 +97,18 @@ class AppPanelProvider extends PanelProvider
                     ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile'),
                 MenuItem::make()
                     ->label(fn() => 'Mijn profiel')
-                    ->url(fn (): string => EditProfilePage::getUrl())
-                    ->icon('heroicon-m-user-circle'),
-                    //If you are using tenancy need to check with the visible method where ->company() is the relation between the user and tenancy model as you called
-                    // ->visible(function (): bool {
-                    //     return auth()->user()->organisations()->first()->exists();
-                    // }),
+                    //->url(fn (): string => EditProfilePage::getUrl())
+                    ->icon('heroicon-m-user-circle')                    //If you are using tenancy need to check with the visible method where ->company() is the relation between the user and tenancy model as you called
+                    ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/my-profile')
+                    
+                    ->visible(function (): bool {
+                        return auth()->check();
+                    }),
                 // MenuItem::make()
                 //     ->label('Abonnement')
                 //     ->icon('heroicon-o-banknotes')
                 //     ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
-                //     ->visible(fn() => env('BILLING_ENABLED', true)),
+                    //->visible(fn() => env('BILLING_ENABLED', true)),
                 ])
 
             ->sidebarCollapsibleOnDesktop()
@@ -165,11 +156,12 @@ class AppPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
-                VerifyOrganizationIsBillable::class,
+                //VerifyOrganizationIsBillable::class,
                 
             ])
             ->authMiddleware([
                 Authenticate::class,
+                //RedirectIfNotFilamentAuthenticated::class,
             ]);
             //->tenantRoutePrefix('organization')
             //->topNavigation()

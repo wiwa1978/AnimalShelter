@@ -22,6 +22,8 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
             'organization_type' => 'Individual', // 'Stichting', 'Asiel
+            'invited'           => false,
+            'invited_at'        => null
         ])->assignRole('user');
 
         $user2 = User::create([
@@ -30,6 +32,8 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
             'organization_type' => 'Shelter',
+            'invited'           => false,
+            'invited_at'        => null
         ])->assignRole('user');
 
         $user3 = User::create([
@@ -38,6 +42,8 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
             'organization_type' => 'Individual',
+            'invited'           => false,
+            'invited_at'        => null
         ])->assignRole('user');
 
         $user4 = User::create([
@@ -46,6 +52,8 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
             'organization_type' => 'Organization',
+            'invited'           => false,
+            'invited_at'        => null
         ])->assignRole('user');
 
         $user5 = User::create([
@@ -54,6 +62,8 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
             'organization_type' => 'Shelter',
+            'invited'           => false,
+            'invited_at'        => null
         ])->assignRole('user');
 
         $user6 = User::create([
@@ -62,6 +72,8 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
             'organization_type' => 'Individual',
+            'invited'           => false,
+            'invited_at'        => null
         ])->assignRole('user');
 
         $user6 = User::create([
@@ -70,6 +82,8 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password'          => Hash::make('Welcome@1234'),
             'organization_type' => 'Shelter',
+            'invited'           => false,
+            'invited_at'        => null
         ])->assignRole('user');
 
 

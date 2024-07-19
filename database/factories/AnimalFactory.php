@@ -30,6 +30,9 @@ class AnimalFactory extends Factory
     {
         $published_state = fake()->randomElement(AnimalPublishState::cases());
         $approval_state = AnimalApprovalState::NOTAPPLICABLE;
+        $organisation_id = Organization::query()->inRandomOrder()->first()?->id;
+
+       
 
         $faker = \Faker\Factory::create();
         $faker->addProvider(new \Smknstd\FakerPicsumImages\FakerPicsumImagesProvider($faker));
@@ -45,7 +48,8 @@ class AnimalFactory extends Factory
             'total_clicks'          =>      0,
             'total_favorited'       =>      0,
             //'animal_type'           =>      $type == 'Dog' ? 'Dog' :  ($type == 'Cat' ? 'Cat' : 'Other'),
-            'organization_id'       =>      Organization::query()->inRandomOrder()->first()?->id ?? Organization::factory(),
+            'organization_id'       =>      Organization::query()->inRandomOrder()->first()?->id ?? Organization::factory()->create()->id,
+            //'organization_id'       =>     $organisation_id,
             'date_added'            =>      fake()->dateTimeBetween('-3 Months', '-1 Week'),
             'featured'              =>      fake()->boolean(),
             'published_at'          =>      $published_state == 'Gepubliceerd' ? fake()->dateTimeBetween('-1 Week', '-1 Day') :  null,

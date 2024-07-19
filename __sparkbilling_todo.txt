@@ -1,0 +1,85 @@
+Composer.json:
+    "laravel/spark-stripe" toevoegen
+    "filament/spark-billing-provider" toevoegen
+
+in Config folder:
+    - rename spark.phpbu naar spark.php
+
+in AppPanelProvider:
+    - uncomment use Filament\Billing\Providers\SparkBillingProvider;
+    - add tenantBillingProvider(new SparkBillingProvider())
+    - add tenantBillingRouteSlug('billing')
+    - add requiresTenantSubscription()
+    - uncomment use App\Http\Middleware\VerifyOrganizationIsBillable;
+    - in AppPanelProvider, uncomment //VerifyOrganizationIsBillable::class,
+
+in App/Providers => SparkServiceProvider.phpbu
+
+in App/Http/Middleware
+    - rename VerifyOrganizationIsBillable.phpbu to VerifyOrganizationIsBillable.php
+
+in App/Providers/AppServiceProvider 
+    - uncomment use App\Http\Middleware\VerifyOrganizationIsBillable;
+    - in boot function, uncomment  //VerifyOrganizationIsBillable::class
+
+in app/Filament/App/Pages/Tenancy/EditOrganizationProfile
+    - in the form function => uncomment $plan = $organization->getPlan(); 
+    - and also
+
+        Section::make('Huidig Plan')
+                        ->schema([
+                            DateTimePicker::make('trial_ends_at')
+                                ->label('Proefperiode eindigt op')
+                                 ->native(false)
+                                ->displayFormat('d-m-Y')
+                                ->visible(fn (): bool => auth()->user()->organizations()->first()->trial_ends_at !== null),
+                            
+                            Placeholder::make('Huidig abonnement')
+                                ->content(fn (Organization $record): string => $record->getPlan()->name),
+
+
+
+in model Organization: uncomment the below
+
+        // public function getPlan()
+        // {
+        //     $plan = $this->sparkPlan();
+
+        //     if ($plan !== null) {
+        //         return $plan;
+        //     }
+
+        //     // Fallback to "Individual" plan
+        //     $plan = Spark::plans('organization')->firstWhere('name', '=', 'Gratis Plan');
+            
+        //     return $plan;
+        // }
+        
+        // public function isBillable(): bool
+        // {
+        //     return ! $this->free_forever;
+        // }
+
+        
+        // public function isFreeForever(): bool
+        // {
+        //     return $this->free_forever;
+        // }
+
+        // public function isOnTrialOrSubscribed(): bool
+        // {
+        //     return $this->onTrial() || $this->subscribed();
+        // }
+
+- in app/livewire/front
+    - rename Price.phpbu to Price.php
+
+- in view/components/front
+    - rename price.blade.phpbu to price.blade.php
+
+- in routes:
+    - uncomment  //Route::get('/price', Price::class)->name('pricing');
+    - uncomment  //use App\Livewire\Front\Price;
+
+- in resources/view/layouts/navigation
+    - gebruik navigation.blade_metpricing.php

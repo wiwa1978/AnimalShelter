@@ -1,19 +1,22 @@
 <?php
 
 use App\Livewire\Front\Home;
-use App\Livewire\Front\Price;
+//use App\Livewire\Front\Price;
 use App\Livewire\Animals\Animals;
+use App\Livewire\AcceptInvitation;
 use Illuminate\Support\Facades\Route;
 use App\Livewire\Animals\AnimalDetail;
 use App\Livewire\Animals\SearchAnimal;
-use App\Livewire\Front\MessagesComponent;
 use App\Livewire\Animals\AnimalsByOrganization;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 
+Route::middleware('signed')
+    ->get('/invitation/{invitation}/accept', AcceptInvitation::class)
+    ->name('invitation-accept');
+
 Route::middleware([PreventRequestsDuringMaintenance::class])->group(function () {
-    Route::get('/messages', MessagesComponent::class)->name('message');
     Route::get('/', Home::class)->name('home');
-    Route::get('/price', Price::class)->name('pricing');
+    //Route::get('/price', Price::class)->name('pricing');
     Route::get('/animals/search', SearchAnimal::class)->name('search-animal');
     Route::get('/animals', Home::class)->name('show-animals');
     Route::get('/animals/dogs', Animals::class)->name('show-dogs');
@@ -25,6 +28,7 @@ Route::middleware([PreventRequestsDuringMaintenance::class])->group(function () 
     Route::get('/animal/{animal}/detail/', AnimalDetail::class)->name('show-animal-detail');
     Route::get('/animal/organization/{organization}', AnimalsByOrganization::class)->name('show-animal-organization');
 });
+
 
 
 
