@@ -120,16 +120,19 @@ class EditOrganizationProfile extends EditTenantProfile
                         ->visible(fn (Organization $record): bool => $record->organizationIsShelter() || $record->organizationIsOrganization())
                         ->columnSpan(2),
 
-                    // Section::make('Huidig Plan')
-                    //     ->schema([
-                    //         DateTimePicker::make('trial_ends_at')
-                    //             ->label('Proefperiode eindigt op')
-                    //              ->native(false)
-                    //             ->displayFormat('d-m-Y')
-                    //             ->visible(fn (): bool => auth()->user()->organizations()->first()->trial_ends_at !== null),
+                    Section::make('Huidig Plan')
+                        ->schema([
+                            // DateTimePicker::make('trial_ends_at')
+                            //     ->label('Proefperiode eindigt op')
+                            //      ->native(false)
+                            //     ->displayFormat('d-m-Y')
+                            //     ->visible(fn (): bool => auth()->user()->organizations()->first()->trial_ends_at !== null),
                             
-                    //         Placeholder::make('Huidig abonnement')
-                    //             ->content(fn (Organization $record): string => $record->getPlan()->name),
+                            // Placeholder::make('Huidig abonnement')
+                            //     ->content('fn (Organization $record): string => $record->getPlan()->name'),
+                                
+                            Placeholder::make('Huidig abonnement')
+                                ->content('Gratis plan'),
 
                         //     Placeholder::make('Details van het abonnement')
                         //         ->content(
@@ -151,8 +154,8 @@ class EditOrganizationProfile extends EditTenantProfile
                         //                 </ul>
                         //             ')),
 
-                        //])
-                        //->columnSpan(2),
+                        ])
+                        ->columnSpan(2),
                    
                 ]),
             ]);
