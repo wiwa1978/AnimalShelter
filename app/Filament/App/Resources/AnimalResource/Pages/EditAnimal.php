@@ -2,9 +2,13 @@
 
 namespace App\Filament\App\Resources\AnimalResource\Pages;
 
-use App\Filament\App\Resources\AnimalResource;
 use Filament\Actions;
+use App\Models\Animal;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
+use App\Filament\App\Resources\AnimalResource;
 
 class EditAnimal extends EditRecord
 {
@@ -38,4 +42,12 @@ class EditAnimal extends EditRecord
 
         return $data;
     }
+
+    protected function afterSave(): void
+    {
+        // Runs after the form fields are saved to the database.
+        $currentUser = Auth::user()->id;
+        Log::debug("User $currentUser | Organisation {$this->getRecord()->organization_id}: Animal with id {$this->getRecord()->id} and (new) name updated: {$this->getRecord()->name}");
+    }
+
 }

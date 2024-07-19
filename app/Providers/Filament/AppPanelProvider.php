@@ -162,7 +162,13 @@ class AppPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
                 //RedirectIfNotFilamentAuthenticated::class,
-            ]);
+            ])
+            ->renderHook(
+                // This line tells us where to render it
+                'panels::body.end',
+                // This is the view that will be rendered
+                fn () => view('livewire.customFooter'),
+            );
             //->tenantRoutePrefix('organization')
             //->topNavigation()
             //->sidebarFullyCollapsibleOnDesktop()

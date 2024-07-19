@@ -49,5 +49,13 @@ class CreateAnimal extends CreateRecord
         return $data;
     }
 
+    protected function afterCreate(): void
+    {
+        // Runs after the form fields are saved to the database.
+        $currentUser = Auth::user()->id;
+        Log::debug("User $currentUser | Organisation {$this->getRecord()->organization_id}: Animal with id {$this->getRecord()->id} and name created: {$this->getRecord()->name}");
+    }
 
+    
+   
 }

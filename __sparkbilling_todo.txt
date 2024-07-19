@@ -83,3 +83,33 @@ in model Organization: uncomment the below
 
 - in resources/view/layouts/navigation
     - gebruik navigation.blade_metpricing.php
+
+- in app/Filament/admin/resources/UserResource (SAME FOR app/resources/UserResource)
+    - in the table function, uncomment    //$plan = $organization->getPlan();
+    - uncomment 
+                // TextColumn::make('subscription')
+                //     ->label(__('users_back.current_plan'))
+                //     ->getStateUsing( function (User $record){
+                //         //return optional($record->organizations->first()->getPlan())->name ?? 'NA';
+                //         return $record->organizations->first()->getPlan()->name == 'Gratis Plan' ? 'Geen' : $record->organizations->first()->getPlan()->name;
+                //     }),
+
+- in app/Filament/app/resources/AnimalResource
+    - uncomment canCreate()
+
+            // public static function canCreate(): bool
+            // {
+            //     $organization = Organization::find(2);
+            //     $plan = $organization->getPlan();
+                
+            //     // if the animal count is higher than the plan limit, then disable the button
+            //     // if the organization is not free forever (hence is billable), then disable the create button
+            //     //dd($organization->animals->count() >= $plan->options['animals'] && !$organization->isFreeForever());
+            //     if ($organization->animals->count() >= $plan->options['animals'] && !$organization->isFreeForever()) {
+            //         return false;
+            //     }
+            //     else {
+            //         return true;
+            //     }
+
+            // }

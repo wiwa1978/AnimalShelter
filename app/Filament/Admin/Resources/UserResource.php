@@ -64,7 +64,7 @@ class UserResource extends Resource
     public static function table(Table $table): Table
     {
         $organization = Organization::find(1);
-        $plan = $organization->getPlan();
+        //$plan = $organization->getPlan();
         
         return $table
             ->columns([
@@ -96,12 +96,12 @@ class UserResource extends Resource
                     }),
 
 
-                TextColumn::make('subscription')
-                    ->label(__('users_back.current_plan'))
-                    ->getStateUsing( function (User $record){
-                        //return optional($record->organizations->first()->getPlan())->name ?? 'NA';
-                        return $record->organizations->first()->getPlan()->name == 'Gratis Plan' ? 'Geen' : $record->organizations->first()->getPlan()->name;
-                    }),
+                // TextColumn::make('subscription')
+                //     ->label(__('users_back.current_plan'))
+                //     ->getStateUsing( function (User $record){
+                //         //return optional($record->organizations->first()->getPlan())->name ?? 'NA';
+                //         return $record->organizations->first()->getPlan()->name == 'Gratis Plan' ? 'Geen' : $record->organizations->first()->getPlan()->name;
+                //     }),
                 
  
                                 

@@ -63,22 +63,22 @@ class AnimalResource extends Resource
         return __('animals_back.animal');
     }
 
-    public static function canCreate(): bool
-    {
-        $organization = Organization::find(2);
-        $plan = $organization->getPlan();
+    // public static function canCreate(): bool
+    // {
+    //     $organization = Organization::find(2);
+    //     $plan = $organization->getPlan();
         
-        // if the animal count is higher than the plan limit, then disable the button
-        // if the organization is not free forever (hence is billable), then disable the create button
-        //dd($organization->animals->count() >= $plan->options['animals'] && !$organization->isFreeForever());
-        if ($organization->animals->count() >= $plan->options['animals'] && !$organization->isFreeForever()) {
-            return false;
-        }
-        else {
-            return true;
-        }
+    //     // if the animal count is higher than the plan limit, then disable the button
+    //     // if the organization is not free forever (hence is billable), then disable the create button
+    //     //dd($organization->animals->count() >= $plan->options['animals'] && !$organization->isFreeForever());
+    //     if ($organization->animals->count() >= $plan->options['animals'] && !$organization->isFreeForever()) {
+    //         return false;
+    //     }
+    //     else {
+    //         return true;
+    //     }
 
-    }
+    // }
 
     public static function getWidgets(): array
     {
