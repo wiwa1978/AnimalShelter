@@ -47,7 +47,7 @@ class EditAnimal extends EditRecord
     {
         // Runs after the form fields are saved to the database.
         $currentUser = Auth::user()->id;
-        Log::debug("User $currentUser | Organisation {$this->getRecord()->organization_id}: Animal with id {$this->getRecord()->id} and (new) name updated: {$this->getRecord()->name}");
-    }
+        Log::debug("User $currentUser | Organisation {$this->getRecord()->organization_id}: Animal with id {$this->getRecord()->id} and (new) name {$this->getRecord()->name} updated");
+    } 
 
 }

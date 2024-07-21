@@ -6,6 +6,7 @@ use App\Models\Animal;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Livewire\ShowAnimalDetail;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 class Animals extends Component
@@ -76,12 +77,15 @@ class Animals extends Component
 
     }
 
-    public function showAnimalDetail($id)
-    {
-        $animal = Animal::find($id);
+    // public function showAnimalDetail($id)
+    // {
+    //    dd('test');
+    //     $animal = Animal::find($id);
 
-        $this->animal = $animal;
+    //     $this->animal = $animal;
 
-        $this->redirect(route('show-animal-detail', ['id' => $animal->id]));
-    }
+    //      Log::debug("Retrieving details from organization {$animal->organization->id} for animal {$animal->id}");
+
+    //     $this->redirect(route('show-animal-detail', ['id' => $animal->id]));
+    // }
 }

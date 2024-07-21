@@ -25,7 +25,7 @@ class AcceptInvitation extends SimplePage
     use InteractsWithForms;
     use InteractsWithFormActions;
 
-    protected static string $view = 'livewire.accept-invitation';
+    protected static string $view = 'components.livewire.accept-invitation';
 
     public int $invitation;
     private Invitation $invitationModel;

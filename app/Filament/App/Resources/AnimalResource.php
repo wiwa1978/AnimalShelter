@@ -24,6 +24,7 @@ use App\Enums\AnimalPublishState;
 use App\Enums\AnimalApprovalState;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Components\Grid;
+use Illuminate\Support\Facades\Log;
 use Filament\Forms\Components\Radio;
 use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
@@ -33,8 +34,8 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
 
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
@@ -733,7 +734,11 @@ class AnimalResource extends Resource
                     Tables\Actions\Action::make('delete')
                         ->icon('heroicon-o-trash')
                         ->action(fn (Animal $record) => $record->delete())
-                        ->requiresConfirmation(),
+                        ->requiresConfirmation()
+                        ->after(function (Animal $record) {
+                            $currentUser = Auth::user();
+                            Log::debug("User $currentUser->id | Organisation {$currentUser->organization_id}: Animal with id {$record->id} deleted");
+                        }),
                     
                     Tables\Actions\Action::make('Publish')
                         ->label(__('animals_back.publish_request'))

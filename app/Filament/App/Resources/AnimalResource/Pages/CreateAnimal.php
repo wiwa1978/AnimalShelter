@@ -4,12 +4,13 @@ namespace App\Filament\App\Resources\AnimalResource\Pages;
 
 
 
-use App\Models\Animal;
-
-
 use Carbon\Carbon;
+
+
+use App\Models\Animal;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Forms\Components\Actions\Action;
@@ -53,7 +54,7 @@ class CreateAnimal extends CreateRecord
     {
         // Runs after the form fields are saved to the database.
         $currentUser = Auth::user()->id;
-        Log::debug("User $currentUser | Organisation {$this->getRecord()->organization_id}: Animal with id {$this->getRecord()->id} and name created: {$this->getRecord()->name}");
+        Log::debug("User $currentUser | Organisation {$this->getRecord()->organization_id}: Animal with id {$this->getRecord()->id} and name {$this->getRecord()->name} created");
     }
 
     

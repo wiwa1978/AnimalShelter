@@ -2,15 +2,16 @@
 
 namespace App\Livewire\Animals;
 
-use App\Enums\AnimalAge;
-use App\Enums\AnimalLocation;
 use App\Models\Animal;
 use Livewire\Component;
+use App\Enums\AnimalAge;
 use App\Enums\AnimalType;
 use App\Enums\AnimalGender;
 use Livewire\WithPagination;
+use App\Enums\AnimalLocation;
 use Livewire\Attributes\Title;
 use App\Enums\OrganizationType;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Builder;
 
 #[Title('AnimalShelter - Home')]
@@ -62,6 +63,8 @@ class SearchAnimal extends Component
     public function searchFunction(): void
     {
 
+        Log::debug("Search executed with search term: {$this->searchTerm}, animal type: {$this->searchAnimalType}, animal location: {$this->searchAnimalLocation}, animal age: {$this->searchAnimalAge}, animal gender: {$this->searchAnimalGender}, animal owner: {$this->searchAnimalOwner}");
+  
         $this->animals = 
         
         Animal::when($this->searchTerm !== '', fn(Builder $query) => $query->where('name', 'like', '%'. $this->searchTerm .'%')) 
@@ -94,7 +97,8 @@ class SearchAnimal extends Component
             ->get();
            
         $this->animals_count = $this->animals->count();
-  
+
+       
         //dd($this->animals_count);
 
     }

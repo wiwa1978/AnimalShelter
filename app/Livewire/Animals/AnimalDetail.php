@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Animals;
 
-use App\Models\Conversation;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Animal;
@@ -10,8 +9,10 @@ use App\Models\Message;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use App\Events\MessageEvent;
+use App\Models\Conversation;
 use App\Models\Organization;
 use Livewire\Attributes\Layout;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -106,6 +107,8 @@ class AnimalDetail extends Component
         }
         //dd($this->youtube_links);
 
+        Log::debug("Retrieving details for animal {$animal->id}, belonging to organization {$animal->organization->id}");
+
     }
 
     public function render()
@@ -131,7 +134,8 @@ class AnimalDetail extends Component
 
     public function sendMessageToOrganization(Animal $animal)
     {
-     
+            Log::debug("Message sent to organization {$animal->organization->id} for animal {$animal->id}");
+   
             $this->validate();
 
             $conversation =Conversation::create([

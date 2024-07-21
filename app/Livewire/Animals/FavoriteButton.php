@@ -4,6 +4,7 @@ namespace App\Livewire\Animals;
 
 use App\Models\Animal;
 use Livewire\Component;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteButton extends Component
@@ -22,6 +23,8 @@ class FavoriteButton extends Component
         $animal->increment('total_favorited');
         Auth::user()->favorites()->toggle($animal->id);
         $this->mount($animal);
+        $fav = $this->is_favorite ? 'toggled to favorite' : 'toggled to unfavorite';
+        Log::debug("Toggled favorite for animal {$animal->id}, belonging to organization {$animal->organization->id}, current favorite state: $fav ");
     }
 
     public function render()

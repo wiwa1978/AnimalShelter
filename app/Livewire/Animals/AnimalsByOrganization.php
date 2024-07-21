@@ -4,8 +4,9 @@ namespace App\Livewire\Animals;
 
 use App\Models\User;
 use App\Models\Animal;
-use App\Models\Organization;
 use Livewire\Component;
+use App\Models\Organization;
+use Illuminate\Support\Facades\Log;
 
 
 class AnimalsByOrganization extends Component
@@ -29,6 +30,7 @@ class AnimalsByOrganization extends Component
         $this->isAnimalBelongsToParticulier = Organization::isIndividual($this->organization->id)->exists();
         $this->animals_count = $this->animals->count();
         
+        Log::debug("Retrieving animals for organization {$organization->id}");
     }
 
     public function render()
