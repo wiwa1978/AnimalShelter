@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Admin\Resources\AnimalResource\Widgets;
+namespace App\Filament\Admin\Widgets;
 
 use App\Models\Animal;
 use Filament\Widgets\ChartWidget;

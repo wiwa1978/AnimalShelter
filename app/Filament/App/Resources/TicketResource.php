@@ -20,7 +20,8 @@ use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use App\Filament\App\Resources\TicketResource\Pages;
-use App\Filament\App\Resources\TicketResource\RelationManagers\CommentsRelationManager as AppCommentsRelationManager;
+use App\Filament\App\Resources\TicketResource\RelationManagers\CommentsRelationManager;
+
 
 class TicketResource extends Resource
 {
@@ -195,7 +196,7 @@ class TicketResource extends Resource
     public static function getRelations(): array
     {
         return [
-            AppCommentsRelationManager::class,
+            CommentsRelationManager::class,
         ];
     }
 

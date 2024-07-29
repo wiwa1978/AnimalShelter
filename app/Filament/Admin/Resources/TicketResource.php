@@ -20,7 +20,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use App\Filament\Admin\Resources\TicketResource\Pages;
-use App\Filament\Admin\Resources\TicketResource\RelationManagers\CommentsRelationManager as AdminCommentsRelationManager;
+use App\Filament\Admin\Resources\TicketResource\RelationManagers\CommentsRelationManager;
 
 class TicketResource extends Resource
 {
@@ -203,7 +203,7 @@ class TicketResource extends Resource
     public static function getRelations(): array
     {
         return [
-            AdminCommentsRelationManager::class,
+            CommentsRelationManager::class,
         ];
     }
 
