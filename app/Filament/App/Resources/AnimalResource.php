@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Actions\Action;
 use Filament\Forms;
 use App\Models\User;
-use Filament\Forms\Components\Actions;
 use Filament\Tables;
 use App\Models\Animal;
 use App\Models\History;
@@ -33,6 +32,7 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\IconColumn;
@@ -47,6 +47,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\App\Resources\AnimalResource\Pages;
+use Filament\Notifications\Events\DatabaseNotificationsSent;
 
 class AnimalResource extends Resource
 {
@@ -767,6 +768,8 @@ class AnimalResource extends Resource
                                 ->title(__('animals_back.animal_publication_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name]))
                                 ->info()
                                 ->sendToDatabase($user);
+
+                                event(new DatabaseNotificationsSent($user));
                             }
 
                             $history = new History();
@@ -777,7 +780,7 @@ class AnimalResource extends Resource
                             $history->description = 'Publicatie aangevraagd voor '. $animal->name;
                             $history->save();
 
-                            //event(new DatabaseNotificationsSent($recipient));
+                            
                         })
                         ->visible(function (Animal $record) {
                             return $record->published_state->value == AnimalPublishState::DRAFT->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false;
@@ -818,6 +821,9 @@ class AnimalResource extends Resource
                                 ->title(__('animals_back.animal_unpublication_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name]))
                                 ->info()
                                 ->sendToDatabase($user);
+
+                            
+                                event(new DatabaseNotificationsSent($user));
                             }
 
                             $history = new History();

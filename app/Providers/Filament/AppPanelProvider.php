@@ -70,7 +70,7 @@ class AppPanelProvider extends PanelProvider
             ->emailVerification(EmailVerification::class)
             ->spa()
             ->databaseNotifications()
-            ->databaseNotificationsPolling('10s')
+            //->databaseNotificationsPolling('10s')
             ->unsavedChangesAlerts()
             ->databaseTransactions()
             ->colors([
