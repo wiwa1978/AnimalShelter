@@ -53,7 +53,11 @@ class AdminPanelProvider extends PanelProvider
                     ->url(fn (): string => ApprovalAnimal::getUrl())
                     ->icon('heroicon-o-presentation-chart-line')
                     ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.animals.approval'))
-                    ->badge(fn () => ApprovalAnimal::getNavigationBadge())
+                    ->badge(fn () => ApprovalAnimal::getNavigationBadge()),
+                NavigationItem::make('Pulse')
+                    ->url('/pulse')
+                    ->group('Logs')
+                    ->icon('heroicon-o-bolt')
 
             ])
             ->maxContentWidth(MaxWidth::Full)
@@ -122,8 +126,8 @@ class AdminPanelProvider extends PanelProvider
                         \Amendozaaguiar\FilamentRouteStatistics\FilamentRouteStatisticsPlugin::make(),
                         \Brickx\MaintenanceSwitch\MaintenanceSwitchPlugin::make(),
                         \Saade\FilamentLaravelLog\FilamentLaravelLogPlugin::make()
-                            ->navigationGroup('System Tools')
-                            ->navigationLabel('Logs')
+                            ->navigationGroup('Logs')
+                            ->navigationLabel('Laravel Log')
                             ->navigationIcon('heroicon-o-bug-ant')
                             ->navigationSort(1)
                             ->slug('logs')

@@ -65,7 +65,7 @@
 									<p class="text-rose-700"></p>
 								</div>
 							@endif
-					@endauth
+						@endauth
 
 						@if ($isAnimalBelongsToShelter)
 							<h2 class="text-xl font-medium leading-6 text-indigo-900">{{ __('animals_front.shelter') }}

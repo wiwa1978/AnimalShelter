@@ -4,9 +4,10 @@ namespace App\Providers;
 
 use App\Models\User;
 use App\Observers\UserObserver;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use App\Http\Responses\CustomLoginResponse;
 // use App\Http\Middleware\VerifyOrganizationIsBillable;
+use App\Http\Responses\CustomLoginResponse;
 use Filament\Http\Responses\Auth\Contracts\LoginResponse;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,5 +35,10 @@ class AppServiceProvider extends ServiceProvider
             'Filament\Billing\Providers\Http\Middleware\VerifySparkBillableIsSubscribed',
             //VerifyOrganizationIsBillable::class
         );
+
+        Gate::define('viewPulse', function (User $user) {
+            return $user->isSuperAdmin();
+        });
+     
     }
 }
