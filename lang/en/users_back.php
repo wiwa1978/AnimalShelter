@@ -9,6 +9,23 @@ return [
     'user_profile' => 'User Profile',
     'my_user_profile' => 'My Profile',
     'users_overview' => 'Overview teammembers',
+    'added_at' => 'Date added',
+    'invited_at' => 'Date invited',
+    'is_not_invited' => 'Was not invited',
+    'invited' => 'Was Invited',
+    'organization_type' => 'Organisation Type',
+    'invite_user' => 'Invite Teammember',
+    'my_data' => 'My data',
+    'my_profile' => 'My Profile',
+    'your_data' => 'Your data',
+    'all_users' => 'All Users', 
+    'invitations_overview' => 'Overview Invitations',
+    'invitation' => 'Invitation',
+    'invitations' => 'Invitations',
+    'member_since' => 'member since',
+
+
+
 ];
 
 

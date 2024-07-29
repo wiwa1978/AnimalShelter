@@ -43,7 +43,7 @@ class EditOrganizationProfile extends EditTenantProfile
         }
 
         //return 'Jouw profiel' ;
-        return 'Jouw gegevens (' . $organization_type . ')';
+        return __('users_back.your_data') . ' - ' . $organization_type ;
     }
 
     public function form(Form $form): Form

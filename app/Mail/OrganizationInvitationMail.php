@@ -2,7 +2,7 @@
 
 namespace App\Mail;
 
-use App\Models\Invitation;
+use App\Models\UserInvitation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\URL;
@@ -15,12 +15,12 @@ class OrganizationInvitationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    private Invitation $invitation;
+    private UserInvitation $invitation;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Invitation $invitation)
+    public function __construct(UserInvitation $invitation)
     {
         $this->invitation = $invitation;
     }

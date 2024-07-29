@@ -73,6 +73,8 @@ return new class extends Migration
             $table->text('photos_additional')->nullable();
             $table->text('videos')->nullable();
             $table->text('youtube_links')->nullable();
+            $table->boolean('animaloftheweek')->nullable()->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

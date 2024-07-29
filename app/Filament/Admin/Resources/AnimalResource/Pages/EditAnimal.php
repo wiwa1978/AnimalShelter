@@ -18,8 +18,6 @@ class EditAnimal extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
-           
-            //\Mansoor\FilamentVersionable\Page\RevisionsAction::make(),
         ];
 
        

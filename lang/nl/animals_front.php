@@ -175,5 +175,6 @@ return [
     'germany' => 'Duitsland',
     'belgium' => 'België',
     'male' => 'Mannelijk',
-    'female' => 'Vrouwelijk'    
+    'female' => 'Vrouwelijk',
+    'animal-week' => 'Dieren van de week',   
 ];

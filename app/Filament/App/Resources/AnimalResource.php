@@ -3,10 +3,13 @@
 namespace App\Filament\App\Resources;
 
 use Carbon\Carbon;
+use Actions\Action;
 use Filament\Forms;
 use App\Models\User;
+use Filament\Forms\Components\Actions;
 use Filament\Tables;
 use App\Models\Animal;
+use App\Models\History;
 use Filament\Forms\Form;
 use App\Enums\AnimalSize;
 use App\Enums\AnimalType;
@@ -31,10 +34,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
-use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\IconColumn;
-
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
@@ -44,11 +45,9 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
-use App\Filament\App\Widgets\StatsOverview;
 use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\App\Resources\AnimalResource\Pages;
-use Filament\Notifications\Events\DatabaseNotificationsSent;
-use App\Filament\App\Resources\AnimalResource\RelationManagers;
+
 
 class AnimalResource extends Resource
 {
@@ -80,13 +79,6 @@ class AnimalResource extends Resource
     //     }
 
     // }
-
-    public static function getWidgets(): array
-    {
-        return [
-            StatsOverview::class,
-        ];
-    }
 
 
     public static function getPluralModelLabel(): string
@@ -357,6 +349,7 @@ class AnimalResource extends Resource
                             ->schema([
                                 FileUpload::make('photo_featured')
                                     ->label(__('animals_back.photo_featured'))
+                                    //->disk('s3')
                                     ->acceptedFileTypes($types = ['jpg', 'jpeg', 'png'])
                                     ->image()
                                     ->maxSize(15000) // Set the maximum size of files that can be uploaded, in kilobytes.
@@ -366,6 +359,7 @@ class AnimalResource extends Resource
                                 
                                 FileUpload::make('photos_additional')
                                     ->label(__('animals_back.photos_additional'))
+                                    //->disk('s3')
                                     ->multiple()
                                     ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
                                     ->reorderable()
@@ -650,7 +644,8 @@ class AnimalResource extends Resource
                         ->toggleable(isToggledHiddenByDefault: true),
         
                     ]
-            )->defaultSort('created_at', 'desc') 
+            )
+            ->defaultSort('created_at', 'desc') 
             ->filters([
                 Tables\Filters\Filter::make('featured')
                     ->label(__('animals_back.featured'))
@@ -729,9 +724,14 @@ class AnimalResource extends Resource
             ])
             ->actions([
                 ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\ViewAction::make()
+                        ->color('secondary'),
+
+                    Tables\Actions\EditAction::make()
+                        ->color('secondary'),
+
                     Tables\Actions\Action::make('delete')
+                        ->color('secondary')
                         ->icon('heroicon-o-trash')
                         ->action(fn (Animal $record) => $record->delete())
                         ->requiresConfirmation()
@@ -743,11 +743,11 @@ class AnimalResource extends Resource
                     Tables\Actions\Action::make('Publish')
                         ->label(__('animals_back.publish_request'))
                         ->requiresConfirmation()
-                        ->modalHeading('Aanvraag tot publicatie')
-                        ->modalDescription('Ons team zal de geleverde informatie even controleren en u op de hoogte brengen van de status. Indien er nog aanpassingen dienen te gebeuren hoort u dat eveneens van ons')
-                        ->modalSubmitActionLabel('Verstuur aanvraag')
+                        ->modalHeading(__('animals_back.request_to_publish')) 
+                        ->modalDescription(__('animals_back.request_to_publish_description'))
+                        ->modalSubmitActionLabel(__('animals_back.sent_publish_request'))
                         ->icon('heroicon-m-pencil-square')
-                        ->color('info')
+                        ->color('primary')
                         ->action(function (Animal $animal, array $data): void {
                             $animal->published_state = AnimalPublishState::REQUESTPENDING;
                             $animal->approval_state = AnimalApprovalState::INREVIEW;
@@ -755,14 +755,29 @@ class AnimalResource extends Resource
                             $animal->unapprove_reason = null;
                             $animal->save();
                             
-                            $recipient = Auth::user();
-                           
-                            Notification::make()
-                                ->title('Dier publicatie aangevraagd')
-                                ->body('Dier met naam ' . $animal->name . ' succesvol aangevraagd voor publicatie')
-                                ->sendToDatabase($recipient);
+                            $users = $animal->organization->users;
 
-                           event(new DatabaseNotificationsSent($recipient));
+                            Notification::make()
+                                ->title(__('animals_back.animal_publication_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->info()
+                                ->send();
+
+                            foreach ($users as $user) {
+                                Notification::make()
+                                ->title(__('animals_back.animal_publication_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name] ))
+                                ->info()
+                                ->sendToDatabase($user);
+                            }
+
+                            $history = new History();
+                            $history->model_id = $animal->id;
+                            $history->model_type = 'App\Models\Animal';
+                            $history->user_id = Auth::user()->id;
+                            $history->organization_id = Auth::user()->organization()->id;
+                            $history->description = 'Publicatie aangevraagd voor '. $animal->name; 
+                            $history->save(); 
+
+                           //event(new DatabaseNotificationsSent($recipient));
                         })
                         ->visible(function (Animal $record) {
                             return $record->published_state->value == AnimalPublishState::DRAFT->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false; 
@@ -773,10 +788,10 @@ class AnimalResource extends Resource
                         ->icon('heroicon-m-pencil-square')
                         ->label(__('animals_back.unpublish'))
                         ->requiresConfirmation()
-                        //->modalHeading('Aanvraag tot publicatie')
-                        //->modalDescription('Ons team zal de geleverde informatie even controleren en u op de hoogte brengen van de status. Indien er nog aanpassingen dienen te gebeuren hoort u dat eveneens van ons')
-                        //->modalSubmitActionLabel('Publiceer')
-                        ->color('info')
+                        ->modalHeading(__('animals_back.request_to_unpublish')) 
+                        ->modalDescription(__('animals_back.request_to_unpublish_description'))
+                        ->modalSubmitActionLabel(__('animals_back.sent_unpublish_request'))
+                        ->color('primary')
                         ->form([
                             Forms\Components\TextInput::make('unpublish_reason')
                                 ->label(__('animals_back.reason_unpublish'))
@@ -785,19 +800,34 @@ class AnimalResource extends Resource
                         ])
                         ->action(function (Animal $animal, array $data): void {
                             $animal->published_state = AnimalPublishState::DRAFT;
-                            $animal->approval_state = AnimalApprovalState::NOTAPPLICABLE;;
+                            $animal->approval_state = AnimalApprovalState::NOTAPPLICABLE;
                             $animal->unpublished_at = Carbon::now()->format('Y-m-d H:i:s');
                             $animal->unpublish_reason = $data['unpublish_reason'];
                             $animal->save();
 
-                            $recipient = Auth::user();
-                           
+                            $users = $animal->organization->users;
+
                             Notification::make()
-                                ->title('Dier niet langer gepubliceerd')
-                                ->body('Dier met naam ' . $animal->name . ' wordt niet langer gepubliceerd op onze website')
-                                ->sendToDatabase($recipient);
-    
-                            event(new DatabaseNotificationsSent($recipient));
+                                ->title(__('animals_back.animal_unpublication_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->info()
+                                ->send();
+                       
+
+                            foreach ($users as $user) {
+                                Notification::make()
+                                ->title(__('animals_back.animal_unpublication_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->info()
+                                ->sendToDatabase($user);
+                            }
+
+                            $history = new History();
+                            $history->model_id = $animal->id;
+                            $history->model_type = 'App\Models\Animal';
+                            $history->user_id = Auth::user()->id;
+                            $history->organization_id = Auth::user()->organization()->id;
+                            $history->description = 'Verwijderen van site aangevraagd voor '. $animal->name; 
+                            $history->save(); 
+
                         })
                         ->visible(function (Animal $record) {
                             return $record->published_state->value == AnimalPublishState::PUBLISHED->value ? true : false;
@@ -807,37 +837,160 @@ class AnimalResource extends Resource
                         ->icon('heroicon-m-pencil-square')
                         ->label(__('animals_back.retrieve'))
                         ->requiresConfirmation()
-                        //->modalHeading('Aanvraag tot publicatie')
-                        //->modalDescription('Ons team zal de geleverde informatie even controleren en u op de hoogte brengen van de status. Indien er nog aanpassingen dienen te gebeuren hoort u dat eveneens van ons')
-                        //->modalSubmitActionLabel('Publiceer')
-                        ->color('info')
+                        ->color('primary')
                         ->action(function (Animal $animal, array $data): void {
                             $animal->published_state = AnimalPublishState::DRAFT;
                             $animal->approval_state = AnimalApprovalState::NOTAPPLICABLE;
                             $animal->save();
 
-                            $recipient = Auth::user();
+                            $users = $animal->organization->users;
 
                             Notification::make()
-                            ->title('Aanvraag teruggetrokken')
-                            ->body('Aanvraag voor dier met naam ' . $animal->name . ' wordt teruggetrokken')
-                            ->sendToDatabase($recipient);
+                                ->title(__('animals_back.animal_retrieval_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->info()
+                                ->send();
 
-                        event(new DatabaseNotificationsSent($recipient));
+                            foreach ($users as $user) {
+                                Notification::make()
+                                ->title(__('animals_back.animal_retrieval_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->info()
+                                ->sendToDatabase($user);
+                            }
+
+                            $history = new History();
+                            $history->model_id = $animal->id;
+                            $history->model_type = 'App\Models\Animal';
+                            $history->user_id = Auth::user()->id;
+                            $history->organization_id = Auth::user()->organization()->id;
+                            $history->description = 'Aanvraag ingetrokken voor '. $animal->name; 
+                            $history->save(); 
+
                         })
                         ->visible(function (Animal $record) {
                             return $record->published_state->value == AnimalPublishState::REQUESTPENDING->value ? true : false;
                         }),
+
+                        
+                    Tables\Actions\Action::make('In de kijker')
+                        ->requiresConfirmation()
+                        ->label(__('animals_back.featured'))
+                        ->icon('heroicon-o-eye')
+                        ->color('primary')
+                        ->action(function (Animal $animal, array $data): void {
+                            $featuredAnimalsCount = Animal::where('featured', true)
+                                    ->where('organization_id', auth()->user()->organization()->id)
+                                    ->count();
+                            
+                            $recipient = Auth::user();
+                            $users = $animal->organization->users;
+
+                            if ($featuredAnimalsCount >= 1) {
+                                Log::debug("User $recipient->id | Organisation {$recipient->organization()->id}: trying to put animal with id {$animal->id} in the picture but organization has already {$featuredAnimalsCount} in the picture");
+
+                                Notification::make()
+                                    ->title(__('animals_back.featured_limit_reached_title'))
+                                    ->danger()
+                                    ->send();
+    
+                                foreach ($users as $user) {
+                                    Notification::make()
+                                        ->title(__('animals_back.featured_limit_reached_title'))
+                                        ->danger()
+                                        ->sendToDatabase($user);
+                                }
+
+                                $history = new History();
+                                $history->model_id = $animal->id;
+                                $history->model_type = 'App\Models\Animal';
+                                $history->user_id = Auth::user()->id;
+                                $history->organization_id = Auth::user()->organization()->id;
+                                $history->description = 'In de kijker plaatsen van '. $animal->name . 'is mislukt. Maximum aantal dieren in de kijker bereikt'; 
+                                $history->save(); 
+
+                            }
+                            else {
+                                $animal->featured = true;
+                                $animal->save();
+
+                                Log::debug("User $recipient->id | Organisation {$recipient->organization()->id}: Animal with id {$animal->id} was put successfully in the picture");
+
+                                Notification::make()
+                                    ->title(__('animals_back.featured_added', [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                    ->info()
+                                    ->send();
+    
+                                foreach ($users as $user) {
+                                    Notification::make()
+                                        ->title(__('animals_back.featured_added', ['name' => $animal->name, 'user' => Auth::user()->name]))
+                                        ->info()
+                                        ->sendToDatabase($user);
+                                }
+
+                                $history = new History();
+                                $history->model_id = $animal->id;
+                                $history->model_type = 'App\Models\Animal';
+                                $history->user_id = Auth::user()->id;
+                                $history->organization_id = Auth::user()->organization()->id;
+                                $history->description = $animal->name . ' werd zonet in de kijker geplaatst op onze site'; 
+                                $history->save(); 
+
+                            }
+
+                        })
+                        ->visible(function (Animal $record) {
+                            return $record-> featured ? false : true;
+                        
+                        }),
+
+                    Tables\Actions\Action::make('Uit de kijker')
+                        ->requiresConfirmation()
+                        ->label(__('animals_back.unfeatured'))
+                        ->icon('heroicon-o-eye')
+                        ->color('primary')
+                        ->action(function (Animal $animal, array $data): void {
+                            $animal->featured = false;
+                            $animal->save();
+
+                            $recipient = Auth::user();
+                            $users = $animal->organization->users;
+
+                            Log::debug("User $recipient->id | Organisation {$recipient->organization()->id}: Animal with id {$animal->id} was put successfully removed from the picture");
+
+
+                            Notification::make()
+                                ->title(__('animals_back.featured_removed', ['name' => $animal->name, 'user' => Auth::user()->name] ))
+                                ->info()
+                                ->send();
+
+                            foreach ($users as $user) {
+                                Notification::make()
+                                    ->title(__('animals_back.featured_removed', ['name' => $animal->name, 'user' => Auth::user()->name]))
+                                    ->info()
+                                    ->sendToDatabase($user);
+                            }
+
+                            $history = new History();
+                            $history->model_id = $animal->id;
+                            $history->model_type = 'App\Models\Animal';
+                            $history->user_id = Auth::user()->id;
+                            $history->organization_id = Auth::user()->organization()->id;
+                            $history->description = $animal->name . ' staat niet langer in de kijker'; 
+                            $history->save(); 
+                        })
+                        ->visible(function (Animal $record) {
+                            return $record-> featured ? true : false;
+                        
+                        }),
                 
                 
                  ])
-                ->iconButton()
-                ->label( __('animals_back.actions'))
-                ->button()
-                ->icon('heroicon-m-ellipsis-horizontal')
+                //->label(__('animals_back.actions'))
+                //->button()
+                //->icon('heroicon-m-ellipsis-horizontal')
                 ->color('primary'),
                 
             ])
+
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

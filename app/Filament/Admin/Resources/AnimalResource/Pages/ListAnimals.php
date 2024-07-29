@@ -29,28 +29,31 @@ class ListAnimals extends ListRecords
         $animal_types = AnimalType::cases();
         $animal_publish_state = AnimalPublishState::cases();
 
+        $tabs['all'] = Tab::make()
+            ->badge((string)Animal::count());
+       
+        foreach ($animal_types as $type) {
+            $tabs[Str::headline($type->value)] = Tab::make()
+                ->badge((string)Animal::query()->where('animal_type', $type)->count())
+                ->modifyQueryUsing(fn (Builder $query) => $query->where('animal_type', $type));
+        }
 
-        $tabs = [
-            'all' => Tab::make()
-                ->badge((string)Animal::count()),
 
-            'Featured' => Tab::make()
-                ->badge((string)Animal::query()->where('featured', True)->count())
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('featured', True))
-        ];
+        $tabs['featured'] = Tab::make()
+            ->badge((string)Animal::query()->where('featured', True)->count())
+            ->modifyQueryUsing(fn (Builder $query) => $query->where('featured', True));
 
+    
         foreach ($animal_publish_state as $state) {
             $tabs[Str::headline($state->value)] = Tab::make()
                 ->badge((string)Animal::query()->where('published_state', $state)->count())
                 ->modifyQueryUsing(fn (Builder $query) => $query->where('published_state', $state));
         }
 
-
-        foreach ($animal_types as $type) {
-            $tabs[Str::headline($type->value)] = Tab::make()
-                ->badge((string)Animal::query()->where('animal_type', $type)->count())
-                ->modifyQueryUsing(fn (Builder $query) => $query->where('animal_type', $type));
-        }
+        $tabs['animaloftheweek'] = Tab::make()
+            ->label('Animal of the week')
+            ->badge((string)Animal::query()->where('animaloftheweek', True)->count())
+            ->modifyQueryUsing(fn (Builder $query) => $query->where('animaloftheweek', True));
 
         return $tabs;
     }

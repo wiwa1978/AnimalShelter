@@ -17,9 +17,20 @@ return [
     'current_plan' => 'Huidig abonnement',
     'user_profile' => 'Mijn profiel',
     'my_user_profile' => 'Mijn profiel',
-    'users_overview' => 'Overzicht teamleden',
-
-
-
-    
+    'users_overview' => 'Overzicht Teamleden',
+    'added_at' => 'Toegevoegd op',
+    'invited_at' => 'Uitgenodigd op',
+    'is_not_invited' => 'Werd niet uitgenodigd',
+    'invited' => 'Werd uitgenodigd',
+    'organization_type' => 'Type Organisatie',
+    'invited_by' => 'Uitgenodigd door',
+    'invite_user' => 'Teamlid uitnodigen',
+    'my_data' => 'Mijn gegevens',
+    'my_profile' => 'Website profiel',
+    'your_data' => 'Gegevens',
+    'all_users' => 'Alle Gebruikers',
+    'invitations_overview' => 'Overzicht Uitnodigingen',
+    'invitation' => 'Uitnodiging',
+    'invitations' => 'Uitnodigingen',
+    'member_since' => 'Lid sinds',
 ];

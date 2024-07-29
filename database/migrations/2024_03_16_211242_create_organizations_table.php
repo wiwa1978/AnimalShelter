@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->boolean('free_forever')->nullable()->default(false);
             $table->rememberToken();
-
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -32,6 +32,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Organization::class)->index();
             $table->foreignIdFor(User::class)->index();
+            $table->softDeletes();
+            $table->timestamps();
         });
     }
 

@@ -11,14 +11,15 @@ use App\Models\Organization;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\MaxWidth;
+use Illuminate\Support\Facades\Auth;
 use Filament\Navigation\NavigationItem;
 use App\Filament\App\Pages\Auth\Register;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
-use App\Filament\App\Pages\Auth\EmailVerification;
 //use Filament\Billing\Providers\SparkBillingProvider;
 //use App\Http\Middleware\VerifyOrganizationIsBillable;
+use App\Filament\App\Pages\Auth\EmailVerification;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
@@ -35,26 +36,26 @@ class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-        
+       
         return $panel
             ->id('app')
             ->path('app')
-        
             ->darkMode(true)
             ->navigationItems([
-                NavigationItem::make('Mijn gegevens')
-                    ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile')
+                NavigationItem::make()
+                    ->label(__('users_back.my_data'))
+                    ->url(fn() => '/app/'. auth()->user()->organization()->id . '/profile')
                     ->group('Gebruikersbeheer')
-                    ->icon('heroicon-o-user-circle'),
+                    ->icon('heroicon-o-user-circle'), 
                 // NavigationItem::make('Abonnement')
                 //     ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
                 //     ->group('Gebruikersbeheer')
                 //     ->icon('heroicon-o-banknotes')
                 //     ->visible(fn() => env('BILLING_ENABLED', true)),
             ])
-            ->brandName('Animals')
-            ->brandLogo(asset('storage/images/logo3.svg'))
-            ->favicon(asset('storage/images/logo3.svg'))
+            ->brandName('Lief dier - Lief thuis')
+            ->brandLogo(asset('storage/images/icon_logo.svg'))
+            ->favicon(asset('storage/images/icon_logo.svg'))
             //->tenantBillingProvider(new SparkBillingProvider())
             //->tenantBillingRouteSlug('billing')
             //->requiresTenantSubscription()
@@ -75,7 +76,8 @@ class AppPanelProvider extends PanelProvider
             ->unsavedChangesAlerts()
             ->databaseTransactions()
             ->colors([
-                'primary' => Color::hex('#BE123C'),  //#881337
+                'primary' => Color::hex('#BE123C'),    // #88 13 37
+                'secondary' => Color::hex('#312E81'),  // #49 46 129
                 'danger' => Color::Red, 
                 'success' => Color::Green,
                 'warning' => Color::Yellow,
@@ -83,7 +85,7 @@ class AppPanelProvider extends PanelProvider
             ])
             ->userMenuItems([
                 MenuItem::make()
-                    ->label('Back to website')
+                    ->label('Terug naar website')
                     ->icon('heroicon-o-link')
                     ->url('/'),
                 MenuItem::make()
@@ -92,15 +94,15 @@ class AppPanelProvider extends PanelProvider
                     ->url('/admin')
                     ->visible(fn () => auth()->user()->isSuperAdmin()),
                 MenuItem::make()
-                    ->label('Mijn gegevens')
+                    ->label(__('users_back.my_data'))
                     ->icon('heroicon-o-user-circle')
                     ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile'),
                 MenuItem::make()
-                    ->label(fn() => 'Mijn profiel')
+                    ->label(__('users_back.my_profile'))
                     //->url(fn (): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle')                    //If you are using tenancy need to check with the visible method where ->company() is the relation between the user and tenancy model as you called
                     ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/my-profile')
-                    
+
                     ->visible(function (): bool {
                         return auth()->check();
                     }),
@@ -122,10 +124,11 @@ class AppPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/App/Widgets'), for: 'App\\Filament\\App\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                //Widgets\FilamentInfoWidget::class,
                 
             ])
             ->plugins([
+                
                 \Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin::make()
                     ->color('#BE123C'),
                 \Kenepa\Banner\BannerPlugin::make()
@@ -134,8 +137,8 @@ class AppPanelProvider extends PanelProvider
                     \MarcoGermani87\FilamentCookieConsent\FilamentCookieConsent::make(),
                     \Joaopaulolndev\FilamentEditProfile\FilamentEditProfilePlugin::make()
                         ->slug('my-profile')
-                        ->setTitle(__('users_back.my_user_profile'))
-                        ->setNavigationLabel(__('users_back.user_profile'))
+                        ->setTitle(__('users_back.my_profile'))
+                        ->setNavigationLabel(__('users_back.my_profile'))
                         ->setNavigationGroup(__('users_back.user_management'))
                         ->setIcon('heroicon-o-user')
                         // ->setSort(10)

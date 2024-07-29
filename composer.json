@@ -13,6 +13,7 @@
         "brickx/maintenance-switch": "^1.0",
         "filament/filament": "^3.2",
         "filament/notifications": "^3.2",
+        "flowframe/laravel-trend": "^0.2.0",
         "howdu/filament-record-switcher": "^1.0",
         "joaopaulolndev/filament-check-ssl-widget": "^1.0",
         "joaopaulolndev/filament-edit-env": "^1.0",
@@ -21,6 +22,7 @@
         "kenepa/banner": "^0.0.5",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
+        "league/flysystem-aws-s3-v3": "^3.28",
         "livewire/livewire": "^3.4",
         "mansoor/filament-versionable": "^0.0.8",
         "marcogermani87/filament-cookie-consent": "^1.0",
@@ -36,7 +38,6 @@
         "torann/geoip": "^3.0"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",

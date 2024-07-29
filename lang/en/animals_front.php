@@ -170,7 +170,8 @@ return [
     'germany' => 'Germany',
     'belgium' => 'Belgium',
     'male' => 'Male',
-    'female' => 'Female'
+    'female' => 'Female',
+    'animal-week' => 'Animals of the week',
 
 ];
 

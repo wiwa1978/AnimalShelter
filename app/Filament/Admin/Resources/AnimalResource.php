@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Animal;
+use App\Models\History;
 use Filament\Forms\Form;
 use App\Enums\AnimalSize;
 use App\Enums\AnimalType;
@@ -31,21 +32,20 @@ use Filament\Forms\Components\Wizard;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Repeater;
-use Filament\Tables\Columns\IconColumn;
 //use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use Filament\Tables\Columns\Summarizers\Sum;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\MarkdownEditor;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Admin\Resources\AnimalResource\Pages;
 use AymanAlhattami\FilamentContextMenu\ContextMenuDivider;
 use Rmsramos\Activitylog\Actions\ActivityLogTimelineAction;
@@ -54,6 +54,7 @@ use Schmeits\FilamentCharacterCounter\Forms\Components\Textarea;
 use App\Filament\Admin\Resources\AnimalResource\RelationManagers;
 use AymanAlhattami\FilamentContextMenu\Traits\PageHasContextMenu;
 use Schmeits\FilamentCharacterCounter\Forms\Components\TextInput;
+use Schmeits\FilamentCharacterCounter\Forms\Components\RichEditor;
 use App\Filament\Admin\Resources\AnimalResource\Pages\CreateAnimal;
 
 class AnimalResource extends Resource
@@ -76,7 +77,7 @@ class AnimalResource extends Resource
 
     public static function getPluralModelLabel(): string
     {
-        return __('animals_back.my_animals');
+        return __('animals_back.all_animals');
     }
 
 
@@ -152,7 +153,7 @@ class AnimalResource extends Resource
                                         ->label(__('animals_back.name'))
                                         ->minLength(2)
                                         ->maxLength(100)
-                                        //->characterLimit(100)
+                                        ->characterLimit(100)
                                         ->required()
                                         ->live(onBlur: true)
                                         ->afterStateUpdated(fn ($state, callable $set) => $set('slug', Str::slug($state)))
@@ -168,6 +169,7 @@ class AnimalResource extends Resource
                                     RichEditor::make('description')
                                         ->label(__('animals_back.description'))
                                         ->required()
+                                        ->characterLimit(20000)
                                         ->maxLength(65535)
                                         ->columnSpanFull(),
         
@@ -427,6 +429,14 @@ class AnimalResource extends Resource
                         ->sortable()
                         ->boolean(),
         
+                    
+                    IconColumn::make('animaloftheweek')
+                        ->label(__('animals_back.animaloftheweek'))
+                        ->toggleable(isToggledHiddenByDefault: false)
+                        ->alignCenter()
+                        ->sortable()
+                        ->boolean(),
+
                     TextColumn::make('published_state')
                         ->label(__('animals_back.published'))
                         ->badge()
@@ -441,7 +451,7 @@ class AnimalResource extends Resource
                         ->searchable(),
         
                     TextColumn::make('approval_state')
-                        ->label(__('animals_back.approved'))
+                        ->label(__('animals_back.approval_state'))
                         ->badge()
                         ->color(fn (AnimalApprovalState $state): string => match ($state->value) {
                             AnimalApprovalState::INREVIEW->value => 'info',
@@ -470,6 +480,7 @@ class AnimalResource extends Resource
                     //     ->sortable()
                     //     ->numeric()
                     //     ->sortable(),
+
                    
                     TextColumn::make('current_location')
                         ->label(__('animals_back.current_location'))
@@ -677,22 +688,28 @@ class AnimalResource extends Resource
 
             ])
             ->actions([
-                //\Mansoor\FilamentVersionable\Table\RevisionsAction::make(),
 
                 ActionGroup::make([
-                    Tables\Actions\ViewAction::make(),
-                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\ViewAction::make()
+                        ->color('secondary'),
+
+                    Tables\Actions\EditAction::make()
+                        ->color('secondary'),
+
                     Tables\Actions\Action::make('delete')
+                        ->color('secondary')
                         ->icon('heroicon-o-trash')
                         ->action(fn (Animal $record) => $record->delete())
                         ->requiresConfirmation(),
-                    ActivityLogTimelineAction::make('Activities'),
+                        
+                    ActivityLogTimelineAction::make('Activities')
+                        ->color('primary'),
                     
                     Tables\Actions\Action::make('Publish')
                         ->requiresConfirmation()
                         ->label(__('animals_back.publish'))
                         ->icon('heroicon-o-eye')
-                        ->color('info')
+                        ->color('primary')
                         ->action(function (Animal $animal, array $data): void {
                             $animal->published_state = AnimalPublishState::PUBLISHED->value;
                             $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
@@ -700,7 +717,7 @@ class AnimalResource extends Resource
 
                             Notification::make()
                                 ->title(__('animals_back.success_published'))
-                                ->success('')
+                                ->success()
                                 ->body($animal->name . ' ' . __('animals_back.publish_success'))
                                 ->send();
 
@@ -714,7 +731,7 @@ class AnimalResource extends Resource
 
                     Tables\Actions\Action::make('Unpublish')
                         ->icon('heroicon-o-eye-slash')
-                        ->color('info')
+                        ->color('primary')
                         ->form([
                             Forms\Components\TextInput::make('unpublish_reason')
                                 ->label('Reason')
@@ -725,6 +742,7 @@ class AnimalResource extends Resource
                             $animal->unpublished_at = Carbon::now()->format('Y-m-d H:i:s');
                             $animal->unpublish_reason = $data['unpublish_reason'];
                             $animal->save();
+
                             Notification::make()
                                 ->title('Success')
                                 ->success('')
@@ -743,7 +761,7 @@ class AnimalResource extends Resource
                             ->modalSubmitActionLabel('Aanvraag goedkeuren')
                             ->icon('heroicon-o-hand-thumb-up')
                             ->label(__('animals_back.approve'))
-                            ->color('info')
+                            ->color('primary')
                             ->action(function (Animal $animal, array $data): void {
                                 $animal->approval_state = AnimalApprovalState::APPROVED->value;
                                 $animal->approved_at = Carbon::now()->format('Y-m-d H:i:s');
@@ -771,7 +789,7 @@ class AnimalResource extends Resource
                             ->modalSubmitActionLabel('Aanvraag afkeuren')
                             ->label(__('animals_back.unapprove'))
                             ->icon('heroicon-o-hand-thumb-down')
-                            ->color('info')
+                            ->color('primary')
                             ->form([
                                 Forms\Components\Textarea::make('unapprove_reason')
                                 ->label(__('animals_back.reason_unapprove'))
@@ -787,7 +805,7 @@ class AnimalResource extends Resource
 
                                 Notification::make()
                                     ->title(__('animals_back.success_unapproved'))
-                                    ->success('')
+                                    ->success()
                                     ->body($animal->name  . ' ' . __('animals_back.unapproved_success') )
                                     ->send();
                                 
@@ -804,8 +822,125 @@ class AnimalResource extends Resource
                                 return $record->approval_state->value == AnimalApprovalState::APPROVED->value ||  $record->approval_state->value == AnimalApprovalState::INREVIEW->value ? true : false; 
                             }),
 
+                         Tables\Actions\Action::make('Publish')
+                        ->label(__('animals_back.publish_request'))
+                        ->requiresConfirmation()
+                        ->modalHeading(__('animals_back.request_to_publish')) 
+                        ->modalDescription(__('animals_back.request_to_publish_description'))
+                        ->modalSubmitActionLabel(__('animals_back.sent_publish_request'))
+                        ->icon('heroicon-m-pencil-square')
+                        ->color('primary')
+                        ->action(function (Animal $animal, array $data): void {
+                            $animal->published_state = AnimalPublishState::REQUESTPENDING;
+                            $animal->approval_state = AnimalApprovalState::INREVIEW;
+                            $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
+                            $animal->unapprove_reason = null;
+                            $animal->save();
+                            
+                            $users = $animal->organization->users;
+
+                            Notification::make()
+                                ->title(__('animals_back.animal_publication_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->info()
+                                ->send();
+
+                            foreach ($users as $user) {
+                                Notification::make()
+                                ->title(__('animals_back.animal_publication_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name] ))
+                                ->info()
+                                ->sendToDatabase($user);
+                            }
+
+                            $history = new History();
+                            $history->model_id = $animal->id;
+                            $history->model_type = 'App\Models\Animal';
+                            $history->user_id = Auth::user()->id;
+                            $history->organization_id = Auth::user()->organization()->id;
+                            $history->description = 'Publicatie aangevraagd voor '. $animal->name; 
+                            $history->save(); 
+
+                           //event(new DatabaseNotificationsSent($recipient));
+                        })
+                        ->visible(function (Animal $record) {
+                            return $record->published_state->value == AnimalPublishState::DRAFT->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false; 
+                        }),
+                        
+                        Tables\Actions\Action::make('animaloftheweek')
+                            ->label(__('animals_back.animaloftheweek_make'))
+                            ->requiresConfirmation()
+                            ->icon('heroicon-m-pencil-square')
+                            ->color('primary')
+                            ->action(function (Animal $animal, array $data): void {
+                                $AnimalOfTheWeekCount = Animal::where('animaloftheweek', true)->count();
+                            
+                                $animal->animaloftheweek = true;
+                                $animal->save();
+                                
+                                $users = $animal->organization->users;
+
+                                if ($AnimalOfTheWeekCount >= 1) {
+                                    Notification::make()
+                                        ->title(__('animals_back.animaloftheweek_success',  [ 'name' => $animal->name]))
+                                        ->info()
+                                        ->send();
+
+                                    foreach ($users as $user) {
+                                        Notification::make()
+                                        ->title(__('animals_back.animaloftheweek_success', [ 'name' => $animal->name] ))
+                                        ->info()
+                                        ->sendToDatabase($user);
+                                    }
+                                }
+
+                                $history = new History();
+                                $history->model_id = $animal->id;
+                                $history->model_type = 'App\Models\Animal';
+                                $history->user_id = Auth::user()->id;
+                                $history->organization_id = Auth::user()->organization()->id;
+                                $history->description = $animal->name . ' is dier van de week geworden'; 
+                                $history->save(); 
+                        })
+                        ->visible(function (Animal $record) {
+                            return $record->animaloftheweek ? false : true; 
+                        }),     
+
+                    Tables\Actions\Action::make('animaloftheweek')
+                        ->label(__('animals_back.animaloftheweek_unmake'))
+                        ->requiresConfirmation()
+                        ->icon('heroicon-m-pencil-square')
+                        ->color('primary')
+                        ->action(function (Animal $animal, array $data): void {
+                            $animal->animaloftheweek = false;
+                            $animal->save();
+                            
+                            $users = $animal->organization->users;
+
+                            
+                            Notification::make()
+                                ->title(__('animals_back.animaloftheweek_fail',  [ 'name' => $animal->name]))
+                                ->info()
+                                ->send();
+
+                            foreach ($users as $user) {
+                                Notification::make()
+                                    ->title(__('animals_back.animaloftheweek_fail', [ 'name' => $animal->name] ))
+                                    ->info()
+                                    ->sendToDatabase($user);
+                            }
+                     
+                            $history = new History();
+                            $history->model_id = $animal->id;
+                            $history->model_type = 'App\Models\Animal';
+                            $history->user_id = Auth::user()->id;
+                            $history->organization_id = Auth::user()->organization()->id;
+                            $history->description = $animal->name . ' is niet langer dier van de week'; 
+                            $history->save(); 
+                    })
+                    ->visible(function (Animal $record) {
+                        return $record->animaloftheweek ? true : false; 
+                    }), 
+
                 ])
-                ->iconButton()
                 ->button()
                 ->label('Actions')
                 ->icon('heroicon-m-ellipsis-horizontal')
@@ -833,6 +968,7 @@ class AnimalResource extends Resource
             'index' => Pages\ListAnimals::route('/'),
             'create' => Pages\CreateAnimal::route('/create'),
             'edit' => Pages\EditAnimal::route('/{record}/edit'),
+            'approval' => Pages\ApprovalAnimal::route('/approval'),
         ];
     }
 }

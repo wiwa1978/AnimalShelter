@@ -75,6 +75,8 @@ class Animals extends Component
         }
 
 
+
+
     }
 
     // public function showAnimalDetail($id)

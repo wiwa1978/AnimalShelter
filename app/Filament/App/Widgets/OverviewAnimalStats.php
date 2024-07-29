@@ -4,11 +4,12 @@ namespace App\Filament\App\Widgets;
 
 use Filament\Facades\Filament;
 use Filament\Widgets\StatsOverviewWidget\Card;
-use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
-class StatsOverviewAnimal extends BaseWidget
+class OverviewAnimalStats extends BaseWidget
 {
+    protected static ?int $sort = 2;
+    
     protected function getStats(): array
     {
         $dogCount = Filament::getTenant()->animals()->dogs()->count();

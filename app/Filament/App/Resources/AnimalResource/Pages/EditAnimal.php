@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Filament\Resources\Pages\EditRecord;
 use App\Filament\App\Resources\AnimalResource;
+use App\Filament\App\Resources\AnimalResource\Widgets\AnimalOverview;
+use App\Filament\App\Resources\AnimalResource\Widgets\AnimalOverviewChart;
 
 class EditAnimal extends EditRecord
 {
@@ -18,6 +20,13 @@ class EditAnimal extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
+        ];
+    }
+
+    protected function getHeaderWidgets(): array {
+        return [
+            AnimalOverview::class,
+            //AnimalOverviewChart::class,
         ];
     }
 

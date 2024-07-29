@@ -9,8 +9,9 @@ use App\Models\Animal;
 use Illuminate\Support\Str;
 use App\Enums\OrganizationType;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -20,6 +21,7 @@ class Organization extends Model
 {
     use HasFactory;
     use LogsActivity;
+    use SoftDeletes;
     ///use Billable;
 
     protected $fillable = [
@@ -131,7 +133,8 @@ class Organization extends Model
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)
+            ->withTimestamps();
     }
 
     public function animals(): HasMany

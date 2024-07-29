@@ -8,4 +8,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    // server: {
+    //     https: {
+    //         key: 'C:/Laragon/etc/ssl/laragon.key',
+    //         cert: 'C:/Laragon/etc/ssl/laragon.crt',
+    //     },
+    // },
 });

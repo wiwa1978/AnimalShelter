@@ -1,3 +1,6 @@
+Logo gemaakt met https://shipfa.st/tools/logo-fast
+
+
 Composer.json:
     "laravel/spark-stripe" toevoegen
     "filament/spark-billing-provider" toevoegen

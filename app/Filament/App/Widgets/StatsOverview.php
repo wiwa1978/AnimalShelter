@@ -5,12 +5,14 @@ namespace App\Filament\App\Widgets;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Auth;
+
 use Filament\Widgets\StatsOverviewWidget\Card;
-use Filament\Widgets\StatsOverviewWidget\Stat;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 
 class StatsOverview extends BaseWidget
 {
+    protected static ?int $sort = 1;
+
     protected function getStats(): array
     {
         $userCount = Filament::getTenant()->users()->count();
@@ -23,4 +25,6 @@ class StatsOverview extends BaseWidget
             Card::make('Aantal favorieten', $favoriteCount),
         ];
     }
+
+    
 }

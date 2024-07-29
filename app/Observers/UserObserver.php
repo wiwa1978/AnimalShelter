@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Models\User;
-use App\Models\Invitation;
+use App\Models\UserInvitation;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +14,8 @@ class UserObserver
      */
     public function created(User $user): void
     {       
-        $invitation = Invitation::where('email', $user->email)->first();
+        Log::debug("User created: {$user->id}");
+        $invitation = UserInvitation::where('email', $user->email)->first();
 
         if ($user->invited && ($user->email == $invitation->email) ) {
             // User is invited, hence not creating an organization
@@ -23,8 +24,8 @@ class UserObserver
         else {
             // User is not invited, hence creating a new organization
             $organization = new Organization;
-            $organization->name = $user->name; // Set the organization name
-            $organization->organization_type = $user->organization_type; // Set the organization type
+            $organization->name = $user->name; 
+            $organization->organization_type = $user->organization_type; 
             $organization->save();
             Log::debug("Organization created: {$organization->id}");
     
@@ -36,7 +37,7 @@ class UserObserver
                 Log::debug("Not attaching role 'user' to {$user->id} with email {$user->email} => reason: user is super admin" );
             } else {
                 $user->assignRole('user');
-                    Log::debug("Attaching role 'user' to user {$user->id} with email {$user->email}" );
+                Log::debug("Attaching role 'user' to user {$user->id} with email {$user->email}" );
             }
         }
 
@@ -52,7 +53,6 @@ class UserObserver
      */
     public function updated(User $user): void
     {
-        //
     }
 
     /**
@@ -60,7 +60,37 @@ class UserObserver
      */
     public function deleted(User $user): void
     {
-        //
+        Log::debug("Deleting user: {$user->id}");
+
+    
+
+        $organization = Organization::find($user->organizations()->first()->id);
+       
+        // Remove the organization if it has no users
+        Log::debug('Organization ID: ' . $organization->id);
+        Log::debug('Organization amount of users: ' . $organization->users->count());
+
+        if ($organization->users->count() == 0) {
+            Log::debug('Organization ' .  $organization->id  . ' has no users, soft deleting organization');
+            
+            // Deactivate all animals associated with the organization
+            foreach ($organization->animals as $animal) {
+                $animal->delete();
+                //$animal->save(); // Save each animal's new state
+            }
+
+            // Detaching the user from the organization
+            $user->organizations()->detach();
+
+            // Deleting the organization
+            $organization->delete();
+        }
+        else {
+            Log::debug('Organization '.  $organization->id  .' has users, not deleting organization');
+            // Remove the user from the organization
+            $user->organizations()->detach();
+        }
+
     }
 
     /**

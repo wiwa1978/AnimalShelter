@@ -4,15 +4,17 @@ namespace App\Livewire;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\History;
 use Livewire\Component;
 use Filament\Forms\Form;
-use App\Models\Invitation;
 use Filament\Actions\Action;
 use Filament\Pages\Dashboard;
+use App\Models\UserInvitation;
 use Filament\Facades\Filament;
 use Filament\Pages\SimplePage;
 use Filament\Support\Colors\Color;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use SebastianBergmann\Type\VoidType;
 use Filament\Forms\Components\TextInput;
@@ -28,13 +30,13 @@ class AcceptInvitation extends SimplePage
     protected static string $view = 'components.livewire.accept-invitation';
 
     public int $invitation;
-    private Invitation $invitationModel;
+    private UserInvitation $invitationModel;
 
     public ?array $data = [];
 
     public function mount(): void
     {
-        $this->invitationModel = Invitation::findorFail($this->invitation);
+        $this->invitationModel = UserInvitation::findorFail($this->invitation);
 
         $this->form->fill([
             'email' => $this->invitationModel->email,
@@ -77,7 +79,7 @@ class AcceptInvitation extends SimplePage
     public function create(): void
     {
     
-        $this->invitationModel = Invitation::find($this->invitation);
+        $this->invitationModel = UserInvitation::find($this->invitation);
 
         $user = User::create([
             'name' => $this->form->getState()['name'],
@@ -86,17 +88,24 @@ class AcceptInvitation extends SimplePage
             'password' =>Hash::make($this->form->getState()['password']),
             'organization_type' => $this->invitationModel->organization_type,
             'invited' => true,
-            'invited_at' => Carbon::now(),
+            //'invited_at' => Carbon::now(),
+            'invited_at' => $this->invitationModel->created_at,
+            'invited_by' => $this->invitationModel->invited_by,
         ]);
 
         $user->assignRole('user');
         $user->organizations()->attach($this->invitationModel->organization_id);
 
-        //auth()->login($user);
-
-       
 
         $this->invitationModel->delete();
+
+        $history = new History();
+        $history->model_id = $user->id;
+        $history->model_type = 'App\Models\User';
+        $history->user_id = $user->id;
+        $history->organization_id = $user->organization()->id;
+        $history->description = 'Uitnodiging geaccepteerd door ' . $user->email . ' (' . $user->name . ')'; 
+        $history->save(); 
 
        // redirect()->to(filament.app.auth.login);
         //Filament::getPanel('app')->auth()->login($user);

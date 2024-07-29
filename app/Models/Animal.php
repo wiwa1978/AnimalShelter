@@ -14,25 +14,19 @@ use App\Enums\AnimalApprovalState;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Overtrue\LaravelVersionable\Versionable;
-use Overtrue\LaravelVersionable\VersionStrategy;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Animal extends Model
 {
     use HasFactory;
-    use Versionable;
     use LogsActivity;
-
-    protected $versionStrategy = VersionStrategy::SNAPSHOT;
+    use SoftDeletes;
 
     protected $fillable = [
         'name', 'slug', 'organization_id','date_added', 'published','featured', 'published_at', 'unpublished_at', 'approval_state', 'published_state','unpublished_reason', 'animal_type', 'current_location', 'original_location', 'current_kids', 'current_cats', 'current_dogs', 'current_home_alone', 'current_garden', 'adoption_fee', 'age','gender','status','size','breed','reason_adoption','sterilized','chipped','passport','vaccinated','rabies','medicins','special_food','behavioural_problem','kids_friendly_6y','kids_friendly_14y','cats_friendly','dogs_friendly','well_behaved','playful','everybody_friendly','affectionate','needs_garden','needs_movement','potty_trained','car_friendly','home_alone','knows_commands','experience_required','description','environment','photo_featured','photos_additional', 'videos', 'youtube_links'
        ];
-
-    protected $versionable = ['title', 'featured', 'approval_state', 'published_state', 'published_at', 'unpublished_at', 'unpublished_reason', 'description'];
-
 
     protected $casts = [
         'animal_type'           =>  AnimalType::class,
@@ -85,6 +79,11 @@ class Animal extends Model
     public function favorites()
     {
         return $this->belongsToMany(User::class, 'favorites');
+    }
+
+    public function histories()
+    {
+        return $this->hasMany(History::class);
     }
 
     public function scopeDogs($query)
@@ -141,6 +140,11 @@ class Animal extends Model
     public function scopePendingTreatment($query)
     {
         return $query->where('status', 'Pending treatment');
+    }
+
+    public function scopeWeek($query)
+    {
+        return $query->where('animaloftheweek', true);
     }
 
     public function scopeBelongsToShelter($query)

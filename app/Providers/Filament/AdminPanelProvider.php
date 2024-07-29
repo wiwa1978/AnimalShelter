@@ -9,6 +9,7 @@ use Filament\PanelProvider;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
 use Filament\Support\Enums\MaxWidth;
+use Filament\Navigation\NavigationItem;
 use Filament\Http\Middleware\Authenticate;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
@@ -19,6 +20,8 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use App\Filament\Admin\Resources\AnimalResource\Pages\ApprovalAnimal;
+use App\Filament\Admin\Resources\AnimalResource\Widgets\AnimalOverviewChart;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -30,17 +33,28 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->brandName('Lief Dier - Lief Thuis')
+            ->brandLogo(asset('storage/images/icon_logo.svg'))
+            ->favicon(asset('storage/images/icon_logo.svg'))
             ->spa()
-            ->login()
+            //->login()
             ->path('admin')
             ->colors([
-                'primary' => Color::Red,
+                'primary' => Color::Red,   // #88 13 37
+                'secondary' => Color::hex('#312E81'),  // #49 46 129
             ])
             ->userMenuItems([
                 MenuItem::make()
                     ->label('Application Dashboard')
                     ->icon('heroicon-o-cog-6-tooth')
                     ->url('/app'),
+            ])
+            ->navigationItems([
+                NavigationItem::make('Mijn Approvals')
+                    ->url(fn (): string => ApprovalAnimal::getUrl())
+                    ->icon('heroicon-o-presentation-chart-line')
+                    ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.animals.approval'))
+                    ->badge(fn () => ApprovalAnimal::getNavigationBadge())
+                  
             ])
             ->maxContentWidth(MaxWidth::Full)
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
@@ -52,20 +66,21 @@ class AdminPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
+                AnimalOverviewChart::class
             ])
             ->plugins([
                 \Rmsramos\Activitylog\ActivitylogPlugin::make()
                     ->label('Activiteiten Log')
                     ->pluralLabel('Activiteiten Logs (Ramos)')
                     ->navigationGroup('Logs')
-                    ->authorize(
-                        fn () => auth()->user()->id === 1
-                    ) 
+                    // ->authorize(
+                    //     fn () => auth()->user()->id === 1
+                    // ) 
                 ,
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
                 \Howdu\FilamentRecordSwitcher\FilamentRecordSwitcherPlugin::make(),
                 \Joaopaulolndev\FilamentEditEnv\FilamentEditEnvPlugin::make()
-                    ->showButton(fn () => auth()->user()->id === 1)
+                    //->showButton(fn () => auth()->user()->id === 1)
                     ->setIcon('heroicon-o-cog'),
                 \Joaopaulolndev\FilamentCheckSslWidget\FilamentCheckSslWidgetPlugin::make()
                     ->domains([
@@ -83,7 +98,7 @@ class AdminPanelProvider extends PanelProvider
                         ->navigationLabel('Banners')
                         ->navigationGroup('Marketing'),
                     \Joaopaulolndev\FilamentGeneralSettings\FilamentGeneralSettingsPlugin::make()
-                        ->canAccess(fn() => auth()->user()->id === 1)
+                        //->canAccess(fn() => auth()->user()->id === 1)
                         ->setSort(3)
                         ->setIcon('heroicon-o-cog')
                         ->setNavigationGroup('Gebruikersbeheer')
@@ -96,7 +111,7 @@ class AdminPanelProvider extends PanelProvider
                         ->setNavigationLabel(__('users_back.user_profile'))
                         ->setNavigationGroup(__('users_back.user_management'))
                         ->setIcon('heroicon-o-user')
-                        // ->setSort(10)
+                        ->setSort(4)
                         // ->canAccess(fn () => auth()->user()->id === 1)
                         //->shouldRegisterNavigation(false)
                         ->shouldShowDeleteAccountForm(false)

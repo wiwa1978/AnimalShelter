@@ -142,6 +142,10 @@ return [
     'emailverification_line_2' => 'If you did not create an account, no further action is required.',
     'verifyemail_title' => 'Verify your email address',
     'verifyemail_action' => 'Verify email',
+    'featured_limit_reached_title' => 'Maximum number of featured animals reached',
+    'featured_limit_reached_message' => 'The maximum number of featured animals has been reached. Please remove an animal from the featured list first.',
+    'animaloftheweek' => 'Animal of the week',
+    'all_animals' => 'All Animals',
 
 ];
 

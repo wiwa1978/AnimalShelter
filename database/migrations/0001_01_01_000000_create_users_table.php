@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('invited')->nullable();
             $table->timestamp('invited_at')->nullable();
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
 

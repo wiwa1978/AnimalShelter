@@ -5,7 +5,7 @@
 return [
     'shelter'   => 'Asiel',
     'individual'   => 'Particulier',
-    'organization'   => 'Organizatie',
+    'organization'   => 'Organizatie/Stichting',
     'male'   => 'Mannelijk',
     'female' => 'Vrouwelijk',
     'albania' => 'Albanië',
@@ -85,7 +85,7 @@ return [
     'experience_required'   => 'Ervaring vereist',
     'environment' => 'Beschrijf de ideale omgeving voor dit dier (e.g tuin, rustig, geen kinderen, andere huisdieren, sociaal contact...)',
     'featured' => 'In de kijker',
-    'unfeatured' => 'Niet in de kijker',
+    'unfeatured' => 'Uit de kijker',
     'not_published' => 'Niet Gepubliceerd',
     'photo_featured' => 'Primaire foto (max 1 foto | enkel jpg, jpeg, png extensie)',
     'photos_additional' => 'Bijkomende foto\'s (max 20 foto\'s | enkel jpg, jpeg, png extensie)',
@@ -113,10 +113,14 @@ return [
     'inreview'  => 'In behandeling',
     'notapproved'  => 'Afgekeurd',
     'notapplicable'  => 'Nog niet ingediend ',
+    
+    
     'approved_success' => 'werd succesvol goedgekeurd',
     'success_approved' => 'Status werd veranderd naar goedgekeurd',
     'unapproved_success' => 'succesvol afgekeurd',
     'success_unapproved' => 'Afkeuring succesvol',
+    
+    
     'approve' => 'Goedkeuren',
     'unapprove' => 'Afkeuren',
     'publish' => 'Publiceren',
@@ -142,6 +146,39 @@ return [
     'emailverification_line_2' => 'Indien je geen account hebt aangemaakt, hoef je verder niets te doen.',
     'verifyemail_title' => 'Verifieer je emailadres',
     'verifyemail_action' => 'Verifieer emailadres',
+    'featured_limit_reached_title' => 'Maximum aantal dieren in de kijker bereikt',
+    'featured_limit_reached_message' => 'Het maximum aantal dieren in de kijker is bereikt. Gelieve eerst een dier uit de kijker te halen.',
+    'featured_title' => '[:user] :name staat in de kijker op onze site',
+    'featured_added' => '[:user] :name werd zonet in de kijker geplaatst op onze site',
+    'featured_removed' => '[:user] :name staat niet langer in de kijker',
+    'unfeatured_title' => ':name staat niet langer in de kijker op onze site',
+    'unfeatured_body' => ':name werd zonet uit de kijker gehaald op onze site',
 
+    'animal_publication_requested' => '[:user] Publicatie aangevraagd voor :name',
+    'request_to_publish' => 'Aanvraag tot publicatie',
+    'request_to_publish_description' => 'Ons team zal de geleverde informatie even controleren en u op de hoogte brengen van de status. Indien er nog aanpassingen dienen te gebeuren hoort u dat eveneens van ons',
+    'sent_publish_request' => 'Verstuur aanvraag',
+    'request_to_publish_body' => ':name succesvol aangevraagd voor publicatie',
     
+    'animal_unpublication_requested' => '[:user] Verwijderen van site aangevraagd voor :name',
+    'request_to_unpublish' => 'Aanvraag tot verwijderen',
+    'request_to_unpublish_description' => 'Ons team zal de geleverde informatie even controleren en u op de hoogte brengen van de status. Indien er nog aanpassingen dienen te gebeuren hoort u dat eveneens van ons',
+    'sent_unpublish_request' => 'Verstuur aanvraag tot verwijderen',
+    'request_to_unpublish_body' => 'Dier met naam :name succesvol aangevraagd om te verwijderen van de site',
+
+    'approved_success_title' => 'Publicate voor :name werd goedgekeurd',
+    'unapproved_success_title' => 'Publicate voor :name werd afgekeurd',
+
+    'reason' => 'Reden: :reason',
+    'animal_retrieval_requested' => '[:user] Aanvraag ingetrokken voor :name ',
+    'logbook' => 'Logboek',
+    'added_at' => 'Toegevoegd op',
+    'animaloftheweek' => 'Dier van de week',
+    'animaloftheweek_make' => "Maak 'Dier van de week'",
+    'animaloftheweek_unmake' => "Verwijder 'Dier van de week'",
+    'animaloftheweek_success' => ':name werd dier van de week',
+    'animaloftheweek_fail' => ':name is niet langer dier van de week',
+    'all_animals' => 'Alle Dieren',
+    '' => '  ',
+
 ];

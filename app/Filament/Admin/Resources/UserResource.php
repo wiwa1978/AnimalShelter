@@ -25,6 +25,8 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     protected static ?string $navigationGroup = 'User Management';
 
+    protected static ?int $navigationSort = 1;
+
     public static function getNavigationGroup(): ?string
     {
         return __('users_back.user_management');
@@ -32,7 +34,7 @@ class UserResource extends Resource
 
     public static function getNavigationLabel(): string
     {
-        return  __('users_back.users');
+        return  __('users_back.all_users');
     }
 
     public static function getModelLabel(): string

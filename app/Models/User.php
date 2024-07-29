@@ -14,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Filament\Models\Contracts\HasTenants;
 use Filament\Models\Contracts\FilamentUser;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -25,7 +26,13 @@ use Rappasoft\LaravelAuthenticationLog\Traits\AuthenticationLoggable;
 
 class User extends Authenticatable implements FilamentUser, HasTenants, MustVerifyEmail 
 {
-    use HasFactory, Notifiable, HasRoles, AuthenticationLoggable, LogsActivity;
+    use HasFactory;
+    use Notifiable;
+    use HasRoles; 
+    use AuthenticationLoggable;
+    use LogsActivity;
+    use SoftDeletes;
+
 
     /**
      * The attributes that are mass assignable.
@@ -75,6 +82,11 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
         return $this->hasMany(Message::class);
     }
 
+    public function histories()
+    {
+        return $this->hasMany(History::class);
+    }
+
 
     public function conversations()
     {
@@ -95,7 +107,7 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
         }
 
         if ($panel->getId() === 'app') {
-            return true;
+            return true;   
         }
 
         return false;
@@ -108,7 +120,13 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     
     public function organizations(): BelongsToMany
     {
-        return $this->belongsToMany(Organization::class);
+        return $this->belongsToMany(Organization::class)
+            ->withTimestamps();
+    }
+
+    public function organization()
+    {
+        return $this->organizations()->first();
     }
     
     public function favorites()
@@ -131,6 +149,16 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
     public function isRegularUser(): bool
     {
         return $this->hasRole('user');
+    }
+
+    public function tickets()
+    {
+        return $this->morphMany(Ticket::class, 'ticketable');
+    }
+
+    public function latestTicket()
+    {
+        return $this->morphOne(Ticket::class, 'ticketable')->latestOfMany();
     }
 
  
