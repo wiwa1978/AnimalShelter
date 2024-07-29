@@ -18,7 +18,7 @@ class StatsOverview extends BaseWidget
         $userCount = Filament::getTenant()->users()->count();
         $animalCount = Filament::getTenant()->animals()->count();
         $favoriteCount =  Auth::user()->favorites()->count();
-        
+
         return [
             Card::make('Aantal gebruikers', $userCount),
             Card::make('Aantal dieren', $animalCount),
@@ -26,5 +26,5 @@ class StatsOverview extends BaseWidget
         ];
     }
 
-    
+
 }

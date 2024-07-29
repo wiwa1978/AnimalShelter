@@ -29,7 +29,7 @@ class CreateMessage extends CreateRecord
             ->title('Connversation published')
             ->body('Conversation with subject ' . $record->subject . ' saved successfully');
 
-            //->sendToDatabase($recipient);
+        //->sendToDatabase($recipient);
 
         //event(new DatabaseNotificationsSent($recipient));
 

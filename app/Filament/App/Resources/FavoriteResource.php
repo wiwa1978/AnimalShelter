@@ -30,8 +30,8 @@ class FavoriteResource extends Resource
 
     public static function canCreate(): bool
     {
-            return false;
-    
+        return false;
+
     }
 
 
@@ -40,7 +40,7 @@ class FavoriteResource extends Resource
         return __('animals_back.favorites');
     }
 
-    
+
     public static function getPluralModelLabel(): string
     {
         return __('animals_back.my_favorites');
@@ -51,7 +51,7 @@ class FavoriteResource extends Resource
         $favoriteCount = Auth::user()->favorites()->count();
         //dd($favoriteCount);
         return $favoriteCount;
-  
+
     }
 
     public static function form(Form $form): Form
@@ -74,7 +74,7 @@ class FavoriteResource extends Resource
                 ImageColumn::make('animal.photo_featured')
                         ->label(__('animals_back.photo'))
                         ->circular(),
-                        
+
                 Tables\Columns\TextColumn::make('animal.name')
                     ->label(__('animals_back.animal'))
                     ->sortable(),
@@ -83,7 +83,7 @@ class FavoriteResource extends Resource
                 Tables\Columns\TextColumn::make('animal.organization.name')
                     ->label(__('animals_back.stays_at'))
                     ->sortable(),
-                
+
                 Tables\Columns\TextColumn::make('animal.organization.organization_name')
                     ->label(__('animals_back.organization'))
                     ->placeholder('Not applicable')

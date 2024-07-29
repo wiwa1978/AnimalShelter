@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -31,12 +30,11 @@ use App\Filament\App\Pages\Tenancy\EditOrganizationProfile;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Joaopaulolndev\FilamentEditProfile\Pages\EditProfilePage;
 
-
 class AppPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-       
+
         return $panel
             ->id('app')
             ->path('app')
@@ -44,9 +42,9 @@ class AppPanelProvider extends PanelProvider
             ->navigationItems([
                 NavigationItem::make()
                     ->label(__('users_back.my_data'))
-                    ->url(fn() => '/app/'. auth()->user()->organization()->id . '/profile')
+                    ->url(fn () => '/app/'. auth()->user()->organization()->id . '/profile')
                     ->group('Gebruikersbeheer')
-                    ->icon('heroicon-o-user-circle'), 
+                    ->icon('heroicon-o-user-circle'),
                 // NavigationItem::make('Abonnement')
                 //     ->url(fn() => '/billing/organization/' . auth()->user()->organizations()->first()->id)
                 //     ->group('Gebruikersbeheer')
@@ -67,7 +65,7 @@ class AppPanelProvider extends PanelProvider
                 //ApplyTenantScopes::class,
             ], isPersistent: true)
             ->login()
-            ->registration(Register::class) 
+            ->registration(Register::class)
             ->passwordReset(RequestYourPasswordReset::class)
             ->emailVerification(EmailVerification::class)
             ->spa()
@@ -78,7 +76,7 @@ class AppPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::hex('#BE123C'),    // #88 13 37
                 'secondary' => Color::hex('#312E81'),  // #49 46 129
-                'danger' => Color::Red, 
+                'danger' => Color::Red,
                 'success' => Color::Green,
                 'warning' => Color::Yellow,
                 'info' => Color::Blue,
@@ -96,12 +94,12 @@ class AppPanelProvider extends PanelProvider
                 MenuItem::make()
                     ->label(__('users_back.my_data'))
                     ->icon('heroicon-o-user-circle')
-                    ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/profile'),
+                    ->url(fn () => '/app/'. auth()->user()->organizations()->first()->id . '/profile'),
                 MenuItem::make()
                     ->label(__('users_back.my_profile'))
                     //->url(fn (): string => EditProfilePage::getUrl())
                     ->icon('heroicon-m-user-circle')                    //If you are using tenancy need to check with the visible method where ->company() is the relation between the user and tenancy model as you called
-                    ->url(fn() => '/app/'. auth()->user()->organizations()->first()->id . '/my-profile')
+                    ->url(fn () => '/app/'. auth()->user()->organizations()->first()->id . '/my-profile')
 
                     ->visible(function (): bool {
                         return auth()->check();
@@ -125,10 +123,10 @@ class AppPanelProvider extends PanelProvider
             ->widgets([
                 Widgets\AccountWidget::class,
                 //Widgets\FilamentInfoWidget::class,
-                
+
             ])
             ->plugins([
-                
+
                 \Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin::make()
                     ->color('#BE123C'),
                 \Kenepa\Banner\BannerPlugin::make()
@@ -160,7 +158,7 @@ class AppPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
                 //VerifyOrganizationIsBillable::class,
-                
+
             ])
             ->authMiddleware([
                 Authenticate::class,
@@ -172,9 +170,9 @@ class AppPanelProvider extends PanelProvider
                 // This is the view that will be rendered
                 fn () => view('components.livewire.customFooter'),
             );
-            //->tenantRoutePrefix('organization')
-            //->topNavigation()
-            //->sidebarFullyCollapsibleOnDesktop()
+        //->tenantRoutePrefix('organization')
+        //->topNavigation()
+        //->sidebarFullyCollapsibleOnDesktop()
 
     }
 }

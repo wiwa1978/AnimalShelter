@@ -51,11 +51,12 @@ class MessageResource extends Resource
 
 
     protected static ?string $modelLabel = 'Message';
- 
+
     protected static ?string $navigationLabel = 'Inbox';
 
 
-    public static function getEloquentQuery(): Builder {
+    public static function getEloquentQuery(): Builder
+    {
         //return Conversation::query();
         return Conversation::query()
         ->whereHas('messages', function (Builder $query) {
@@ -71,7 +72,7 @@ class MessageResource extends Resource
     {
         return $form
             ->schema([
-               
+
 
                 //TextInput::make('message.organization_id'),
 
@@ -86,7 +87,7 @@ class MessageResource extends Resource
                     ->options(Animal::all()->pluck('name', 'id')->toArray())
                     ->required(),
 
-       
+
 
                 Hidden::make('message.organization_id'),
 
@@ -94,7 +95,7 @@ class MessageResource extends Resource
                 //     ->label('Sender')
                 //     ->options(User::all()->pluck('name', 'id')->toArray())
                 //     ->required(),
-        
+
                 Select::make('message.receiver_email')
                     ->label('Send to')
                     ->options(User::all()->pluck('name', 'id')->toArray())
@@ -108,55 +109,55 @@ class MessageResource extends Resource
                     ->maxLength(65535)
                     ->columnSpanFull(),
 
-               
-                       
-                          
+
+
+
 
             ]);
     }
 
     public static function getConversationParticipants($conversationId)
     {
-       
-        $conversation = Conversation::find($conversationId); 
-        
+
+        $conversation = Conversation::find($conversationId);
+
         $participant1 = $conversation->messages()->first()->sender_email;
         $participant2 = $conversation->messages()->first()->receiver_email;
         $currentUserId = Auth::user()->email;
         $otherParticipant = $currentUserId == $participant1 ? $participant2 : $participant1;
         return $otherParticipant;
     }
-   
+
 
 
     public static function table(Table $table): Table
     {
-        
 
-// Use the Animal model to find the animal by ID and get the name
+
+        // Use the Animal model to find the animal by ID and get the name
 
         return $table
             ->columns([
                 TextColumn::make('sender_email')
-                    ->getStateUsing( function (Model $record){
+                    ->getStateUsing(function (Model $record) {
                         return $record->messages()->first()?->sender_email;
-       
+
                     })
                     ->label('From'),
 
                  TextColumn::make('receiver_email')
-                    ->getStateUsing( function (Model $record){
+                    ->getStateUsing(function (Model $record) {
                         return $record->messages()->first()?->receiver_email;
-                       
+
                     })
                     ->label('To'),
 
                 TextColumn::make('animal_id')
-                    ->getStateUsing( function (Model $record){
+                    ->getStateUsing(function (Model $record) {
                         $animalId = $record->messages()->first()?->animal_id;
                         $animalName = Animal::find($animalId)?->name;
                         return $animalName;
-                    
+
                     })
                     ->label('Animal'),
 
@@ -181,7 +182,7 @@ class MessageResource extends Resource
 
     public static function infolist(Infolist $infolist): Infolist
     {
-        
+
 
         return $infolist
             ->schema([
@@ -192,7 +193,7 @@ class MessageResource extends Resource
                                 ->required(),
                         ])
                         ->action(function (Conversation $record, array $data): void {
-                            
+
                             $test = $record->messages()->create([
                                 'organization_id' => Filament::getTenant()->id,
                                 'receiver_email' => (auth()->user()->email === $record->messages()->first()->sender_email) ? $record->messages()->first()->receiver_email : $record->messages()->first()->sender_email,
@@ -206,7 +207,7 @@ class MessageResource extends Resource
                             //$recipient = (auth()->user()->email === $test['sender_email']) ? $test['receiver_email'] : $test['sender_email'];
 
                             //Log::debug('Receiver: ' . $recipient);
-                            
+
                             //Notification::make()
                             //    ->title('New Reply To ' . $record->subject)
                             //    ->sendToDatabase(User::find($recipient));
@@ -233,12 +234,12 @@ class MessageResource extends Resource
                             ]),
                             TextEntry::make('content')
                                 ->hiddenLabel(),
-               
+
                     ])
                     ->columnSpanFull(),
-                    
 
-                
+
+
             ]);
     }
 
@@ -257,7 +258,7 @@ class MessageResource extends Resource
             'create' => Pages\CreateMessage::route('/create'),
             'view' => Pages\ViewMessage::route('/{record}'),
             'edit' => Pages\EditMessage::route('/{record}/edit'),
-           
+
 
         ];
     }

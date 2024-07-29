@@ -19,4 +19,3 @@ class CreateUser extends CreateRecord
         Log::debug("User $currentUser | Organisation {$this->getRecord()->organization_id}: User with id {$this->getRecord()->id} and name {$this->getRecord()->name} created");
     }
 }
-

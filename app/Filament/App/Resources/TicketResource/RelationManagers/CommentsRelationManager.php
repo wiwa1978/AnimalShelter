@@ -2,7 +2,6 @@
 
 namespace App\Filament\App\Resources\TicketResource\RelationManagers;
 
-
 use App\Models\Ticket;
 use App\Models\Comment;
 use Filament\Forms\Form;
@@ -44,7 +43,7 @@ class CommentsRelationManager extends RelationManager
             ]);
     }
 
-    public  function table(Table $table): Table
+    public function table(Table $table): Table
     {
         $user = auth()->user();
 

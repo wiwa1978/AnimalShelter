@@ -22,7 +22,7 @@ class MessagesRelationManager extends RelationManager
                     ->required()
                     ->maxLength(255),
 
-                
+
             ]);
     }
 

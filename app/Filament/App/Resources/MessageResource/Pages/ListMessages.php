@@ -21,7 +21,7 @@ class ListMessages extends ListRecords
 
     public function getTabs(): array
     {
-        
+
 
 
         $tabs = [
@@ -33,16 +33,16 @@ class ListMessages extends ListRecords
                     Message::query()
                         ->where('receiver_email', auth()->user()->email)
                         ->count()
-                    ),
+                ),
 
             'Outbox' => Tab::make()
             ->badge(
                 Message::query()
                     ->where('sender_email', auth()->user()->email)
                     ->count()
-                ),
+            ),
 
-            
+
         ];
 
         return $tabs;

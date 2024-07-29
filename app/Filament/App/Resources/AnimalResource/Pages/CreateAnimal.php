@@ -2,8 +2,6 @@
 
 namespace App\Filament\App\Resources\AnimalResource\Pages;
 
-
-
 use Carbon\Carbon;
 
 
@@ -16,15 +14,13 @@ use Filament\Resources\Pages\CreateRecord;
 use Filament\Forms\Components\Actions\Action;
 use App\Filament\App\Resources\AnimalResource;
 
-
-
 class CreateAnimal extends CreateRecord
 {
     #test
     protected static string $resource = AnimalResource::class;
 
     protected static bool $canCreateAnother = false;
-    
+
 
     protected function getRedirectUrl(): string
     {
@@ -57,6 +53,6 @@ class CreateAnimal extends CreateRecord
         Log::debug("User $currentUser | Organisation {$this->getRecord()->organization_id}: Animal with id {$this->getRecord()->id} and name {$this->getRecord()->name} created");
     }
 
-    
-   
+
+
 }

@@ -12,7 +12,7 @@ class CreateFavorite extends CreateRecord
 {
     protected static string $resource = FavoriteResource::class;
 
-    
+
     protected function afterCreate(): void
     {
         // Runs after the form fields are saved to the database.

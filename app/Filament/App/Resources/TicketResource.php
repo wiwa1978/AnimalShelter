@@ -20,7 +20,7 @@ use Filament\Forms\Components\RichEditor;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Placeholder;
 use App\Filament\App\Resources\TicketResource\Pages;
-use App\Filament\App\Resources\TicketResource\RelationManagers\CommentsRelationManager;
+use App\Filament\App\Resources\TicketResource\RelationManagers\CommentsRelationManager as AppCommentsRelationManager;
 
 class TicketResource extends Resource
 {
@@ -177,7 +177,7 @@ class TicketResource extends Resource
                     ),
             ])
             ->actions([
-                ActionGroup::make([   
+                ActionGroup::make([
                     //ViewAction::make(),
                     EditAction::make()
                         ->color('secondary')
@@ -185,7 +185,7 @@ class TicketResource extends Resource
                 ])
                 //->icon('heroicon-m-ellipsis-horizontal')
                 ->color('primary')
-               
+
             ])
             ->bulkActions([
                 // DeleteBulkAction::make(),
@@ -195,7 +195,7 @@ class TicketResource extends Resource
     public static function getRelations(): array
     {
         return [
-            CommentsRelationManager::class,
+            AppCommentsRelationManager::class,
         ];
     }
 

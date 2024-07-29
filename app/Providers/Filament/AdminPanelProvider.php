@@ -54,7 +54,7 @@ class AdminPanelProvider extends PanelProvider
                     ->icon('heroicon-o-presentation-chart-line')
                     ->isActiveWhen(fn () => request()->routeIs('filament.admin.resources.animals.approval'))
                     ->badge(fn () => ApprovalAnimal::getNavigationBadge())
-                  
+
             ])
             ->maxContentWidth(MaxWidth::Full)
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
@@ -75,7 +75,7 @@ class AdminPanelProvider extends PanelProvider
                     ->navigationGroup('Logs')
                     // ->authorize(
                     //     fn () => auth()->user()->id === 1
-                    // ) 
+                    // )
                 ,
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make(),
                 \Howdu\FilamentRecordSwitcher\FilamentRecordSwitcherPlugin::make(),
@@ -87,8 +87,8 @@ class AdminPanelProvider extends PanelProvider
                         'wymedia.be',
 
                     ])
-                    ->setTitle('Certificates') 
-                    ->setDescription('SSL certificate detail'), 
+                    ->setTitle('Certificates')
+                    ->setDescription('SSL certificate detail'),
                     //->setColumnSpan('full')
                     \Tapp\FilamentAuthenticationLog\FilamentAuthenticationLogPlugin::make(),
                     \Njxqlus\FilamentProgressbar\FilamentProgressbarPlugin::make()->color('#BE123C'),
@@ -128,7 +128,7 @@ class AdminPanelProvider extends PanelProvider
                             ->navigationSort(1)
                             ->slug('logs')
                     ])
-                
+
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

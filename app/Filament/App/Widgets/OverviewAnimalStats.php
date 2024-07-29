@@ -9,7 +9,7 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 class OverviewAnimalStats extends BaseWidget
 {
     protected static ?int $sort = 2;
-    
+
     protected function getStats(): array
     {
         $dogCount = Filament::getTenant()->animals()->dogs()->count();
@@ -23,4 +23,3 @@ class OverviewAnimalStats extends BaseWidget
         ];
     }
 }
-

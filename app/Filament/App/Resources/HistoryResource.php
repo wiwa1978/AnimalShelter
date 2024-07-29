@@ -28,13 +28,13 @@ class HistoryResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
 
-   
+
     public static function getNavigationGroup(): ?string
     {
         return 'Support';
     }
 
-    
+
     public static function getModelLabel(): string
     {
         return __('animals_back.logbook');
@@ -60,9 +60,9 @@ class HistoryResource extends Resource
     {
         return $table
             ->columns([
-               
+
                 TextColumn::make('user_id')
-                    ->formatStateUsing(fn (string $state): string => User::find($state)->name) 
+                    ->formatStateUsing(fn (string $state): string => User::find($state)->name)
                     ->label('Uitgevoerd door')
                     ->sortable()
                     ->searchable(),
@@ -76,14 +76,14 @@ class HistoryResource extends Resource
                 TextColumn::make('created_at')
                     ->label('Uitgevoerd op')
                     ->dateTime('d-m-Y H:i:s'),
-                
+
 
             ])->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
             ->actions([
-                
+
             ])
             ->bulkActions([
 

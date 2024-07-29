@@ -48,7 +48,6 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\MarkdownEditor;
 use App\Filament\App\Resources\AnimalResource\Pages;
 
-
 class AnimalResource extends Resource
 {
     protected static ?string $model = Animal::class;
@@ -67,7 +66,7 @@ class AnimalResource extends Resource
     // {
     //     $organization = Organization::find(2);
     //     $plan = $organization->getPlan();
-        
+
     //     // if the animal count is higher than the plan limit, then disable the button
     //     // if the organization is not free forever (hence is billable), then disable the create button
     //     //dd($organization->animals->count() >= $plan->options['animals'] && !$organization->isFreeForever());
@@ -90,38 +89,38 @@ class AnimalResource extends Resource
     {
         $animalCount = Filament::getTenant()->animals()->count();
         return $animalCount;
-  
+
     }
 
 
     public static function form(Form $form): Form
     {
-  
+
         return $form
             ->schema([
                 Grid::make(4)
                 ->schema([
                     Section::make(__('animals_back.publish_info'))
                     ->schema([
-                   
+
                         Placeholder::make('published')
                         ->label(__('animals_back.published'))
                         ->content(fn (Animal $record): string => $record->published_state == AnimalPublishState::PUBLISHED ? __('animals_back.yes') : __('animals_back.no') . ' - ' . AnimalPublishState::option($record->published_state->value)),
-                    
+
 
                         // Placeholder::make('featured')
                         //     ->label(__('animals_back.featured'))
                         //     ->content(fn (Animal $record): string => $record->featured == 1 ? __('animals_back.yes') : __('animals_back.no')),
-                        
+
                         Toggle::make('featured')
                             ->label(__('animals_back.featured'))
                         ,
-                        
+
                         Placeholder::make('approval_state')
                             ->label(__('animals_back.approval_state'))
                             ->content(fn (Animal $record): HtmlString => new HtmlString(
-                                $record->approval_state->value == AnimalApprovalState::INREVIEW->value ? __('animals_back.in_review') : 
-                                ($record->approval_state->value == AnimalApprovalState::APPROVED->value ? __('animals_back.approved') : 
+                                $record->approval_state->value == AnimalApprovalState::INREVIEW->value ? __('animals_back.in_review') :
+                                ($record->approval_state->value == AnimalApprovalState::APPROVED->value ? __('animals_back.approved') :
                                 ($record->approval_state->value == AnimalApprovalState::NOTAPPROVED->value ? __('animals_back.notapproved') : __('animals_back.notapplicable')))
                             )),
 
@@ -144,9 +143,9 @@ class AnimalResource extends Resource
                     ])
                     ->columns(4)
                     ->columnSpan(4),
-            
-                ]) 
-     
+
+                ])
+
             ->visible(fn ($context): int => $context === 'edit'),
 
                 Wizard::make([
@@ -171,34 +170,34 @@ class AnimalResource extends Resource
                                             ->native(false)
                                             ->preload()
                                             ->required(),
-                                        
+
                                         RichEditor::make('description')
                                             ->label(__('animals_back.description'))
                                             ->required()
                                             ->maxLength(65535)
                                             ->columnSpanFull(),
-            
+
                                         Select::make('current_location')
                                             ->label(__('animals_back.current_location'))
                                             ->required()
                                             ->native(false)
                                             ->preload()
                                             ->options(AnimalLocation::class),
-                                        
+
                                         Select::make('original_location')
                                             ->label(__('animals_back.original_location'))
                                             ->required()
                                             ->native(false)
                                             ->preload()
                                             ->options(AnimalLocation::class),
-                                            
+
                                         Select::make('gender')
                                             ->label(__('animals_back.gender'))
                                             ->required()
                                             ->preload()
                                             ->native(false)
                                             ->options(AnimalGender::class),
-            
+
                                         Select::make('size')
                                             ->label(__('animals_back.size'))
                                             ->required()
@@ -222,7 +221,7 @@ class AnimalResource extends Resource
                                             ->native(false)
                                             ->preload()
                                             ->options(AnimalStatus::class),
-            
+
                                         Radio::make('age')
                                             ->label(__('animals_back.age'))
                                             ->options([
@@ -244,11 +243,11 @@ class AnimalResource extends Resource
                                             //->gridDirection('row')
                                             ->required(),
                                             ]),
-                                    
+
 
                             ])
                      ]),
-            
+
 
                     Wizard\Step::make(__('animals_back.medical_social_info'))
                     ->schema([
@@ -325,7 +324,7 @@ class AnimalResource extends Resource
                                 Toggle::make('experience_required')
                                     ->label(__('animals_back.experience_required'))
                                     ->required(),
-    
+
                                 MarkdownEditor::make('environment')
                                     ->label(__('animals_back.environment'))
                                     ->required()
@@ -344,7 +343,7 @@ class AnimalResource extends Resource
                     Wizard\Step::make(__('animals_back.media'))
                     ->schema([
                         Grid::make(4)
-                        ->schema([   
+                        ->schema([
                             Section::make(__('animals_back.photo_title'))
                             ->schema([
                                 FileUpload::make('photo_featured')
@@ -356,7 +355,7 @@ class AnimalResource extends Resource
                                     ->directory(fn ($get) => str_replace(' ', '', 'media/' . $get('name')))
                                     ->imageEditor()
                                     ->columnSpan('full'),
-                                
+
                                 FileUpload::make('photos_additional')
                                     ->label(__('animals_back.photos_additional'))
                                     //->disk('s3')
@@ -375,7 +374,7 @@ class AnimalResource extends Resource
                             ->columnSpan(2),
 
                             Section::make(__('animals_back.video_title'))
-                            ->schema([               
+                            ->schema([
                                 FileUpload::make('videos')
                                     ->label(__('animals_back.videos'))
                                     ->multiple()
@@ -391,50 +390,50 @@ class AnimalResource extends Resource
                                     ->schema([
                                         TextInput::make('youtube_links')
                                             ->label(__('animals_back.youtube_link'))
-                            
+
                                     ])
                                     ->addActionLabel('Add Youtube Link')
                                     ->maxItems(6)
-                                    
+
                             ])
                             ->columnSpan(2),
                         ])
                     ]),
-               
-               
-               
-               
+
+
+
+
                ])->columnSpanFull(),
 
 
 
 
-              
-           
-    
 
 
 
-        
+
+
+
+
             ]);
     }
 
     public static function table(Table $table): Table
     {
-        
+
         return $table
             ->columns(
                 [
-            
+
                     ImageColumn::make('photo_featured')
                         ->label(__('animals_back.photo'))
                         ->circular(),
-                    
+
                     TextColumn::make('animal_type')
                         ->label(__('animals_back.type'))
                         ->sortable()
                         ->searchable(),
-        
+
                     TextColumn::make('name')
                         ->label(__('animals_back.name'))
                         ->sortable()
@@ -453,14 +452,14 @@ class AnimalResource extends Resource
                         ->color('info')
                         ->alignCenter()
                         ->sortable(),
-        
-        
+
+
                     IconColumn::make('featured')
                         ->label(__('animals_back.featured'))
                         ->alignCenter()
                         ->sortable()
                         ->boolean(),
-        
+
                     TextColumn::make('published_state')
                         ->label(__('animals_back.published'))
                         ->badge()
@@ -475,17 +474,18 @@ class AnimalResource extends Resource
                         })
                         ->sortable()
                         ->searchable(),
-        
+
                     TextColumn::make('approval_state')
                         ->label(__('animals_back.status'))
                         //->tooltip(fn (Animal $record): string => $record->approval_state->value == AnimalApprovalState::INREVIEW->value ? $record->unapprove_reason->value : '')
-                        
-                        ->tooltip(fn (Animal $record): string => 
-                        $record->approval_state->value == AnimalApprovalState::NOTAPPROVED->value 
+
+                        ->tooltip(
+                            fn (Animal $record): string =>
+                        $record->approval_state->value == AnimalApprovalState::NOTAPPROVED->value
                         ? (is_null($record->unapprove_reason) ? '' : 'Opmerking van de administrator: ' . $record->unapprove_reason)
                         : ''
-                    )
-                           
+                        )
+
                         ->badge()
                         ->color(fn (AnimalApprovalState $state): string => match ($state->value) {
                             AnimalApprovalState::INREVIEW->value => 'info',
@@ -495,10 +495,10 @@ class AnimalResource extends Resource
                         })
                         ->sortable()
                         ->searchable(),
-        
-                    
-        
-        
+
+
+
+
                     // TextColumn::make('published_at')
                     //     ->dateTime('d-m-Y H:i')
                     //     ->placeholder((' --- '))
@@ -506,7 +506,7 @@ class AnimalResource extends Resource
                     //     ->sortable()
                     //     ->searchable(),
                     // TextColumn::make('publish_price')
-        
+
                     //     ->money('EUR', divideBy: 100),
                     //->summarize(Summarizers\Sum::make()),
                     // TextColumn::make('user.name')
@@ -514,19 +514,19 @@ class AnimalResource extends Resource
                     //     ->sortable()
                     //     ->numeric()
                     //     ->sortable(),
-                   
+
                     TextColumn::make('current_location')
                         ->label(__('animals_back.current_location'))
                         ->toggleable(isToggledHiddenByDefault: true)
                         ->sortable()
                         ->searchable(),
-        
+
                     TextColumn::make('age')
                         ->label(__('animals_back.age'))
                         ->toggleable(isToggledHiddenByDefault: true)
                         ->sortable()
                         ->searchable(),
-        
+
                     TextColumn::make('gender')
                         ->label(__('animals_back.gender'))
                         ->toggleable(isToggledHiddenByDefault: true)
@@ -555,7 +555,7 @@ class AnimalResource extends Resource
                         ->label(__('animals_back.sterilized'))
                         ->toggleable(isToggledHiddenByDefault: true)
                         ->boolean(),
-                    
+
                     IconColumn::make('chipped')
                         ->label(__('animals_back.chipped'))
                         ->toggleable(isToggledHiddenByDefault: true)
@@ -570,7 +570,7 @@ class AnimalResource extends Resource
                         ->label(__('animals_back.vaccinated'))
                         ->toggleable(isToggledHiddenByDefault: true)
                         ->boolean(),
-                    
+
                     IconColumn::make('rabies')
                         ->label(__('animals_back.rabies'))
                         ->toggleable(isToggledHiddenByDefault: true)
@@ -580,12 +580,12 @@ class AnimalResource extends Resource
                         ->label(__('animals_back.medicins'))
                         ->toggleable(isToggledHiddenByDefault: true)
                         ->boolean(),
-                    
+
                     IconColumn::make('special_food')
                         ->label(__('animals_back.special_food'))
                         ->toggleable(isToggledHiddenByDefault: true)
                         ->boolean(),
-                    
+
                     IconColumn::make('behavioural_problem')
                         ->label(__('animals_back.behaviour_problem'))
                         ->toggleable(isToggledHiddenByDefault: true)
@@ -595,7 +595,7 @@ class AnimalResource extends Resource
                         ->label(__('animals_back.kids_friendly_6y'))
                         ->toggleable(isToggledHiddenByDefault: true)
                         ->boolean(),
-                    
+
                     IconColumn::make('kids_friendly_14y')
                         ->label(__('animals_back.kids_friendly_14y'))
                         ->toggleable(isToggledHiddenByDefault: true)
@@ -605,7 +605,7 @@ class AnimalResource extends Resource
                         ->label(__('animals_back.cat_friendly'))
                         ->toggleable(isToggledHiddenByDefault: true)
                         ->boolean(),
-                    
+
                     IconColumn::make('dogs_friendly')
                         ->label(__('animals_back.dog_friendly'))
                         ->toggleable(isToggledHiddenByDefault: true)
@@ -642,10 +642,10 @@ class AnimalResource extends Resource
                         ->dateTime()
                         ->sortable()
                         ->toggleable(isToggledHiddenByDefault: true),
-        
+
                     ]
             )
-            ->defaultSort('created_at', 'desc') 
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 Tables\Filters\Filter::make('featured')
                     ->label(__('animals_back.featured'))
@@ -686,7 +686,7 @@ class AnimalResource extends Resource
                 Tables\Filters\Filter::make('kids_friendly_6y')
                     ->label(__('animals_back.kids_friendly_6y'))
                     ->query(fn (Builder $query): Builder => $query->where('kids_friendly_6y', true)),
-                
+
                 Tables\Filters\Filter::make('kids_friendly_14y')
                     ->label(__('animals_back.kids_friendly_14y'))
                     ->query(fn (Builder $query): Builder => $query->where('kids_friendly_14y', true)),
@@ -739,11 +739,11 @@ class AnimalResource extends Resource
                             $currentUser = Auth::user();
                             Log::debug("User $currentUser->id | Organisation {$currentUser->organization_id}: Animal with id {$record->id} deleted");
                         }),
-                    
+
                     Tables\Actions\Action::make('Publish')
                         ->label(__('animals_back.publish_request'))
                         ->requiresConfirmation()
-                        ->modalHeading(__('animals_back.request_to_publish')) 
+                        ->modalHeading(__('animals_back.request_to_publish'))
                         ->modalDescription(__('animals_back.request_to_publish_description'))
                         ->modalSubmitActionLabel(__('animals_back.sent_publish_request'))
                         ->icon('heroicon-m-pencil-square')
@@ -754,17 +754,17 @@ class AnimalResource extends Resource
                             $animal->published_at = Carbon::now()->format('Y-m-d H:i:s');
                             $animal->unapprove_reason = null;
                             $animal->save();
-                            
+
                             $users = $animal->organization->users;
 
                             Notification::make()
-                                ->title(__('animals_back.animal_publication_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->title(__('animals_back.animal_publication_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name]))
                                 ->info()
                                 ->send();
 
                             foreach ($users as $user) {
                                 Notification::make()
-                                ->title(__('animals_back.animal_publication_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name] ))
+                                ->title(__('animals_back.animal_publication_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name]))
                                 ->info()
                                 ->sendToDatabase($user);
                             }
@@ -774,13 +774,13 @@ class AnimalResource extends Resource
                             $history->model_type = 'App\Models\Animal';
                             $history->user_id = Auth::user()->id;
                             $history->organization_id = Auth::user()->organization()->id;
-                            $history->description = 'Publicatie aangevraagd voor '. $animal->name; 
-                            $history->save(); 
+                            $history->description = 'Publicatie aangevraagd voor '. $animal->name;
+                            $history->save();
 
-                           //event(new DatabaseNotificationsSent($recipient));
+                            //event(new DatabaseNotificationsSent($recipient));
                         })
                         ->visible(function (Animal $record) {
-                            return $record->published_state->value == AnimalPublishState::DRAFT->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false; 
+                            return $record->published_state->value == AnimalPublishState::DRAFT->value ||  $record->published_state->value == AnimalPublishState::UNPUBLISHED->value ? true : false;
                         }),
 
 
@@ -788,7 +788,7 @@ class AnimalResource extends Resource
                         ->icon('heroicon-m-pencil-square')
                         ->label(__('animals_back.unpublish'))
                         ->requiresConfirmation()
-                        ->modalHeading(__('animals_back.request_to_unpublish')) 
+                        ->modalHeading(__('animals_back.request_to_unpublish'))
                         ->modalDescription(__('animals_back.request_to_unpublish_description'))
                         ->modalSubmitActionLabel(__('animals_back.sent_unpublish_request'))
                         ->color('primary')
@@ -808,14 +808,14 @@ class AnimalResource extends Resource
                             $users = $animal->organization->users;
 
                             Notification::make()
-                                ->title(__('animals_back.animal_unpublication_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->title(__('animals_back.animal_unpublication_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name]))
                                 ->info()
                                 ->send();
-                       
+
 
                             foreach ($users as $user) {
                                 Notification::make()
-                                ->title(__('animals_back.animal_unpublication_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->title(__('animals_back.animal_unpublication_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name]))
                                 ->info()
                                 ->sendToDatabase($user);
                             }
@@ -825,14 +825,14 @@ class AnimalResource extends Resource
                             $history->model_type = 'App\Models\Animal';
                             $history->user_id = Auth::user()->id;
                             $history->organization_id = Auth::user()->organization()->id;
-                            $history->description = 'Verwijderen van site aangevraagd voor '. $animal->name; 
-                            $history->save(); 
+                            $history->description = 'Verwijderen van site aangevraagd voor '. $animal->name;
+                            $history->save();
 
                         })
                         ->visible(function (Animal $record) {
                             return $record->published_state->value == AnimalPublishState::PUBLISHED->value ? true : false;
                         }),
-                
+
                     Tables\Actions\Action::make('Retrieve')
                         ->icon('heroicon-m-pencil-square')
                         ->label(__('animals_back.retrieve'))
@@ -846,13 +846,13 @@ class AnimalResource extends Resource
                             $users = $animal->organization->users;
 
                             Notification::make()
-                                ->title(__('animals_back.animal_retrieval_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->title(__('animals_back.animal_retrieval_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name]))
                                 ->info()
                                 ->send();
 
                             foreach ($users as $user) {
                                 Notification::make()
-                                ->title(__('animals_back.animal_retrieval_requested',  [ 'name' => $animal->name, 'user' => Auth::user()->name]))
+                                ->title(__('animals_back.animal_retrieval_requested', [ 'name' => $animal->name, 'user' => Auth::user()->name]))
                                 ->info()
                                 ->sendToDatabase($user);
                             }
@@ -862,15 +862,15 @@ class AnimalResource extends Resource
                             $history->model_type = 'App\Models\Animal';
                             $history->user_id = Auth::user()->id;
                             $history->organization_id = Auth::user()->organization()->id;
-                            $history->description = 'Aanvraag ingetrokken voor '. $animal->name; 
-                            $history->save(); 
+                            $history->description = 'Aanvraag ingetrokken voor '. $animal->name;
+                            $history->save();
 
                         })
                         ->visible(function (Animal $record) {
                             return $record->published_state->value == AnimalPublishState::REQUESTPENDING->value ? true : false;
                         }),
 
-                        
+
                     Tables\Actions\Action::make('In de kijker')
                         ->requiresConfirmation()
                         ->label(__('animals_back.featured'))
@@ -880,7 +880,7 @@ class AnimalResource extends Resource
                             $featuredAnimalsCount = Animal::where('featured', true)
                                     ->where('organization_id', auth()->user()->organization()->id)
                                     ->count();
-                            
+
                             $recipient = Auth::user();
                             $users = $animal->organization->users;
 
@@ -891,7 +891,7 @@ class AnimalResource extends Resource
                                     ->title(__('animals_back.featured_limit_reached_title'))
                                     ->danger()
                                     ->send();
-    
+
                                 foreach ($users as $user) {
                                     Notification::make()
                                         ->title(__('animals_back.featured_limit_reached_title'))
@@ -904,11 +904,10 @@ class AnimalResource extends Resource
                                 $history->model_type = 'App\Models\Animal';
                                 $history->user_id = Auth::user()->id;
                                 $history->organization_id = Auth::user()->organization()->id;
-                                $history->description = 'In de kijker plaatsen van '. $animal->name . 'is mislukt. Maximum aantal dieren in de kijker bereikt'; 
-                                $history->save(); 
+                                $history->description = 'In de kijker plaatsen van '. $animal->name . 'is mislukt. Maximum aantal dieren in de kijker bereikt';
+                                $history->save();
 
-                            }
-                            else {
+                            } else {
                                 $animal->featured = true;
                                 $animal->save();
 
@@ -918,7 +917,7 @@ class AnimalResource extends Resource
                                     ->title(__('animals_back.featured_added', [ 'name' => $animal->name, 'user' => Auth::user()->name]))
                                     ->info()
                                     ->send();
-    
+
                                 foreach ($users as $user) {
                                     Notification::make()
                                         ->title(__('animals_back.featured_added', ['name' => $animal->name, 'user' => Auth::user()->name]))
@@ -931,15 +930,15 @@ class AnimalResource extends Resource
                                 $history->model_type = 'App\Models\Animal';
                                 $history->user_id = Auth::user()->id;
                                 $history->organization_id = Auth::user()->organization()->id;
-                                $history->description = $animal->name . ' werd zonet in de kijker geplaatst op onze site'; 
-                                $history->save(); 
+                                $history->description = $animal->name . ' werd zonet in de kijker geplaatst op onze site';
+                                $history->save();
 
                             }
 
                         })
                         ->visible(function (Animal $record) {
                             return $record-> featured ? false : true;
-                        
+
                         }),
 
                     Tables\Actions\Action::make('Uit de kijker')
@@ -958,7 +957,7 @@ class AnimalResource extends Resource
 
 
                             Notification::make()
-                                ->title(__('animals_back.featured_removed', ['name' => $animal->name, 'user' => Auth::user()->name] ))
+                                ->title(__('animals_back.featured_removed', ['name' => $animal->name, 'user' => Auth::user()->name]))
                                 ->info()
                                 ->send();
 
@@ -974,21 +973,21 @@ class AnimalResource extends Resource
                             $history->model_type = 'App\Models\Animal';
                             $history->user_id = Auth::user()->id;
                             $history->organization_id = Auth::user()->organization()->id;
-                            $history->description = $animal->name . ' staat niet langer in de kijker'; 
-                            $history->save(); 
+                            $history->description = $animal->name . ' staat niet langer in de kijker';
+                            $history->save();
                         })
                         ->visible(function (Animal $record) {
                             return $record-> featured ? true : false;
-                        
+
                         }),
-                
-                
+
+
                  ])
                 //->label(__('animals_back.actions'))
                 //->button()
                 //->icon('heroicon-m-ellipsis-horizontal')
                 ->color('primary'),
-                
+
             ])
 
             ->bulkActions([

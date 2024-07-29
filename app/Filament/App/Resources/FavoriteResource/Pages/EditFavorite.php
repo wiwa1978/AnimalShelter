@@ -24,5 +24,5 @@ class EditFavorite extends EditRecord
         // Runs after the form fields are saved to the database.
         $currentUser = Auth::user()->id;
         Log::debug("User $currentUser | Organisation {$this->getRecord()->organization_id}: Favorite with id {$this->getRecord()->id} for animal with id {$this->getRecord()->animal_id} updated");
-    } 
+    }
 }

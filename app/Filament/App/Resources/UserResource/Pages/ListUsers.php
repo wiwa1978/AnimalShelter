@@ -21,10 +21,10 @@ class ListUsers extends ListRecords
 
     protected function getHeaderActions(): array
     {
-     
+
         return [
 
-            
+
             //Actions\CreateAction::make(),
 
             Actions\Action::make('inviteUser')
@@ -34,7 +34,7 @@ class ListUsers extends ListRecords
                         ->email()
                         ->required()
             ])
-            ->visible(fn () => Auth::user()->organization_type == 'Organization' || Auth::user()->organization_type == 'Shelter')    
+            ->visible(fn () => Auth::user()->organization_type == 'Organization' || Auth::user()->organization_type == 'Shelter')
             ->action(function ($data) {
                 $invitation = UserInvitation::create(
                     [
@@ -50,8 +50,8 @@ class ListUsers extends ListRecords
                 $history->model_type = 'App\Models\User';
                 $history->user_id = Auth::user()->id;
                 $history->organization_id = Auth::user()->organization()->id;
-                $history->description = 'Nieuw teamlid uitgenodigd: '.$data['email']; 
-                $history->save(); 
+                $history->description = 'Nieuw teamlid uitgenodigd: '.$data['email'];
+                $history->save();
 
                 Mail::to($invitation->email)->send(new OrganizationInvitationMail($invitation));
                 Log::debug("Invitation created and mail send to: {$data['email']}");
@@ -60,9 +60,9 @@ class ListUsers extends ListRecords
                 //     ->body('User invited successfull')
                 //     ->success()
                 //     ->send();
-                
+
             })
-           
+
         ];
     }
 

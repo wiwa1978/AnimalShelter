@@ -17,7 +17,7 @@ class EditUser extends EditRecord
         return [
             Actions\DeleteAction::make()
             ->visible(false),
-            
+
         ];
     }
 
@@ -26,5 +26,5 @@ class EditUser extends EditRecord
         // Runs after the form fields are saved to the database.
         $currentUser = Auth::user()->id;
         Log::debug("User $currentUser | Organisation {$this->getRecord()->organization_id}: User with id {$this->getRecord()->id} and (new) name {$this->getRecord()->name} updated");
-    } 
+    }
 }

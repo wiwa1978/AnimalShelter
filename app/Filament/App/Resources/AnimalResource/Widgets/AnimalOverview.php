@@ -11,7 +11,7 @@ use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 class AnimalOverview extends BaseWidget
 {
     public ?Model $record = null;
-    
+
     protected function getStats(): array
     {
         $clickCount = $this->record->total_clicks;
@@ -27,5 +27,5 @@ class AnimalOverview extends BaseWidget
     protected function getColumns(): int
     {
         return 2;
-    } 
+    }
 }

@@ -17,20 +17,19 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\App\Resources\AnimalResource;
 use App\Filament\App\Resources\AnimalResource\Widgets\AnimalOverview;
 
-
 class ListAnimals extends ListRecords
 {
     protected static string $resource = AnimalResource::class;
 
-    
+
     public $defaultAction = 'profileInfo';
 
     public function profileInfo(): Actions\Action
     {
-        $user = auth()->user(); 
-        $organization = $user->organization(); 
-        $profileInfoCompleted = $organization->billing_address 
-        && $organization->billing_city 
+        $user = auth()->user();
+        $organization = $user->organization();
+        $profileInfoCompleted = $organization->billing_address
+        && $organization->billing_city
         && $organization->billing_state
         && $organization->billing_postal_code;
 
@@ -84,10 +83,10 @@ class ListAnimals extends ListRecords
         }
 
 
- 
+
         $tabs['featured'] = Tab::make()
             ->badge((string)Animal::query()->where('organization_id', $currentOrganization)->where('featured', true)->count())
-            ->modifyQueryUsing(fn (Builder $query) => $query->where('featured', True));
+            ->modifyQueryUsing(fn (Builder $query) => $query->where('featured', true));
 
 
         foreach ($animal_publish_state as $state) {

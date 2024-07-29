@@ -48,13 +48,13 @@ class UserResource extends Resource
 
     protected static ?string $tenantOwnershipRelationshipName = 'organizations';
 
-//Auth::user()->organization_type == 'Organization' || Auth::user()->organization_type == 'Shelter') {
+    //Auth::user()->organization_type == 'Organization' || Auth::user()->organization_type == 'Shelter') {
 
     public static function shouldRegisterNavigation(): bool
     {
 
         return Auth::user()->organization_type == 'Individual' ? false : true;
-        
+
     }
 
     public static function getNavigationGroup(): ?string
@@ -79,18 +79,18 @@ class UserResource extends Resource
 
     public static function getNavigationBadge(): ?string
     {
-       // return User::count();
+        // return User::count();
         $userCount = Filament::getTenant()->users()->count();
         return $userCount;
     }
 
- 
+
 
     // public static function canCreate(): bool
     // {
     //     $organization = Organization::find(2);
     //     $plan = $organization->getPlan();
-        
+
     //     // if the user count is higher than the plan limit, then disable the button
     //     // if the organization is not free forever (hence is billable), then disable the create button
     //     if ($organization->users->count() >= $plan->options['users'] && !$organization->isFreeForever()) {
@@ -100,8 +100,8 @@ class UserResource extends Resource
     //         // ->send();
     //         return false;
     //     }
-        
-      
+
+
     //     else {
     //         return true;
     //     }
@@ -124,26 +124,29 @@ class UserResource extends Resource
 
                 Placeholder::make('organization_type')
                     ->label(__('users_back.organization_type'))
-                    ->content(fn (User $record): string => 
+                    ->content(
+                        fn (User $record): string =>
                         $record->organization_type == 'Shelter' ? __('animals_back.shelter') : __('animals_back.organization')
                     ),
 
 
-                Placeholder::make('invited_by')    
+                Placeholder::make('invited_by')
                     ->label(__('users_back.invited_by'))
-                    ->content(fn (User $record): string => 
+                    ->content(
+                        fn (User $record): string =>
                         $record->invited_by ? User::find($record->invited_by)->name : 'NA'
                     ),
 
                 Placeholder::make('added_at')
                     ->label(__('users_back.member_since'))
-                    ->content(fn (User $record): string => 
+                    ->content(
+                        fn (User $record): string =>
                         //$record->created_at->format('d-m-Y H:i')
                         $record->created_at->since()
                     ),
 
-                   
-               
+
+
             ])->columns(1);
     }
 
@@ -154,14 +157,14 @@ class UserResource extends Resource
                 TextColumn::make('name')
                     ->label(__('users_back.name'))
                     ->searchable(),
-                
+
                 TextColumn::make('email')
                     ->label(__('users_back.email'))
                     ->searchable(),
-                
+
                 // TextColumn::make('roles.name')
                 //     ->badge(),
-                
+
                 // TextColumn::make('organizations.name')
                 //     //->formatStateUsing(fn (string $state): string => __("{$state}"))
                 //     ->label(__('users_back.organization_name'))
@@ -188,13 +191,13 @@ class UserResource extends Resource
                 //         //return optional($record->organizations->first()->getPlan())->name ?? 'NA';
                 //         return $record->organizations->first()->getPlan()->name == 'fallback' ? 'Geen' : $record->organizations->first()->getPlan()->name;
                 //     }),
-                
+
                 TextColumn::make('invited_at')
                     ->label(__('users_back.invited_at'))
                     ->placeholder(__('users_back.is_not_invited'))
                     ->dateTime('d-m-Y H:i')
                     ->sortable(),
-                               
+
                 TextColumn::make('created_at')
                     ->label(__('users_back.added_at'))
                     ->dateTime('d-m-Y H:i')
@@ -212,7 +215,7 @@ class UserResource extends Resource
 
             ])
             ->actions([
-                ActionGroup::make([ 
+                ActionGroup::make([
                     Tables\Actions\EditAction::make()
                         ->color('secondary')
                         ->visible(fn ($record) => $record->id == Auth::id())
@@ -228,7 +231,7 @@ class UserResource extends Resource
                 //->icon('heroicon-m-ellipsis-horizontal')
                 ->color('primary')
             ])
-            
+
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -239,12 +242,12 @@ class UserResource extends Resource
                 null
             )
             ->recordAction(Tables\Actions\ViewAction::class)
-            ;
+        ;
     }
 
     // public static function infolist(Infolist $infolist): Infolist
     // {
-        
+
 
     //     return $infolist
     //         ->schema([
@@ -254,7 +257,7 @@ class UserResource extends Resource
     //             // TextEntry::make('notes')
     //             //     ->columnSpanFull(),
     //         ]);
-            
+
     // }
 
     public static function getRelations(): array

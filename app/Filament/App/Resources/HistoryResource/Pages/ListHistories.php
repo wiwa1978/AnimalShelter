@@ -13,7 +13,7 @@ class ListHistories extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-           
+
         ];
     }
 }
