@@ -40,6 +40,15 @@ Route::get('buckets', function(){
     return Storage::disk($disk)->url($uploadedPath);
 });
 
+Route::post('/broadcast', function () {
+    Broadcast::on('global')
+        ->as('Message')
+        ->with([
+            'body' => str()->random(10)
+        ])
+        ->sendNow();
+});
+
 Route::get('/login', function () {
     return redirect(route('filament.app.auth.login'));
 })->name('login');
