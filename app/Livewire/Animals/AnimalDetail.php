@@ -41,6 +41,9 @@ class AnimalDetail extends Component
     public $email;
     public $telephone;
     public $question;
+    public bool $is_favorite=false;
+
+  
  
     protected $rules = [
         'name' => 'required|min:6',
@@ -56,6 +59,8 @@ class AnimalDetail extends Component
 
     public function mount(Animal $animal)
     {
+        $this->is_favorite = Auth::user()->favorites()->where('animal_id', $animal->id)->exists();
+
         $dateAdded = Carbon::parse($animal->date_added); // assuming $date_added is your date
         $now = Carbon::now();
         
@@ -113,7 +118,10 @@ class AnimalDetail extends Component
 
     public function render()
     {
-        return view('components.animals.animal-detail');
+        //return view('components.animals.animal-detail');
+        return view('components.animals.animal-detail', [
+            'is_favorite' => $this->is_favorite
+        ]);
     }
 
     
@@ -165,6 +173,16 @@ class AnimalDetail extends Component
      
         
  
+    }
+
+    public function toggleFavorite($animal)
+    {   
+        $animal = Animal::findOrFail($animal);
+        $animal->increment('total_favorited');
+        Auth::user()->favorites()->toggle($animal->id);
+        $this->mount($animal);
+        $fav = $this->is_favorite ? 'toggled to favorite' : 'toggled to unfavorite';
+        Log::debug("Toggled favorite for animal {$animal->id}, belonging to organization {$animal->organization->id}, current favorite state: $fav ");
     }
 
     
