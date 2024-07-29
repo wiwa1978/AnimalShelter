@@ -57,6 +57,12 @@ class AdminPanelProvider extends PanelProvider
                 NavigationItem::make('Pulse')
                     ->url('/pulse')
                     ->group('Logs')
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-o-bolt'),
+                NavigationItem::make('Telescope')
+                    ->url('/telescope')
+                    ->group('Logs')
+                    ->openUrlInNewTab ()
                     ->icon('heroicon-o-bolt')
 
             ])

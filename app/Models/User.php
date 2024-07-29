@@ -8,6 +8,7 @@ use App\Models\Animal;
 use App\Models\Organization;
 use Illuminate\Support\Collection;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
@@ -112,6 +113,16 @@ class User extends Authenticatable implements FilamentUser, HasTenants, MustVeri
 
         return false;
    }
+
+   protected function gate(): void
+    {
+        Gate::define('viewTelescope', function (User $user) {
+            // return in_array($user->email, [
+            //     'taylor@laravel.com',
+            // ]);
+            return $user->isSuperAdmin();
+        });
+    }
  
     public function getTenants(Panel $panel): Collection
     {
