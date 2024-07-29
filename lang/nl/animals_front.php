@@ -177,4 +177,7 @@ return [
     'male' => 'Mannelijk',
     'female' => 'Vrouwelijk',
     'animal-week' => 'Dieren van de week',   
+    'animal_week_title' => 'Dit dier is dringend op zoek naar een nieuwe thuis',
+    'animals_week_title' => 'Deze dieren zijn dringend op zoek naar een nieuwe thuis',
+    'no_animal_weeks_yet' => 'Er zijn momenteel nog geen dieren van de week',
 ];

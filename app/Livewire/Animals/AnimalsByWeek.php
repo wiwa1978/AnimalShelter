@@ -18,9 +18,11 @@ class AnimalsByWeek extends Component
     public function render()
     {
         //dd(Animal::published()->week()->count());
+
+
         return view('components.animals.animals-week',  [
             'animals' =>Animal::published()->week()->paginate(self::PER_PAGE),
-            //'animals_count' => Animal::dogs()->published()->count(),
+            'animals_count' => Animal::published()->week()->count(),
         ]);
     }
       
