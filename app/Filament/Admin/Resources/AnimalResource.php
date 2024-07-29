@@ -702,8 +702,8 @@ class AnimalResource extends Resource
                         ->action(fn (Animal $record) => $record->delete())
                         ->requiresConfirmation(),
                         
-                    ActivityLogTimelineAction::make('Activities')
-                        ->color('primary'),
+                    // ActivityLogTimelineAction::make('Activities')
+                    //     ->color('primary'),
                     
                     Tables\Actions\Action::make('Publish')
                         ->requiresConfirmation()
