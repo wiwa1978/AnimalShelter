@@ -9,6 +9,7 @@ use Filament\Forms\Get;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use App\Models\Organization;
+use App\Enums\OrganizationType;
 use Filament\Facades\Filament;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -53,7 +54,8 @@ class UserResource extends Resource
     public static function shouldRegisterNavigation(): bool
     {
 
-        return Auth::user()->organization_type == 'Individual' ? false : true;
+        //return Auth::user()->organization_type == 'Individual' ? false : true;
+        return Auth::user()->organization_type == OrganizationType::INDIVIDUAL->value ? false : true;
 
     }
 
@@ -126,7 +128,7 @@ class UserResource extends Resource
                     ->label(__('users_back.organization_type'))
                     ->content(
                         fn (User $record): string =>
-                        $record->organization_type == 'Shelter' ? __('animals_back.shelter') : __('animals_back.organization')
+                        $record->organization_type == OrganizationType::SHELTER ? __('animals_back.shelter') : __('animals_back.organization')
                     ),
 
 
@@ -162,36 +164,6 @@ class UserResource extends Resource
                     ->label(__('users_back.email'))
                     ->searchable(),
 
-                // TextColumn::make('roles.name')
-                //     ->badge(),
-
-                // TextColumn::make('organizations.name')
-                //     //->formatStateUsing(fn (string $state): string => __("{$state}"))
-                //     ->label(__('users_back.organization_name'))
-                //     ->placeholder('Not applicable')
-                //     ->searchable()
-                //     ->sortable(),
-
-                // TextColumn::make('organizations.billing_city')
-                //     ->label(__('users_back.billing_city'))
-                //     ->searchable(),
-
-                // TextColumn::make('organizations.organization_name')
-                //     ->label(__('users_back.organization_name'))
-                //     ->searchable()
-                //     //->visible(fn (): bool => Auth::user()->organizations->first()->organization_type == 'Asiel' || Auth::user()->organizations->first()->organization_type == 'Stichting')
-                //     ->getStateUsing( function (User $record){
-                //         return $record->organizations->first()->organization_name ?? 'NA';
-                //     }),
-
-
-                // TextColumn::make('subscription')
-                //     ->label(__('users_back.current_plan'))
-                //     ->getStateUsing( function (User $record){
-                //         //return optional($record->organizations->first()->getPlan())->name ?? 'NA';
-                //         return $record->organizations->first()->getPlan()->name == 'fallback' ? 'Geen' : $record->organizations->first()->getPlan()->name;
-                //     }),
-
                 TextColumn::make('invited_at')
                     ->label(__('users_back.invited_at'))
                     ->placeholder(__('users_back.is_not_invited'))
@@ -202,8 +174,6 @@ class UserResource extends Resource
                     ->label(__('users_back.added_at'))
                     ->dateTime('d-m-Y H:i')
                     ->sortable(),
-
-
 
                 TextColumn::make('updated_at')
                     ->label(__('users_back.updated_at'))
@@ -218,12 +188,10 @@ class UserResource extends Resource
                 ActionGroup::make([
                     Tables\Actions\EditAction::make()
                         ->color('secondary')
-                        ->visible(fn ($record) => $record->id == Auth::id())
-                        ,
+                        ->visible(fn ($record) => $record->id == Auth::id()),
 
                     Tables\Actions\ViewAction::make()
-                        ->color('secondary')
-                       ,
+                        ->color('secondary'),
 
                 ])
                 //->label(__('animals_back.actions'))

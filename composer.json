@@ -30,6 +30,7 @@
         "mansoor/filament-versionable": "^0.0.8",
         "marcogermani87/filament-cookie-consent": "^1.0",
         "njxqlus/filament-progressbar": "^1.0",
+        "predis/predis": "^2.2",
         "rappasoft/laravel-authentication-log": "^4.0",
         "rmsramos/activitylog": "^1.0",
         "saade/filament-laravel-log": "^3.2",

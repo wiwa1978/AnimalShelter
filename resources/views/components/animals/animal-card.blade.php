@@ -41,17 +41,17 @@
 				</div>
 				<div class="flex justify-between">
 
-					@if ($animal->current_location->value == 'Netherlands')
+					@if ($animal->current_location->value == \App\Enums\AnimalLocation::NETHERLANDS->value)
 						<p class="text-base leading-7 text-gray-600">{{ __('animals_front.netherlands') }}</p>
 					@endif
-					@if ($animal->current_location->value == 'Albania')
+					@if ($animal->current_location->value ==  \App\Enums\AnimalLocation::ALBANIA->value)
 						<p class="text-base leading-7 text-gray-600">{{ __('animals_front.albania') }}</p>
 					@endif
-					@if ($animal->current_location->value == 'Belgium')
+					@if ($animal->current_location->value ==  \App\Enums\AnimalLocation::BELGIUM->value)
 						<p class="text-base leading-7 text-gray-600">{{ __('animals_front.belgium') }}</p>
 					@endif
-					@if ($animal->current_location->value == 'Albania')
-						<p class="text-base leading-7 text-gray-600">{{ __('animals_front.albania') }}</p>
+					@if ($animal->current_location->value ==  \App\Enums\AnimalLocation::GERMANY->value)
+						<p class="text-base leading-7 text-gray-600">{{ __('animals_front.germany') }}</p>
 					@endif
 
 					{{-- <p class="text-base leading-7 text-gray-600">{{ \Carbon\Carbon::parse($animal->date_added)->format('d-m-Y') }}</p> --}}

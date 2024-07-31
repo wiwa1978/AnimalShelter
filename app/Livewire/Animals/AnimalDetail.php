@@ -59,7 +59,13 @@ class AnimalDetail extends Component
 
     public function mount(Animal $animal)
     {
-        $this->is_favorite = Auth::user()->favorites()->where('animal_id', $animal->id)->exists();
+        if (Auth::check()) {
+            $this->is_favorite = Auth::user()->favorites()->where('animal_id', $animal->id)->exists();
+        }
+        else   {
+            $this->is_favorite = false;
+        }
+    
 
         $dateAdded = Carbon::parse($animal->date_added); // assuming $date_added is your date
         $now = Carbon::now();

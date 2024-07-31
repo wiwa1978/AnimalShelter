@@ -6,8 +6,8 @@ use Filament\Support\Contracts\HasLabel;
 
 enum Country: string implements HasLabel
 {
-    case NETHERLANDS = 'NL';
-    case BELGIUM = 'BE';
+    case NETHERLAND = 'Netherlands';
+    case BELGIUM = 'Belgium';
 
     public function getLabel(): string
     {
@@ -17,8 +17,8 @@ enum Country: string implements HasLabel
     public static function options(): array
     {
         return [
-            self::NETHERLANDS->value => 'NL',
-            self::BELGIUM->value => 'BE',
+            self::NETHERLAND->value => 'Nederland',
+            self::BELGIUM->value => 'België',
         ];
     }
 }

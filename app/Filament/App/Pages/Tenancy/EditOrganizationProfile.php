@@ -98,22 +98,27 @@ class EditOrganizationProfile extends EditTenantProfile
 
                             TextInput::make('organization_website')
                                 ->label('Website van de organisatie')
-                                ->required(),
+                                ->prefix('https://')
+                               ,
 
                             TextInput::make('phone')
-                                ->label('Phone'),
+                                ->label('Telefoon')
+                                ->tel()
+                                ->placeholder(' ')
+                                ->telRegex('/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.\/0-9]*$/'),
 
                             TextInput::make('email')
                                 ->label('Persoonlijk emailadres')
+                                ->email() 
                                 ->required(),
 
                             TextInput::make('invoice_emails')
                                 ->label('Emailadres voor facturatie')
-                                ->required(),
+                                ->email(),
 
                             TextInput::make('vat_id')
                                 ->label('BTW nummer')
-                                ->required()
+                                
 
 
                         ])

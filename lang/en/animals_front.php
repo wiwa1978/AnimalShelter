@@ -50,6 +50,7 @@ return [
     'address' => 'Address',
     'search_title'  => 'Search and Adopt a pet',
     'search_subtitle'  => 'animals are looking for a new home',
+    'search_subtitle_singular'  => 'animal searches a new home',
     'search_animal' => 'Search for an animal using the below filter options',
     'animal_type' => 'Type',
     'animal_location' => 'Location',
@@ -92,6 +93,7 @@ return [
     'others_in_picture' => 'Our Featured Animals',
     'medical_info' => 'Medical info',
     'contact_info' => 'Contact info',
+    'social_info' => 'Social info',
     'description' => 'Description',
     'origin' => 'Origin',
     'age' => 'Age',
@@ -102,6 +104,7 @@ return [
     'environment_dogs' => 'Environment with dogs',
     'environment_cats' => 'Environment with cats',
     'environment_home' => 'Is alone at home sometimes',
+    'garden' => 'Has access to a garden',
     'videos' => 'Videos',
     'social_info' => 'Social Information',
     'garden' => 'Has access to garden',
@@ -147,6 +150,7 @@ return [
     'published_from' => 'Published from',
     'published_to' => 'Published to',
     'approval_state' => 'Status',
+    'adopted' => 'Adopted',
     'reserved' => 'Reserved',
     'adoption_fee' => 'Adoption Fee',
     'priceinfo'  => 'Price Information',
@@ -172,6 +176,9 @@ return [
     'male' => 'Male',
     'female' => 'Female',
     'animal-week' => 'Animals of the week',
+    'animal_week_title' => 'This animal is urgently looking for a new home',
+    'animals_week_title' => 'These animals are urgently looking for a new home',
+    'no_animal_weeks_yet' => 'The are currently no animals of the week',
 
 ];
 

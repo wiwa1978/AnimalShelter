@@ -40,8 +40,10 @@ class ListAnimals extends ListRecords
             ->color('primary')
             ->modalCancelAction(false)
             ->modalHeading('Profiel informatie ontbreekt')
-            ->modalDescription('Het lijkt erop dat jouw profiel informatie nog niet compleet is. Vul de ontbrekende informatie in om verder te gaan')
-            ->closeModalByClickingAway(false);
+            ->modalDescription('Het lijkt erop dat jouw profiel informatie nog niet compleet is. We vragen je om de ontbrekende informatie in te vullen om verder te gaan. Klik op onderstaande knop en die brengt je naar de juiste pagina')
+            ->closeModalByClickingAway(false)
+            ->closeModalByEscaping(false)
+            ->modalCloseButton(false);
     }
 
     protected function getHeaderActions(): array

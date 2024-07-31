@@ -14,7 +14,9 @@ class UserObserver
      */
     public function created(User $user): void
     {       
-        Log::debug("User created: {$user->id}");
+        //Log::debug("User $user->id | Organisation {$user->organization()->id}: User " . $user->id . " created: " . $user->name);
+
+
         $invitation = UserInvitation::where('email', $user->email)->first();
 
         if ($user->invited && ($user->email == $invitation->email) ) {
@@ -41,11 +43,6 @@ class UserObserver
             }
         }
 
-        
-           
-            
-        
-        
     }
 
     /**
@@ -53,6 +50,15 @@ class UserObserver
      */
     public function updated(User $user): void
     {
+        Log::debug("User $user->id | Organisation {$user->organization()->id}: User " . $user->id . " updated: " . $user->name);
+
+        $history = new History();
+        $history->model_id = $user->id;
+        $history->model_type = 'App\Models\User';
+        $history->user_id = Auth::user()->id;
+        $history->organization_id = Auth::user()->organization()->id;
+        $history->description = 'Gebruiker toegevoegd: '. $user->name;
+        $history->save();
     }
 
     /**
@@ -60,9 +66,7 @@ class UserObserver
      */
     public function deleted(User $user): void
     {
-        Log::debug("Deleting user: {$user->id}");
-
-    
+        Log::debug("User $user->id | Organisation {$user->organization()->id}: User " . $user->id . " deleted: " . $user->name);
 
         $organization = Organization::find($user->organizations()->first()->id);
        
@@ -71,7 +75,7 @@ class UserObserver
         Log::debug('Organization amount of users: ' . $organization->users->count());
 
         if ($organization->users->count() == 0) {
-            Log::debug('Organization ' .  $organization->id  . ' has no users, soft deleting organization');
+            Log::debug("User $user->id | Organisation {$organization->id }: organization" .  $organization->id  . " has no users, soft deleting organization");
             
             // Deactivate all animals associated with the organization
             foreach ($organization->animals as $animal) {
@@ -86,9 +90,17 @@ class UserObserver
             $organization->delete();
         }
         else {
-            Log::debug('Organization '.  $organization->id  .' has users, not deleting organization');
+            Log::debug("User $user->id | Organisation {$organization->id }: organization" .  $organization->id  . " has users, not deleting organization");
             // Remove the user from the organization
             $user->organizations()->detach();
+
+            $history = new History();
+            $history->model_id = $user->id;
+            $history->model_type = 'App\Models\User';
+            $history->user_id = Auth::user()->id;
+            $history->organization_id = Auth::user()->organization()->id;
+            $history->description = 'Gebruiker verwijderd uit organizatie: '. $user->name;
+            $history->save();
         }
 
     }

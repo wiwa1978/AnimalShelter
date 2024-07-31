@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
 use Filament\Tables\Columns\ImageColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\ActionGroup;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\App\Resources\FavoriteResource\Pages;
 use App\Filament\App\Resources\FavoriteResource\RelationManagers;
@@ -84,9 +85,9 @@ class FavoriteResource extends Resource
                     ->label(__('animals_back.stays_at'))
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('animal.organization.organization_name')
+                Tables\Columns\TextColumn::make('animal.organization.name')
                     ->label(__('animals_back.organization'))
-                    ->placeholder('Not applicable')
+                    ->placeholder('Niet van toepassing')
                     ->sortable(),
 
             ])
@@ -95,12 +96,22 @@ class FavoriteResource extends Resource
             ])
             ->actions([
                 //Tables\Actions\EditAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\ViewAction::make()
+                        ->color('secondary')
+                        ->url(fn (Favorite $record): string => route('show-animal-detail', $record->animal->id))
+                        ->openUrlInNewTab(),
+                    Tables\Actions\DeleteAction::make()
+                        ->color('secondary'),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(fn (Favorite $record): string => route('show-animal-detail', $record->animal->id))
+            ->openRecordUrlInNewTab();
     }
 
     public static function getRelations(): array

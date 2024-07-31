@@ -4,8 +4,9 @@
     <div class="flex h-16 items-center justify-between">
       <div class="flex items-center">
         <div class="flex-shrink-0">
-          <!-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=rose&shade=800" alt="Your Company"> -->
+          <!-- <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=rose&shade=800" alt="Your Company">-->
           <img class="h-16 w-auto" src="{{ asset('storage/images/icon_logo.svg')}}" alt="Lief Dier - Lief Thuis">
+          
         </div>
         <div class="hidden sm:ml-6 sm:block">
           <div class="flex space-x-4">

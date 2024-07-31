@@ -102,7 +102,7 @@ class HistoryResource extends Resource
         return [
             'index' => Pages\ListHistories::route('/'),
             'create' => Pages\CreateHistory::route('/create'),
-            'edit' => Pages\EditHistory::route('/{record}/edit'),
+            //'edit' => Pages\EditHistory::route('/{record}/edit'),
         ];
     }
 }
