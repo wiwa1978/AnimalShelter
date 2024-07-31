@@ -21,15 +21,22 @@ class Message extends Model
         return LogOptions::defaults();
         //->logOnly(['name', 'text']);
     }
-   
+    public function sender(): BelongsTo {
+        return $this->belongsTo(User::class, 'sender_id', 'id');
+    }
+
+    public function receiver(): BelongsTo {
+        return $this->belongsTo(User::class, 'receiver_id', 'id');
+    }
+
+    public function organization(): BelongsTo {
+        return $this->belongsTo(Organization::class);
+    }
+
     public function conversation(): BelongsTo {
         return $this->belongsTo(Conversation::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
 
     public function getTimeAttribute(): string {

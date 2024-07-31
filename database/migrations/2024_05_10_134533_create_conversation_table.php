@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->string('subject')->nullable();
+            $table->string('identifier', 10)->unique();
+            $table->bigInteger('user_id');
+            $table->string('title');
+            $table->text('content');
             $table->timestamps();
         });
 
